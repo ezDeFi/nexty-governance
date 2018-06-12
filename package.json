@@ -14,5 +14,9 @@
     "contract"
   ],
   "author": "nexty.io",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "openzeppelin-zos": "^1.9.1",
+    "zos-lib": "^1.0.0"
+  }
 }
