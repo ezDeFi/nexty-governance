@@ -1,4 +1,5 @@
 const expectEvent = require('../helpers/expectEvent');
+const expectThrow = require('../helpers/expectThrow');
 
 const BlacklistMock = artifacts.require('../../contracts/mocks/BlacklistMock.sol');
 
@@ -13,6 +14,7 @@ contract('Blacklist', function (accounts) {
     owner,
     blacklistedAddress1,
     blacklistedAddress2,
+    anyone,
   ] = accounts;
 
   const blacklistedAddresses = [blacklistedAddress1, blacklistedAddress2];
@@ -60,6 +62,26 @@ contract('Blacklist', function (accounts) {
         const isBlacklisted = await mock.blacklist(addr);
         isBlacklisted.should.be.equal(false);
       }
+    });
+    
+    it('should allow whitelisted address to call #onlyWhitelistedCanDoThis', async () => {
+      await mock.addAddressToBlacklist(blacklistedAddress1, { from: owner });
+      await mock.onlyWhitelistedCanDoThis({ from: blacklistedAddress2 })
+        .should.be.fulfilled;
+    });
+  });
+
+  context('in adversarial conditions', () => {
+    it('should not allow "anyone" to add to the blacklist', async () => {
+      await expectThrow(
+        mock.addAddressToBlacklist(blacklistedAddress1, { from: anyone })
+      );
+    });
+
+    it('should not allow "anyone" to remove from the blacklist', async () => {
+      await expectThrow(
+        mock.removeAddressFromBlacklist(blacklistedAddress1, { from: anyone })
+      );
     });
   });
 });
