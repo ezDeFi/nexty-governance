@@ -1,0 +1,18 @@
+{
+  "name": "ntf",
+  "version": "1.0.0",
+  "description": "Nexty Token Foundation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nexty",
+    "token",
+    "foundation",
+    "smart",
+    "contract"
+  ],
+  "author": "nexty.io",
+  "license": "ISC"
+}
