@@ -1,3 +1,4 @@
+build
 node_modules
 .DS_Store
 bundle.js
@@ -5,4 +6,3 @@ geth.log
 .env.*
 .env
 zos.development.json
-
