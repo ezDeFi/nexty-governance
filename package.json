@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nextyio/NTF.git"
+    "url": "git+https://github.com/nextyio/ntf-smart-contract.git"
   },
   "keywords": [
     "nexty",
@@ -35,7 +35,7 @@
   "author": "Dang Viet Ha <dvietha@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nextyio/NTF/issues"
+    "url": "https://github.com/nextyio/ntf-smart-contract/issues"
   },
   "dependencies": {
     "openzeppelin-solidity": "1.10.0",
@@ -70,5 +70,5 @@
   "directories": {
     "test": "test"
   },
-  "homepage": "https://github.com/nextyio/NTF#readme"
+  "homepage": "https://github.com/nextyio/ntf-smart-contract#readme"
 }

@@ -44,7 +44,7 @@ contract('Blacklist', function (accounts) {
       }
     });
 
-    it('should remove address from the whitelist', async function () {
+    it('should remove address from the blacklist', async function () {
       await expectEvent.inTransaction(
         mock.removeAddressFromBlacklist(blacklistedAddress1, { from: owner }),
         'BlacklistedAddressRemoved'
@@ -53,7 +53,7 @@ contract('Blacklist', function (accounts) {
       isBlacklisted.should.be.equal(false);
     });
     
-    it('should remove addresses from the the whitelist', async function () {
+    it('should remove addresses from the the blacklist', async function () {
       await expectEvent.inTransaction(
         mock.removeAddressesFromBlacklist(blacklistedAddresses, { from: owner }),
         'BlacklistedAddressRemoved'
