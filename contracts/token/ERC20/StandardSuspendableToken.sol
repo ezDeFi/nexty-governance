@@ -4,6 +4,7 @@ import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "../../access/Blacklist.sol";
 
+
 /**
  * @title Standard Suspendable Token
  * @dev Suspendable basic version of StandardToken, with no allowances.
@@ -188,13 +189,13 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
       transaction = pendingReceives[msg.sender][i];
       if (_txId == transaction.txId && msg.sender == transaction.to) {
         if (transaction.to == address(0x0)) {
-            revert();
+          revert();
         }
         if (transaction.amount > balances[transaction.from]) {
-            revert();
+          revert();
         }
         if (balances[transaction.to] + transaction.amount < balances[transaction.to]) {
-            revert();
+          revert();
         }
         if (balances[msg.sender] == uint256(0x0)) {
           holders.push(msg.sender);

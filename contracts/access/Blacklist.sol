@@ -2,6 +2,7 @@ pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
+
 /**
  * @title Blacklist
  * @dev The Blacklist contract has a blacklist of addresses, and provides basic authorization control functions.

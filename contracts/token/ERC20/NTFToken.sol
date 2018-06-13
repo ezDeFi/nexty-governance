@@ -3,14 +3,15 @@ pragma solidity ^0.4.24;
 import "./StandardSuspendableToken.sol";
 import "zos-lib/contracts/migrations/Migratable.sol";
 
+
 /**
  * @title Nexty Foundation Token
  */
 contract NTFToken is StandardSuspendableToken, Migratable {
-  string public constant symbol = "NTF";
-  string public constant name = "Nexty Foundation Token";
-  uint8 public constant decimals = 18;
-  uint256 public constant INITIAL_SUPPLY = 10000000 * (10 ** uint256(decimals));
+  string public constant SYMBOL = "NTF";
+  string public constant NAME = "Nexty Foundation Token";
+  uint8 public constant DECIMALS = 18;
+  uint256 public constant INITIAL_SUPPLY = 10000000 * (10 ** uint256(DECIMALS));
 
   mapping(address => address) coinbase;
 
