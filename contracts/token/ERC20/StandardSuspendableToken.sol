@@ -29,9 +29,9 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
 
   uint256 totalSupply_;
 
-  event TransferCancelled(address _from, address _to, uint256 _value);
-  event TransferConfirmed(bytes32 _txId, address _to);
-  event PendingTransfer(address _from, address _to, uint256 _value);
+  event TransferCancelled(address from, address to, uint256 value);
+  event TransferConfirmed(bytes32 txId, address to);
+  event PendingTransfer(address indexed from, address indexed to, uint256 value);
 
   /**
   * @dev total number of tokens in existence
@@ -137,7 +137,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
     }));
     pendingReceiveTnx[_to].push(_txId);
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-    emit Transfer(_from, _to, _value);
+    emit PendingTransfer(_from, _to, _value);
     return true;
   }
 

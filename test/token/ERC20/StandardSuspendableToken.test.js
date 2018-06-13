@@ -356,4 +356,93 @@ contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAcco
       });
     });
   });
+
+  describe('transfer from', function () {
+    const spender = recipient;
+
+    describe('when the recipient is not the zero address', function () {
+      const to = anotherAccount;
+
+      describe('when the spender has enough approved balance', function () {
+        beforeEach(async function () {
+          await this.token.approve(spender, 100, { from: owner });
+        });
+
+        describe('when the owner has enough balance', function () {
+          const amount = 100;
+
+          it('transfers the requested amount', async function () {
+            await this.token.transferFrom(owner, to, amount, { from: spender });
+
+            // the transaction is still pending then no balance changed
+            const senderBalance = await this.token.balanceOf(owner);
+            assert.equal(senderBalance, amount);
+
+            const recipientBalance = await this.token.balanceOf(to);
+            assert.equal(recipientBalance, 0);
+          });
+
+          it('decreases the spender allowance', async function () {
+            await this.token.transferFrom(owner, to, amount, { from: spender });
+
+            const allowance = await this.token.allowance(owner, spender);
+            assert(allowance.eq(0));
+          });
+
+          it('emits a transfer event', async function () {
+            const { logs } = await this.token.transferFrom(owner, to, amount, { from: spender });
+
+            assert.equal(logs.length, 1);
+            assert.equal(logs[0].event, 'PendingTransfer');
+            assert.equal(logs[0].args.from, owner);
+            assert.equal(logs[0].args.to, to);
+            assert(logs[0].args.value.eq(amount));
+          });
+        });
+
+        describe('when the owner does not have enough balance', function () {
+          const amount = 101;
+
+          it('reverts', async function () {
+            await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
+          });
+        });
+      });
+
+      describe('when the spender does not have enough approved balance', function () {
+        beforeEach(async function () {
+          await this.token.approve(spender, 99, { from: owner });
+        });
+
+        describe('when the owner has enough balance', function () {
+          const amount = 100;
+
+          it('reverts', async function () {
+            await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
+          });
+        });
+
+        describe('when the owner does not have enough balance', function () {
+          const amount = 101;
+
+          it('reverts', async function () {
+            await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
+          });
+        });
+      });
+    });
+
+    describe('when the recipient is the zero address', function () {
+      const amount = 100;
+      const to = ZERO_ADDRESS;
+
+      beforeEach(async function () {
+        await this.token.approve(spender, amount, { from: owner });
+      });
+
+      it('reverts', async function () {
+        await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
+      });
+    });
+  });
 });
