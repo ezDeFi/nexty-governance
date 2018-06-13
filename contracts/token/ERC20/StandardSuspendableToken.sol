@@ -71,7 +71,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
       return true;
     }
 
-    bytes32 _txId = keccak256(msg.sender, _to, _value, block.timestamp, block.difficulty);
+    bytes32 _txId = keccak256(abi.encodePacked(abi.encodePacked(msg.sender, _to, _value), block.number));
     pendingTransfers[msg.sender].push(Transaction({
       txId: _txId,
       from: msg.sender,
@@ -122,7 +122,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
       return true;
     }
 
-    bytes32 _txId = keccak256(_from, _to, _value, block.timestamp, block.difficulty);
+    bytes32 _txId = keccak256(abi.encodePacked(abi.encodePacked(msg.sender, _to, _value), block.number));
     pendingTransfers[_from].push(Transaction({
       txId: _txId,
       from: _from,
