@@ -78,5 +78,83 @@ contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAcco
         await assertRevert(this.token.transfer(to, 100, { from: owner }));
       });
     });
-  });  
+  });
+
+  describe('approve', function () {
+    describe('when the spender is not the zero address', function () {
+      const spender = recipient;
+
+      describe('when the sender has enough balance', function () {
+        const amount = 100;
+
+        it('emits an approval event', async function () {
+          const { logs } = await this.token.approve(spender, amount, { from: owner });
+
+          assert.equal(logs.length, 1);
+          assert.equal(logs[0].event, 'Approval');
+          assert.equal(logs[0].args.owner, owner);
+          assert.equal(logs[0].args.spender, spender);
+          assert(logs[0].args.value.eq(amount));
+        });
+
+        describe('when there was no approved amount before', function () {
+          it('approves the requested amount', async function () {
+            await this.token.approve(spender, amount, { from: owner });
+
+            const allowance = await this.token.allowance(owner, spender);
+            assert.equal(allowance, amount);
+          });
+        });
+
+        describe('when the spender had an approved amount', function () {
+          beforeEach(async function () {
+            await this.token.approve(spender, 1, { from: owner });
+          });
+
+          it('approves the requested amount and replaces the previous one', async function () {
+            await this.token.approve(spender, amount, { from: owner });
+
+            const allowance = await this.token.allowance(owner, spender);
+            assert.equal(allowance, amount);
+          });
+        });
+      });
+
+      describe('when the sender does not have enough balance', function () {
+        const amount = 101;
+
+        it('emits an approval event', async function () {
+          const { logs } = await this.token.approve(spender, amount, { from: owner });
+
+          assert.equal(logs.length, 1);
+          assert.equal(logs[0].event, 'Approval');
+          assert.equal(logs[0].args.owner, owner);
+          assert.equal(logs[0].args.spender, spender);
+          assert(logs[0].args.value.eq(amount));
+        });
+
+        describe('when there was no approved amount before', function () {
+          it('approves the requested amount', async function () {
+            await this.token.approve(spender, amount, { from: owner });
+
+            const allowance = await this.token.allowance(owner, spender);
+            assert.equal(allowance, amount);
+          });
+        });
+
+        describe('when the spender had an approved amount', function () {
+          beforeEach(async function () {
+            await this.token.approve(spender, 1, { from: owner });
+          });
+
+          it('approves the requested amount and replaces the previous one', async function () {
+            await this.token.approve(spender, amount, { from: owner });
+
+            const allowance = await this.token.allowance(owner, spender);
+            assert.equal(allowance, amount);
+          });
+        });
+      });
+    });
+  });
 });
