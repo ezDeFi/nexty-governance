@@ -67,7 +67,7 @@ contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAcco
           assert.equal(logs[0].args.from, owner);
           assert.equal(logs[0].args.to, to);
           assert(logs[0].args.value.eq(amount));
-        });        
+        });
       });
     });
 
