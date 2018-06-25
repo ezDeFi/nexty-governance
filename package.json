@@ -38,7 +38,6 @@
     "url": "https://github.com/nextyio/ntf-smart-contract/issues"
   },
   "dependencies": {
-    "openzeppelin-solidity": "1.10.0",
     "openzeppelin-zos": "^1.9.1",
     "zos-lib": "^1.0.0"
   },

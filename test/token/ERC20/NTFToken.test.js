@@ -2,7 +2,7 @@ const expectEvent = require('../../helpers/expectEvent');
 const expectThrow = require('../../helpers/expectThrow');
 const assertRevert = require('../../helpers/assertRevert');
 
-const NTFTokenMock = artifacts.require('NTFTokenMock');
+var NTFToken = artifacts.require('NTFToken');
 
 require('chai')
   .use(require('chai-as-promised'))
@@ -11,8 +11,6 @@ require('chai')
 contract('NTFToken', function (accounts) {
   const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
   const ZERO_TX = '0x0000000000000000000000000000000000000000000000000000000000000000';
-
-  let token;
 
   const [
     owner,
@@ -26,100 +24,101 @@ contract('NTFToken', function (accounts) {
   const blacklistedAddresses = [blacklistedAddress1, blacklistedAddress2];
 
   beforeEach(async function () {
-    token = await NTFTokenMock.new({ from: owner });
+    this.token = await NTFToken.new();
+    await this.token.initialize(owner);
   });
 
   describe('ownership', function () {
     it('should have an owner', async function () {
-      let owner_ = await token.owner();
+      let owner_ = await this.token.owner();
       assert.isTrue(owner_ !== 0);
-      let holders = await token.getHolders();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 1);
       assert.equal(holders[0], owner_);
     });
     
     it('changes owner after transfer', async function () {
-      let oldOwner = await token.owner();
-      await token.transferOwnership(anyone);
-      let owner_ = await token.owner();
+      let oldOwner = await this.token.owner();
+      await this.token.transferOwnership(anyone);
+      let owner_ = await this.token.owner();
     
       assert.isTrue(owner_ === anyone);
-      let holders = await token.getHolders();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 1);
       assert.equal(holders[0], oldOwner);
     });
 
     it('should prevent non-owners from transfering', async function () {
-      const owner_ = await token.owner.call();
+      const owner_ = await this.token.owner.call();
       assert.isTrue(owner_ !== recipient);
-      await assertRevert(token.transferOwnership(recipient, { from: anyone }));
+      await assertRevert(this.token.transferOwnership(recipient, { from: anyone }));
     });
 
     it('should guard ownership against stuck state', async function () {
-      let originalOwner = await token.owner();
-      await assertRevert(token.transferOwnership(null, { from: originalOwner }));
+      let originalOwner = await this.token.owner();
+      await assertRevert(this.token.transferOwnership(null, { from: originalOwner }));
     });
   });
 
   describe('coinbase', function () {
     it('can set the coinbase', async function () {
       await expectEvent.inTransaction(
-        token.setCoinbase(recipient, { from: owner }),
+        this.token.setCoinbase(recipient, { from: owner }),
         'SetCoinbase'
       );
 
-      let coinbase = await token.getCoinbase({ from: owner });
+      let coinbase = await this.token.getCoinbase({ from: owner });
       assert.equal(coinbase, recipient);
     });
 
     it('can update the coinbase by re-call set method', async function () {
       await expectEvent.inTransaction(
-        token.setCoinbase(recipient, { from: owner }),
+        this.token.setCoinbase(recipient, { from: owner }),
         'SetCoinbase'
       );
 
       // update
       await expectEvent.inTransaction(
-        token.setCoinbase(sender, { from: owner }),
+        this.token.setCoinbase(sender, { from: owner }),
         'SetCoinbase'
       );
 
-      let coinbase = await token.getCoinbase({ from: owner });
+      let coinbase = await this.token.getCoinbase({ from: owner });
       assert.equal(coinbase, sender);
     });
 
     it('cannot set coinbase if the sender dont hold any NTF token', async function () {
-      await assertRevert(token.setCoinbase(recipient, { from: sender }));
+      await assertRevert(this.token.setCoinbase(recipient, { from: sender }));
     });
 
     it('can set coinbase after receiving NTF token', async function () {
       const amount = 100;
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: owner }),
+        this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
 
       await expectEvent.inTransaction(
-        token.setCoinbase(anyone, { from: recipient }),
+        this.token.setCoinbase(anyone, { from: recipient }),
         'SetCoinbase'
       );
 
-      let coinbase = await token.getCoinbase({ from: recipient });
+      let coinbase = await this.token.getCoinbase({ from: recipient });
       assert.equal(coinbase, anyone);
     });
   });
 
   describe('total supply', function () {
     it('returns the total amount of tokens', async function () {
-      const totalSupply = await token.totalSupply();
+      const totalSupply = await this.token.totalSupply();
       assert.equal(totalSupply, 10000000 * (10 ** 18));
     });
   });
 
   describe('token holder', function () {
     it('owner is the first and unique token holder from the beginning', async function () {
-      let owner_ = await token.owner();
-      let holders = await token.getHolders();
+      let owner_ = await this.token.owner();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 1);
       assert.equal(holders[0], owner_);
     });
@@ -127,66 +126,66 @@ contract('NTFToken', function (accounts) {
     it('a new token holder after transfer token succesfully', async function () {
       const amount = 100;
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: owner }),
+        this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
-      let holders = await token.getHolders();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 2);
     });
 
     it('two new token holders after transfer token succesfully', async function () {
       const amount = 100;
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: owner }),
+        this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
       await expectEvent.inTransaction(
-        token.transfer(sender, amount, { from: owner }),
+        this.token.transfer(sender, amount, { from: owner }),
         'Transfer'
       );
 
-      let holders = await token.getHolders();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 3);
     });
 
     it('some new token holders after transfer token succesfully', async function () {
       const amount = 100;
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: owner }),
+        this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
       await expectEvent.inTransaction(
-        token.transfer(sender, amount, { from: owner }),
+        this.token.transfer(sender, amount, { from: owner }),
         'Transfer'
       );
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: sender }),
+        this.token.transfer(recipient, amount, { from: sender }),
         'PendingTransfer'
       );
-      let holders = await token.getHolders();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 3);
     });
 
     it('some new token holders after confirm/transfer token succesfully', async function () {
       const amount = 100;
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: owner }),
+        this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
       await expectEvent.inTransaction(
-        token.transfer(sender, amount, { from: owner }),
+        this.token.transfer(sender, amount, { from: owner }),
         'Transfer'
       );
       await expectEvent.inTransaction(
-        token.transfer(recipient, amount, { from: sender }),
+        this.token.transfer(recipient, amount, { from: sender }),
         'PendingTransfer'
       );
-      let pendingReceives = await token.getPendingReceives({ from: recipient });
+      let pendingReceives = await this.token.getPendingReceives({ from: recipient });
       await expectEvent.inTransaction(
-        token.confirmTransfer(pendingReceives[0], { from: recipient }),
+        this.token.confirmTransfer(pendingReceives[0], { from: recipient }),
         'TransferConfirmed'
       );
-      let holders = await token.getHolders();
+      let holders = await this.token.getHolders();
       assert.equal(holders.length, 2);
     });
   });
@@ -194,7 +193,7 @@ contract('NTFToken', function (accounts) {
   describe('balanceOf', function () {
     describe('when the requested account has no tokens', function () {
       it('returns zero', async function () {
-        const balance = await token.balanceOf(anyone);
+        const balance = await this.token.balanceOf(anyone);
 
         assert.equal(balance, 0);
       });
@@ -202,7 +201,7 @@ contract('NTFToken', function (accounts) {
     
     describe('when the requested account has some tokens', function () {
       it('returns the total amount of tokens', async function () {
-        const balance = await token.balanceOf(owner);
+        const balance = await this.token.balanceOf(owner);
 
         assert.equal(balance, 10000000 * (10 ** 18));
       });
@@ -213,13 +212,13 @@ contract('NTFToken', function (accounts) {
     describe('Only onwer can add/remove address to/from blacklist', function () {
       it('should not allow "anyone" to add a address to the blacklist', async function () {
         await expectThrow(
-          token.addAddressToBlacklist(blacklistedAddress1, { from: anyone })
+          this.token.addAddressToBlacklist(blacklistedAddress1, { from: anyone })
         );
       });
         
       it('should not allow "anyone" to remove a address from the blacklist', async function () {
         await expectThrow(
-          token.removeAddressFromBlacklist(blacklistedAddress1, { from: anyone })
+          this.token.removeAddressFromBlacklist(blacklistedAddress1, { from: anyone })
         );
       });
     });
@@ -227,20 +226,20 @@ contract('NTFToken', function (accounts) {
     describe('Should add address(es) into blacklist', function () {
       it('should add address to the blacklist', async function () {
         await expectEvent.inTransaction(
-          token.addAddressToBlacklist(blacklistedAddress1, { from: owner }),
+          this.token.addAddressToBlacklist(blacklistedAddress1, { from: owner }),
           'BlacklistedAddressAdded'
         );
-        const isBlacklisted = await token.blacklist(blacklistedAddress1);
+        const isBlacklisted = await this.token.blacklist(blacklistedAddress1);
         isBlacklisted.should.be.equal(true);
       });
       
       it('should add addresses to the blacklist', async function () {
         await expectEvent.inTransaction(
-          token.addAddressesToBlacklist(blacklistedAddresses, { from: owner }),
+          this.token.addAddressesToBlacklist(blacklistedAddresses, { from: owner }),
           'BlacklistedAddressAdded'
         );
         for (let addr of blacklistedAddresses) {
-          const isBlacklisted = await token.blacklist(addr);
+          const isBlacklisted = await this.token.blacklist(addr);
           isBlacklisted.should.be.equal(true);
         }
       });
@@ -255,7 +254,7 @@ contract('NTFToken', function (accounts) {
         const amount = 10000001 * (10 ** 18);
             
         it('reverts', async function () {
-          await assertRevert(token.transfer(to, amount, { from: owner }));
+          await assertRevert(this.token.transfer(to, amount, { from: owner }));
         });
       });
     });
@@ -264,7 +263,7 @@ contract('NTFToken', function (accounts) {
       const to = ZERO_ADDRESS;
   
       it('reverts', async function () {
-        await assertRevert(token.transfer(to, 100, { from: owner }));
+        await assertRevert(this.token.transfer(to, 100, { from: owner }));
       });
     });
 
@@ -273,7 +272,7 @@ contract('NTFToken', function (accounts) {
       const amount = 100;
 
       it('emits a transfer event', async function () {
-        const { logs } = await token.transfer(to, amount, { from: owner });
+        const { logs } = await this.token.transfer(to, amount, { from: owner });
 
         assert.equal(logs.length, 1);
         assert.equal(logs[0].event, 'Transfer');
@@ -284,90 +283,90 @@ contract('NTFToken', function (accounts) {
 
       it('transfer the requested amount successfully!', async function () {
         await expectEvent.inTransaction(
-          token.transfer(sender, amount, { from: owner }),
+          this.token.transfer(sender, amount, { from: owner }),
           'Transfer'
         );
-        const senderBalance = await token.balanceOf(sender);
+        const senderBalance = await this.token.balanceOf(sender);
         assert.equal(senderBalance, 100);
 
-        const recipientBalance = await token.balanceOf(to);
+        const recipientBalance = await this.token.balanceOf(to);
         assert.equal(recipientBalance, 0);
       });
 
       it('pending transaction when transfer from any sender, not from contract owner', async function () {
-        await token.transfer(sender, amount, { from: owner });
+        await this.token.transfer(sender, amount, { from: owner });
         await expectEvent.inTransaction(
-          token.transfer(to, 10, { from: sender }),
+          this.token.transfer(to, 10, { from: sender }),
           'PendingTransfer'
         );
 
-        let pendingTransfers = await token.getPendingTransfers({ from: sender });
-        let pendingReceives = await token.getPendingReceives({ from: to });
+        let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
+        let pendingReceives = await this.token.getPendingReceives({ from: to });
         assert.equal(pendingTransfers.length, 1);
         assert.equal(pendingReceives.length, 1);
       });
 
       it('2 pending transactions when transfer 2 times from any sender, not from contract owner', async function () {
-        await token.transfer(sender, amount, { from: owner });
-        await token.transfer(to, 10, { from: sender });
-        await token.transfer(to, 20, { from: sender });
+        await this.token.transfer(sender, amount, { from: owner });
+        await this.token.transfer(to, 10, { from: sender });
+        await this.token.transfer(to, 20, { from: sender });
 
-        let pendingTransfers = await token.getPendingTransfers({ from: sender });
-        let pendingReceives = await token.getPendingReceives({ from: to });
+        let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
+        let pendingReceives = await this.token.getPendingReceives({ from: to });
         assert.equal(pendingTransfers.length, 2);
         assert.equal(pendingReceives.length, 2);
       });
 
       it('confirm pending transaction successfully!', async function () {
-        await token.transfer(sender, amount, { from: owner });
-        await token.transfer(to, 10, { from: sender });
-        await token.transfer(to, 20, { from: sender });
+        await this.token.transfer(sender, amount, { from: owner });
+        await this.token.transfer(to, 10, { from: sender });
+        await this.token.transfer(to, 20, { from: sender });
 
-        let pendingReceives = await token.getPendingReceives({ from: to });
+        let pendingReceives = await this.token.getPendingReceives({ from: to });
 
         await expectEvent.inTransaction(
-          token.confirmTransfer(pendingReceives[0], { from: to }),
+          this.token.confirmTransfer(pendingReceives[0], { from: to }),
           'TransferConfirmed'
         );
-        const fromBalance = await token.balanceOf(sender);
+        const fromBalance = await this.token.balanceOf(sender);
         assert.equal(fromBalance, 90);
 
-        const toBalance = await token.balanceOf(to);
+        const toBalance = await this.token.balanceOf(to);
         assert.equal(toBalance, 10);
 
-        let pendingTransfers = await token.getPendingTransfers({ from: sender });
-        pendingReceives = await token.getPendingReceives({ from: to });
+        let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
+        pendingReceives = await this.token.getPendingReceives({ from: to });
         assert.equal(pendingTransfers.length, 1);
         assert.equal(pendingReceives.length, 1);
       });
 
       it('cancel pending transaction successfully!', async function () {
-        await token.transfer(sender, amount, { from: owner });
-        await token.transfer(to, 10, { from: sender });
-        await token.transfer(to, 20, { from: sender });
+        await this.token.transfer(sender, amount, { from: owner });
+        await this.token.transfer(to, 10, { from: sender });
+        await this.token.transfer(to, 20, { from: sender });
 
-        let pendingReceives = await token.getPendingReceives({ from: to });
+        let pendingReceives = await this.token.getPendingReceives({ from: to });
 
         await expectEvent.inTransaction(
-          token.confirmTransfer(pendingReceives[0], { from: to }),
+          this.token.confirmTransfer(pendingReceives[0], { from: to }),
           'TransferConfirmed'
         );
         
-        let pendingTransfers = await token.getPendingTransfers({ from: sender });
-        pendingReceives = await token.getPendingReceives({ from: to });
+        let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
+        pendingReceives = await this.token.getPendingReceives({ from: to });
         await expectEvent.inTransaction(
-          token.cancelTransfer(pendingTransfers[0], { from: sender }),
+          this.token.cancelTransfer(pendingTransfers[0], { from: sender }),
           'TransferCancelled'
         );
-        pendingTransfers = await token.getPendingTransfers({ from: sender });
-        pendingReceives = await token.getPendingReceives({ from: to });
+        pendingTransfers = await this.token.getPendingTransfers({ from: sender });
+        pendingReceives = await this.token.getPendingReceives({ from: to });
         assert.equal(pendingTransfers.length, 0);
         assert.equal(pendingReceives.length, 0);
 
-        const ownerBalance = await token.balanceOf(sender);
+        const ownerBalance = await this.token.balanceOf(sender);
         assert.equal(ownerBalance, 90);
 
-        const receiveBalance = await token.balanceOf(to);
+        const receiveBalance = await this.token.balanceOf(to);
         assert.equal(receiveBalance, 10);
       });
     });
@@ -377,13 +376,13 @@ contract('NTFToken', function (accounts) {
 
       it('confirm on zero tnx', async function () {
         await assertRevert(
-          token.confirmTransfer(ZERO_TX, { from: to })
+          this.token.confirmTransfer(ZERO_TX, { from: to })
         );
       });
 
       it('cancel on zero tnx', async function () {
         await assertRevert(
-          token.cancelTransfer(ZERO_TX, { from: sender })
+          this.token.cancelTransfer(ZERO_TX, { from: sender })
         );
       });
     });
