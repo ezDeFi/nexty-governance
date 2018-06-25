@@ -1,7 +1,7 @@
 const expectEvent = require('../helpers/expectEvent');
 const expectThrow = require('../helpers/expectThrow');
 
-const BlacklistMock = artifacts.require('../../contracts/mocks/BlacklistMock.sol');
+var Blacklist = artifacts.require('BlacklistMock');
 
 require('chai')
   .use(require('chai-as-promised'))
@@ -9,7 +9,7 @@ require('chai')
 
 contract('Blacklist', function (accounts) {
   let mock;
-  
+
   const [
     owner,
     blacklistedAddress1,
@@ -20,7 +20,8 @@ contract('Blacklist', function (accounts) {
   const blacklistedAddresses = [blacklistedAddress1, blacklistedAddress2];
 
   before(async function () {
-    mock = await BlacklistMock.new({ from: owner });
+    mock = await Blacklist.new();
+    await mock.initialize(owner);
   });
 
   context('in normal conditions', () => {

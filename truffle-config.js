@@ -43,7 +43,7 @@ module.exports = {
     rinkeby: {
       host: 'localhost',
       port: 8545,
-      network_id: '4', // Rinkeby ID 4
+      network_id: '4', // eslint-disable-line camelcase
       from: '0x2f40cc3bd20608d382645d12d968aec6f27c7754', // account from which to deploy
       gas: 6612388,
       gasPrice: 20000000000,

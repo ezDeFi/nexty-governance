@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-zos/contracts/ownership/Ownable.sol";
 
 
 /**
@@ -15,6 +15,10 @@ contract Blacklist is Ownable {
 
   event BlacklistedAddressAdded(address addr);
   event BlacklistedAddressRemoved(address addr);
+
+  function initialize(address _sender) isInitializer("Blacklist", "0.1")  public {
+    Ownable.initialize(_sender);
+  }
 
   /**
    * @dev Throws if called by any account that's whitelist (a.k.a not blacklist)

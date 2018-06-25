@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-zos/contracts/token/ERC20/StandardToken.sol";
+import "openzeppelin-zos/contracts/math/SafeMath.sol";
 import "../../access/Blacklist.sol";
 
 
@@ -33,6 +33,12 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
   event TransferCancelled(address from, address to, uint256 value);
   event TransferConfirmed(bytes32 txId, address to);
   event PendingTransfer(address indexed from, address indexed to, uint256 value);
+
+  function initialize(address _sender, uint256 _totalSupply) isInitializer("StandardSuspendableToken", "0.1")  public {
+    Blacklist.initialize(_sender);
+    totalSupply_ = _totalSupply;
+    balances[_sender] = totalSupply_;
+  }
 
   /**
   * @dev total number of tokens in existence

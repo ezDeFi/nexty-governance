@@ -10,5 +10,6 @@ contract BlacklistMock is Blacklist {
     view
     external
   {
+    //
   }
 }
