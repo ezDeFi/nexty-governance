@@ -62,15 +62,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
         holders.push(_to);
       }
       balances[msg.sender] = balances[msg.sender].sub(_value);
-      if (balances[msg.sender] == uint256(0x0)) {
-        for (uint h = 0; h < holders.length; h++) {
-          if (msg.sender == holders[h]) {
-            holders[h] = holders[keys.length - 1];
-            holders.length--;
-            break;
-          }
-        }
-      }
+      updateHolder(msg.sender);
       balances[_to] = balances[_to].add(_value);
       emit Transfer(msg.sender, _to, _value);
       return true;
@@ -116,15 +108,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
       balances[_from] = balances[_from].sub(_value);
       balances[_to] = balances[_to].add(_value);
       allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-      if (balances[_from] == uint256(0x0)) {
-        for (uint h = 0; h < holders.length; h++) {
-          if (_from == holders[h]) {
-            holders[h] = holders[holders.length - 1];
-            holders.length--;
-            break;
-          }
-        }
-      }
+      updateHolder(_from);
       emit Transfer(_from, _to, _value);
       return true;
     }
@@ -196,15 +180,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
       }
       balances[transaction.from] = balances[transaction.from].sub(transaction.amount);
       balances[msg.sender] = balances[msg.sender].add(transaction.amount);
-      if (balances[transaction.from] == uint256(0x0)) {
-        for (uint h = 0; h < holders.length; h++) {
-          if (transaction.from == holders[h]) {
-            holders[h] = holders[holders.length - 1];
-            holders.length--;
-            break;
-          }
-        }
-      }
+      updateHolder(transaction.from);
       if (blacklist[transaction.from] && !blacklist[msg.sender]) {
         blacklist[msg.sender] = true;
         keys.push(msg.sender);
@@ -251,5 +227,20 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
    */
   function getHolders() public view returns (address[]) {
     return holders;
+  }
+
+  /**
+   * @dev remove holder if their balance is zero
+   */
+  function updateHolder(address _holder) internal {
+    if (balances[_holder] == uint256(0x0)) {
+      for (uint h = 0; h < holders.length; h++) {
+        if (_holder == holders[h]) {
+          holders[h] = holders[holders.length - 1];
+          holders.length--;
+          return;
+        }
+      }
+    }
   }
 }
