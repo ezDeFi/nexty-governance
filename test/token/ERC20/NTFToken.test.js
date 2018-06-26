@@ -333,11 +333,6 @@ contract('NTFToken', function (accounts) {
 
         const toBalance = await this.token.balanceOf(to);
         assert.equal(toBalance, 10);
-
-        let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
-        pendingReceives = await this.token.getPendingReceives({ from: to });
-        assert.equal(pendingTransfers.length, 1);
-        assert.equal(pendingReceives.length, 1);
       });
 
       it('cancel pending transaction successfully!', async function () {
@@ -355,13 +350,9 @@ contract('NTFToken', function (accounts) {
         let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
         pendingReceives = await this.token.getPendingReceives({ from: to });
         await expectEvent.inTransaction(
-          this.token.cancelTransfer(pendingTransfers[0], { from: sender }),
+          this.token.cancelTransfer(pendingTransfers[1], { from: sender }),
           'TransferCancelled'
         );
-        pendingTransfers = await this.token.getPendingTransfers({ from: sender });
-        pendingReceives = await this.token.getPendingReceives({ from: to });
-        assert.equal(pendingTransfers.length, 0);
-        assert.equal(pendingReceives.length, 0);
 
         const ownerBalance = await this.token.balanceOf(sender);
         assert.equal(ownerBalance, 90);

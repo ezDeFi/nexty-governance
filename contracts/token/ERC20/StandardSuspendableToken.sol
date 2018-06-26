@@ -15,6 +15,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
   bytes32 constant ZERO_TX = 0x0000000000000000000000000000000000000000000000000000000000000000;
 
   struct Transaction {
+    bool exist;
     bytes32 txId;
     address from;
     address to;
@@ -23,8 +24,8 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
 
   mapping(address => uint256) balances;
   address[] holders;
-  mapping(address => Transaction[]) pendingTransfers;
-  mapping(address => Transaction[]) pendingReceives;
+  mapping(address => mapping(bytes32 => Transaction)) pendingTransfers;
+  mapping(address => mapping(bytes32 => Transaction)) pendingReceives;
   mapping(address => bytes32[]) pendingSendTnx;
   mapping(address => bytes32[]) pendingReceiveTnx;
 
@@ -34,10 +35,8 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
   event TransferConfirmed(bytes32 txId, address to);
   event PendingTransfer(address indexed from, address indexed to, uint256 value);
 
-  function initialize(address _sender, uint256 _totalSupply) isInitializer("StandardSuspendableToken", "0.1")  public {
+  function initialize(address _sender) isInitializer("StandardSuspendableToken", "0.1")  public {
     Blacklist.initialize(_sender);
-    totalSupply_ = _totalSupply;
-    balances[_sender] = totalSupply_;
   }
 
   /**
@@ -78,19 +77,21 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
     }
 
     bytes32 _txId = keccak256(abi.encodePacked(abi.encodePacked(msg.sender, _to, _value), block.number));
-    pendingTransfers[msg.sender].push(Transaction({
+    pendingTransfers[msg.sender][_txId] = Transaction({
+      exist: true,
       txId: _txId,
       from: msg.sender,
       to: _to,
       amount: _value
-    }));
+    });
     pendingSendTnx[msg.sender].push(_txId);
-    pendingReceives[_to].push(Transaction({
+    pendingReceives[_to][_txId] = Transaction({
+      exist: true,
       txId: _txId,
       from: msg.sender,
       to: _to,
       amount: _value
-    }));
+    });
     pendingReceiveTnx[_to].push(_txId);
     emit PendingTransfer(msg.sender, _to, _value);
     return true;
@@ -129,19 +130,21 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
     }
 
     bytes32 _txId = keccak256(abi.encodePacked(abi.encodePacked(msg.sender, _to, _value), block.number));
-    pendingTransfers[_from].push(Transaction({
+    pendingTransfers[_from][_txId] = Transaction({
+      exist: true,
       txId: _txId,
       from: _from,
       to: _to,
       amount: _value
-    }));
+    });
     pendingSendTnx[msg.sender].push(_txId);
-    pendingReceives[_to].push(Transaction({
+    pendingReceives[_to][_txId] = Transaction({
+      exist: true,
       txId: _txId,
       from: _from,
       to: _to,
       amount: _value
-    }));
+    });
     pendingReceiveTnx[_to].push(_txId);
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
     emit PendingTransfer(_from, _to, _value);
@@ -154,30 +157,17 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
    */
   function cancelTransfer(bytes32 _txId) public returns (bool) {
     require(_txId != ZERO_TX);
-    uint length = pendingTransfers[msg.sender].length;
-    for (uint i = 0; i < length; i++) {
-      Transaction memory transaction;
-      transaction = pendingTransfers[msg.sender][i];
-      if (_txId == transaction.txId && msg.sender == transaction.from) {
-        pendingTransfers[msg.sender][i] = pendingTransfers[msg.sender][length - 1];
-        pendingSendTnx[msg.sender][i] = pendingSendTnx[msg.sender][length - 1];
-        pendingTransfers[msg.sender].length--;
-        pendingSendTnx[msg.sender].length--;
-        uint len = pendingReceives[transaction.to].length;
-        for (uint k = 0; k < len; k++) {
-          Transaction memory tnx;
-          tnx = pendingReceives[transaction.to][k];
-          if (_txId == tnx.txId && transaction.to == tnx.to) {
-            pendingReceives[transaction.to][k] = pendingReceives[transaction.to][len - 1];
-            pendingReceiveTnx[transaction.to][k] = pendingReceiveTnx[transaction.to][len - 1];
-            pendingReceives[transaction.to].length--;
-            pendingReceiveTnx[transaction.to].length--;
-            break;
-          }
-        }
-        emit TransferCancelled(msg.sender, transaction.to, transaction.amount);
-        return true;
+    Transaction memory transaction;
+    transaction = pendingTransfers[msg.sender][_txId];
+    if (transaction.exist == true && msg.sender == transaction.from) {
+      delete pendingTransfers[msg.sender][_txId];
+      Transaction memory tnx;
+      tnx = pendingReceives[transaction.to][_txId];
+      if (tnx.exist == true && transaction.to == tnx.to) {
+        delete pendingReceives[transaction.to][_txId];
       }
+      emit TransferCancelled(msg.sender, transaction.to, transaction.amount);
+      return true;
     }
     return false;
   }
@@ -189,58 +179,45 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
   function confirmTransfer(bytes32 _txId) public returns (bool) {
     require(_txId != ZERO_TX);
     emit TransferConfirmed(_txId, msg.sender);
-    uint length = pendingReceives[msg.sender].length;
-    for (uint i = 0; i < length; i++) {
-      Transaction memory transaction;
-      transaction = pendingReceives[msg.sender][i];
-      if (_txId == transaction.txId && msg.sender == transaction.to) {
-        if (transaction.to == address(0x0)) {
-          revert();
-        }
-        if (transaction.amount > balances[transaction.from]) {
-          revert();
-        }
-        if (balances[transaction.to] + transaction.amount < balances[transaction.to]) {
-          revert();
-        }
-        if (balances[msg.sender] == uint256(0x0)) {
-          holders.push(msg.sender);
-        }
-        balances[transaction.from] = balances[transaction.from].sub(transaction.amount);
-        balances[msg.sender] = balances[msg.sender].add(transaction.amount);
-        if (balances[transaction.from] == uint256(0x0)) {
-          for (uint h = 0; h < holders.length; h++) {
-            if (transaction.from == holders[h]) {
-              holders[h] = holders[holders.length - 1];
-              holders.length--;
-              break;
-            }
-          }
-        }
-        if (blacklist[transaction.from] && !blacklist[msg.sender]) {
-          blacklist[msg.sender] = true;
-          keys.push(msg.sender);
-        }
-        pendingReceives[msg.sender][i] = pendingReceives[msg.sender][length - 1];
-        pendingReceiveTnx[msg.sender][i] = pendingReceiveTnx[msg.sender][length - 1];
-        pendingReceives[msg.sender].length--;
-        pendingReceiveTnx[msg.sender].length--;
-
-        uint len = pendingTransfers[transaction.from].length;
-        for (uint k = 0; k < len; k++) {
-          Transaction memory tnx;
-          tnx = pendingTransfers[transaction.from][k];
-          if (_txId == tnx.txId && transaction.from == tnx.from) {
-            pendingTransfers[transaction.from][k] = pendingTransfers[transaction.from][len - 1];
-            pendingSendTnx[transaction.from][k] = pendingSendTnx[transaction.from][len - 1];
-            pendingTransfers[transaction.from].length--;
-            pendingSendTnx[transaction.from].length--;
+    Transaction memory transaction;
+    transaction = pendingReceives[msg.sender][_txId];
+    if (transaction.exist == true && msg.sender == transaction.to) {
+      if (transaction.to == address(0x0)) {
+        revert();
+      }
+      if (transaction.amount > balances[transaction.from]) {
+        revert();
+      }
+      if (balances[transaction.to] + transaction.amount < balances[transaction.to]) {
+        revert();
+      }
+      if (balances[msg.sender] == uint256(0x0)) {
+        holders.push(msg.sender);
+      }
+      balances[transaction.from] = balances[transaction.from].sub(transaction.amount);
+      balances[msg.sender] = balances[msg.sender].add(transaction.amount);
+      if (balances[transaction.from] == uint256(0x0)) {
+        for (uint h = 0; h < holders.length; h++) {
+          if (transaction.from == holders[h]) {
+            holders[h] = holders[holders.length - 1];
+            holders.length--;
             break;
           }
         }
-        emit Transfer(transaction.from, msg.sender, transaction.amount);
-        return true;
       }
+      if (blacklist[transaction.from] && !blacklist[msg.sender]) {
+        blacklist[msg.sender] = true;
+        keys.push(msg.sender);
+      }
+      delete pendingReceives[msg.sender][_txId];
+
+      Transaction memory tnx;
+      tnx = pendingTransfers[transaction.from][_txId];
+      if (tnx.exist == true && transaction.from == tnx.from) {
+        delete pendingTransfers[transaction.from][_txId];
+      }
+      emit Transfer(transaction.from, msg.sender, transaction.amount);
+      return true;
     }
     return false;
   }
