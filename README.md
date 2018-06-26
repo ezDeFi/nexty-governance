@@ -124,6 +124,8 @@ truffle(ganache)> token.getHolders();
   '0x804a6c3be74f30b14054b2611d97c031f01d3d91' ]
 ```
 
+## Upgrade NTF token smart contract
+
 Adding more below function to existing smart contract to get the holder address at specific index as below.
 
 ```
