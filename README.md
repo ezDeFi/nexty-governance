@@ -109,3 +109,48 @@ truffle(ganache)> token.totalSupply();
 
 You can see `BigNumber { s: 1, e: 25, c: [ 100000000000 ] }` output on the console.
 
+Transfer some `NTF` token from owner to another holder at `0x804a6c3BE74f30b14054B2611D97c031f01d3d91` address
+
+```
+truffle(ganache)> token.transfer("0x804a6c3BE74f30b14054B2611D97c031f01d3d91", 10000, {from: "0x7165E6d65046a7d8270B59Ea5bE5148cc13a2Dd4"});
+```
+
+Check the token holder list by calling smart contract function
+
+```
+truffle(ganache)> token.getHolders();
+
+[ '0x7165e6d65046a7d8270b59ea5be5148cc13a2dd4',
+  '0x804a6c3be74f30b14054b2611d97c031f01d3d91' ]
+```
+
+Adding more below function to existing smart contract to get the holder address at specific index as below.
+
+```
+  function getHolder(uint256 _id) public view returns (address) {
+    return holders[_id];
+  }
+```
+
+Once you have saved the changes in your contract files, simply push the new code to the network:
+
+```
+zos push --network ganache
+```
+
+Finally, let's upgrade the already deployed contract with the new code:
+
+```
+zos upgrade NTFToken --network ganache
+```
+
+To try the upgraded feature we just added, run:
+
+```
+npx truffle console --network ganache
+truffle(ganache)> token = NTFToken.at("0x6e27d4f5a5216388fe555c59dc20b5d1c1d12406");
+truffle(ganache)> token.getHolder(0);
+truffle(ganache)> token.getHolder(1);
+```
+
+Congratulation! Finally, we can work with new smart contract logic and can still preserve the state from old smart contract.
