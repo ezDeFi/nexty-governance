@@ -1,12 +1,12 @@
 const assertRevert = require('../../helpers/assertRevert');
-var StandardSuspendableToken = artifacts.require('StandardSuspendableToken');
+var StandardSuspendableToken = artifacts.require('StandardSuspendableTokenMock');
 
 contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAccount]) {
   const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
   beforeEach(async function () {
-    this.token = await StandardSuspendableToken.new();
-    await this.token.initialize(owner, 100);
+    this.token = await StandardSuspendableToken.new(owner, 100);
+    await this.token.initialize(owner);
   });
 
   describe('total supply', function () {
