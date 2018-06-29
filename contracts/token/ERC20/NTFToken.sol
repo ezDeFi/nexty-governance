@@ -9,6 +9,8 @@ import "openzeppelin-zos/contracts/math/SafeMath.sol";
  * @title Nexty Foundation Token
  */
 contract NTFToken is Migratable, StandardSuspendableToken {
+  using SafeMath for uint256;
+
   string public constant SYMBOL = "NTF";
   string public constant NAME = "Nexty Foundation Token";
   uint8 public constant DECIMALS = 18;
