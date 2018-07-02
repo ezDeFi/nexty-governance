@@ -98,7 +98,7 @@ contract('NTFToken', function (accounts) {
     });
 
     it('cannot set coinbase to owner', async function () {
-      await assertRevert(this.token.setCoinbase(owner, { from: owner}));
+      await assertRevert(this.token.setCoinbase(owner, { from: owner }));
     });
 
     it('cannot set coinbase to the same address/account with token holder', async function () {
@@ -107,7 +107,7 @@ contract('NTFToken', function (accounts) {
         this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
-      await assertRevert(this.token.setCoinbase(recipient, { from: recipient}));
+      await assertRevert(this.token.setCoinbase(recipient, { from: recipient }));
     });
 
     it('can set coinbase after receiving NTF token', async function () {
