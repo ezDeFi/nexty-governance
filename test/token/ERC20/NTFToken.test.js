@@ -66,25 +66,31 @@ contract('NTFToken', function (accounts) {
         this.token.setCoinbase(recipient, { from: owner }),
         'SetCoinbase'
       );
-
-      let coinbase = await this.token.getCoinbase({ from: owner });
-      assert.equal(coinbase, recipient);
+      const isSealer = await this.token.sealer(owner);
+      const coinbase = await this.token.coinbase(recipient);
+      isSealer.should.be.equal(true);
+      assert.equal(coinbase, owner);
     });
 
-    it('can update the coinbase by re-call set method', async function () {
+    it('can remove the coinbase by calling unset method', async function () {
       await expectEvent.inTransaction(
         this.token.setCoinbase(recipient, { from: owner }),
         'SetCoinbase'
       );
+      var isSealer = await this.token.sealer(owner);
+      var coinbase = await this.token.coinbase(recipient);
+      isSealer.should.be.equal(true);
+      assert.equal(coinbase, owner);
 
-      // update
+      // remove coinbase
       await expectEvent.inTransaction(
-        this.token.setCoinbase(sender, { from: owner }),
-        'SetCoinbase'
+        this.token.unSetCoinbase(recipient, { from: owner }),
+        'UnSetCoinbase'
       );
-
-      let coinbase = await this.token.getCoinbase({ from: owner });
-      assert.equal(coinbase, sender);
+      isSealer = await this.token.sealer(owner);
+      coinbase = await this.token.coinbase(recipient);
+      isSealer.should.be.equal(false);
+      assert(coinbase, ZERO_ADDRESS);
     });
 
     it('cannot set coinbase if the sender dont hold any NTF token', async function () {
@@ -97,14 +103,14 @@ contract('NTFToken', function (accounts) {
         this.token.transfer(recipient, amount, { from: owner }),
         'Transfer'
       );
-
       await expectEvent.inTransaction(
         this.token.setCoinbase(anyone, { from: recipient }),
         'SetCoinbase'
       );
-
-      let coinbase = await this.token.getCoinbase({ from: recipient });
-      assert.equal(coinbase, anyone);
+      const isSealer = await this.token.sealer(recipient);
+      const coinbase = await this.token.coinbase(anyone);
+      isSealer.should.be.equal(true);
+      assert.equal(coinbase, recipient);
     });
   });
 
