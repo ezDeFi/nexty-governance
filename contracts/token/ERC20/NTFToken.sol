@@ -16,25 +16,31 @@ contract NTFToken is Migratable, StandardSuspendableToken {
   uint8 public constant DECIMALS = 18;
   uint256 public constant INITIAL_SUPPLY = 10000000 * (10 ** uint256(DECIMALS));
 
-  mapping(address => address) coinbase;
+  mapping(address => address) public coinbase;
+  mapping(address => bool) public sealer;
 
-  event SetCoinbase(address _from, address _to);
+  event SetCoinbase(address _holder, address _coinbase);
+  event UnSetCoinbase(address _holder, address _coinbase);
 
   /**
    * Check if address is a valid destination to transfer tokens to
    * - must not be zero address
    * - must not be the token address
    * - must not be the owner's address
+   * - must not be the sender's address
    */
   modifier validDestination(address to) {
     require(to != address(0x0));
     require(to != address(this));
     require(to != owner);
+    require(to != msg.sender);
     _;
   }
 
   /**
    * Token contract initialize
+   *
+   * @param _sender smart contract owner address
    */
   function initialize(address _sender) isInitializer("NTFToken", "0.1") public {
     StandardSuspendableToken.initialize(_sender);
@@ -62,22 +68,31 @@ contract NTFToken is Migratable, StandardSuspendableToken {
   }
 
   /**
-   * Token holder can call method to set/update their coinbase for mining.
+   * Token holder can call method to set their coinbase for mining.
    *
-   * @param _to Destination address
+   * @param _coinbase Destination address
    */
-  function setCoinbase(address _to) public validDestination(_to) returns (bool) {
+  function setCoinbase(address _coinbase) public validDestination(_coinbase) returns (bool) {
     require(balances[msg.sender] > 0);
 
-    coinbase[msg.sender] = _to;
-    emit SetCoinbase(msg.sender, _to);
+    coinbase[_coinbase] = msg.sender;
+    sealer[msg.sender] = true;
+    emit SetCoinbase(msg.sender, _coinbase);
     return true;
   }
 
   /**
-   * Get coinbase address of token holder
+   * Token holder can call method to remove their coinbase and reset to other coinbase later for mining.
+   *
+   * @param _coinbase Destination address
    */
-  function getCoinbase() public view returns (address) {
-    return coinbase[msg.sender];
+  function unSetCoinbase(address _coinbase) public returns (bool) {
+    require(coinbase[_coinbase] == msg.sender);
+    require(sealer[msg.sender] == true);
+
+    delete coinbase[_coinbase];
+    delete sealer[msg.sender];
+    emit UnSetCoinbase(msg.sender, _coinbase);
+    return true;
   }
 }
