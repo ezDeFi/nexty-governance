@@ -110,6 +110,46 @@ contract('NTFToken', function (accounts) {
       await assertRevert(this.token.setCoinbase(recipient, { from: recipient }));
     });
 
+    it('cannot reset coinbase if already set', async function () {
+      await expectEvent.inTransaction(
+        this.token.setCoinbase(recipient, { from: owner }),
+        'SetCoinbase'
+      );
+      var isSealer = await this.token.sealer(owner);
+      var coinbase = await this.token.coinbase(recipient);
+      isSealer.should.be.equal(true);
+      assert.equal(coinbase, owner);
+      
+      // cannot reset
+      await assertRevert(this.token.setCoinbase(anyone, { from: owner }));
+    });
+
+    it('can reset coinbase after unset', async function () {
+      await expectEvent.inTransaction(
+        this.token.setCoinbase(recipient, { from: owner }),
+        'SetCoinbase'
+      );
+      var isSealer = await this.token.sealer(owner);
+      var coinbase = await this.token.coinbase(recipient);
+      isSealer.should.be.equal(true);
+      assert.equal(coinbase, owner);
+
+      // remove coinbase
+      await expectEvent.inTransaction(
+        this.token.unSetCoinbase(recipient, { from: owner }),
+        'UnSetCoinbase'
+      );
+      isSealer = await this.token.sealer(owner);
+      coinbase = await this.token.coinbase(recipient);
+      isSealer.should.be.equal(false);
+      assert(coinbase, ZERO_ADDRESS);
+      
+      await expectEvent.inTransaction(
+        this.token.setCoinbase(anyone, { from: owner }),
+        'SetCoinbase'
+      );
+    });
+
     it('can set coinbase after receiving NTF token', async function () {
       const amount = 100;
       await expectEvent.inTransaction(

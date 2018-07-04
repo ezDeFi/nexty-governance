@@ -74,7 +74,8 @@ contract NTFToken is Migratable, StandardSuspendableToken {
    */
   function setCoinbase(address _coinbase) public validDestination(_coinbase) returns (bool) {
     require(balances[msg.sender] > 0);
-
+    require(sealer[msg.sender] == false);
+    
     coinbase[_coinbase] = msg.sender;
     sealer[msg.sender] = true;
     emit SetCoinbase(msg.sender, _coinbase);
