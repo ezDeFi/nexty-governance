@@ -18,6 +18,7 @@ contract NTFToken is Migratable, StandardSuspendableToken {
 
   mapping(address => address) public coinbase;
   mapping(address => bool) public sealer;
+  address[] public signers;
 
   event SetCoinbase(address _holder, address _coinbase);
   event UnSetCoinbase(address _holder, address _coinbase);
@@ -68,6 +69,13 @@ contract NTFToken is Migratable, StandardSuspendableToken {
   }
 
   /**
+   * @dev Get all the list of current singer.
+   */
+  function getSigners() public view returns (address[]) {
+    return signers;
+  }
+
+  /**
    * Token holder can call method to set their coinbase for mining.
    *
    * @param _coinbase Destination address
@@ -77,6 +85,7 @@ contract NTFToken is Migratable, StandardSuspendableToken {
     require(sealer[msg.sender] == false);
     
     coinbase[_coinbase] = msg.sender;
+    signers.push(_coinbase);
     sealer[msg.sender] = true;
     emit SetCoinbase(msg.sender, _coinbase);
     return true;
@@ -92,8 +101,22 @@ contract NTFToken is Migratable, StandardSuspendableToken {
     require(sealer[msg.sender] == true);
 
     delete coinbase[_coinbase];
+    removeSigner(_coinbase);
     delete sealer[msg.sender];
     emit UnSetCoinbase(msg.sender, _coinbase);
     return true;
+  }
+
+  /**
+   * @dev Remove a specific address/account out of signer list
+   */
+  function removeSigner(address _signer) internal {
+    for (uint i = 0; i < signers.length; i++) {
+      if (_signer == signers[i]) {
+        signers[i] = signers[signers.length - 1];
+        signers.length--;
+        return;
+      }
+    }
   }
 }

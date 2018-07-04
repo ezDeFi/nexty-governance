@@ -68,8 +68,11 @@ contract('NTFToken', function (accounts) {
       );
       const isSealer = await this.token.sealer(owner);
       const coinbase = await this.token.coinbase(recipient);
+      let signers = await this.token.getSigners();
       isSealer.should.be.equal(true);
       assert.equal(coinbase, owner);
+      assert.equal(signers[0], recipient);
+      assert.equal(signers.length, 1);
     });
 
     it('can remove the coinbase by calling unset method', async function () {
@@ -89,8 +92,10 @@ contract('NTFToken', function (accounts) {
       );
       isSealer = await this.token.sealer(owner);
       coinbase = await this.token.coinbase(recipient);
+      let signers = await this.token.getSigners();
       isSealer.should.be.equal(false);
       assert(coinbase, ZERO_ADDRESS);
+      assert.equal(signers.length, 0);
     });
 
     it('cannot set coinbase if the sender dont hold any NTF token', async function () {
@@ -122,6 +127,9 @@ contract('NTFToken', function (accounts) {
       
       // cannot reset
       await assertRevert(this.token.setCoinbase(anyone, { from: owner }));
+      let signers = await this.token.getSigners();
+      assert.equal(signers[0], recipient);
+      assert.equal(signers.length, 1);
     });
 
     it('can reset coinbase after unset', async function () {
@@ -148,6 +156,9 @@ contract('NTFToken', function (accounts) {
         this.token.setCoinbase(anyone, { from: owner }),
         'SetCoinbase'
       );
+      let signers = await this.token.getSigners();
+      assert.equal(signers[0], anyone);
+      assert.equal(signers.length, 1);
     });
 
     it('can set coinbase after receiving NTF token', async function () {
@@ -162,8 +173,11 @@ contract('NTFToken', function (accounts) {
       );
       const isSealer = await this.token.sealer(recipient);
       const coinbase = await this.token.coinbase(anyone);
+      let signers = await this.token.getSigners();
       isSealer.should.be.equal(true);
       assert.equal(coinbase, recipient);
+      assert.equal(signers[0], anyone);
+      assert.equal(signers.length, 1);
     });
   });
 
