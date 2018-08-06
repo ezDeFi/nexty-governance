@@ -19,6 +19,8 @@ contract NTFToken is Migratable, StandardSuspendableToken {
   mapping(address => address) public coinbase;
   mapping(address => bool) public sealer;
   address[] public signers;
+  uint256 public checkpoint;
+  uint256 public sealers;
 
   event SetCoinbase(address _holder, address _coinbase);
   event UnSetCoinbase(address _holder, address _coinbase);
