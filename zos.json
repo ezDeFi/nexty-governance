@@ -1,11 +1,7 @@
 {
-  "name": "NTF",
+  "name": "project",
   "version": "0.1.0",
   "contracts": {
     "NTFToken": "NTFToken"
-  },
-  "stdlib": {
-    "name": "openzeppelin-zos",
-    "version": "1.9.1"
   }
 }
