@@ -362,7 +362,7 @@ contract('NTFToken', function (accounts) {
         assert(logs[0].args.value.eq(amount));
       });
 
-      it('transfer the requested amount successfully!', async function () {
+      it('transfer the requested amount from owner successfully!', async function () {
         await expectEvent.inTransaction(
           this.token.transfer(sender, amount, { from: owner }),
           'Transfer'
@@ -372,6 +372,23 @@ contract('NTFToken', function (accounts) {
 
         const recipientBalance = await this.token.balanceOf(to);
         assert.equal(recipientBalance, 0);
+      });
+
+      it('transfer the requested amount from any sender successfully!', async function () {
+        await expectEvent.inTransaction(
+          this.token.transfer(sender, amount, { from: owner }),
+          'Transfer'
+        );
+        const senderBalance = await this.token.balanceOf(sender);
+        assert.equal(senderBalance, 100);
+
+        await expectEvent.inTransaction(
+          this.token.transfer(to, amount, { from: sender }),
+          'Transfer'
+        );
+
+        const recipientBalance = await this.token.balanceOf(to);
+        assert.equal(recipientBalance, 100);
       });
 
       it('pending transaction when transfer from any blacklist sender', async function () {
