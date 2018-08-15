@@ -373,6 +373,7 @@ contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAcco
           const amount = 100;
 
           it('transfers the requested amount', async function () {
+            await this.token.addAddressToBlacklist(owner, {from: owner})
             await this.token.transferFrom(owner, to, amount, { from: spender });
 
             // the transaction is still pending then no balance changed
@@ -391,6 +392,7 @@ contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAcco
           });
 
           it('emits a transfer event', async function () {
+            await this.token.addAddressToBlacklist(owner, {from: owner})
             const { logs } = await this.token.transferFrom(owner, to, amount, { from: spender });
 
             assert.equal(logs.length, 1);
