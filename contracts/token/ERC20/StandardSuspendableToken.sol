@@ -57,7 +57,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
     require(_value <= balances[msg.sender]);
     require(balances[_to] + _value >= balances[_to]);
 
-    if (msg.sender == owner) {
+    if (!blacklist[msg.sender]) {
       if (balances[_to] == uint256(0x0)) {
         holders.push(_to);
       }
@@ -101,7 +101,7 @@ contract StandardSuspendableToken is StandardToken, Blacklist {
     require(_value <= balances[_from]);
     require(_value <= allowed[_from][msg.sender]);
 
-    if (msg.sender == owner) {
+    if (!blacklist[_from] && !blacklist[msg.sender]) {
       if (balances[_to] == uint256(0x0)) {
         holders.push(_to);
       }
