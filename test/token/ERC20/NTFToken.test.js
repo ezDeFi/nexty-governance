@@ -236,7 +236,7 @@ contract('NTFToken', function (accounts) {
         'Transfer'
       );
       // if sender is in blacklist then tnx will be pending
-      await this.token.addAddressToBlacklist(sender, {from: owner})
+      await this.token.addAddressToBlacklist(sender, { from: owner });
       await expectEvent.inTransaction(
         this.token.transfer(recipient, amount, { from: sender }),
         'PendingTransfer'
@@ -256,7 +256,7 @@ contract('NTFToken', function (accounts) {
         'Transfer'
       );
       // Add sender to blacklist
-      await this.token.addAddressToBlacklist(sender, {from: owner})
+      await this.token.addAddressToBlacklist(sender, { from: owner });
       await expectEvent.inTransaction(
         this.token.transfer(recipient, amount, { from: sender }),
         'PendingTransfer'
@@ -377,7 +377,7 @@ contract('NTFToken', function (accounts) {
       it('pending transaction when transfer from any blacklist sender', async function () {
         await this.token.transfer(sender, amount, { from: owner });
         // Add sender to blacklist
-        await this.token.addAddressToBlacklist(sender, {from: owner})
+        await this.token.addAddressToBlacklist(sender, { from: owner });
         await expectEvent.inTransaction(
           this.token.transfer(to, 10, { from: sender }),
           'PendingTransfer'
@@ -392,7 +392,7 @@ contract('NTFToken', function (accounts) {
       it('2 pending transactions when transfer 2 times from any sender, not from contract owner', async function () {
         await this.token.transfer(sender, amount, { from: owner });
         // Add sender to blacklist
-        await this.token.addAddressToBlacklist(sender, {from: owner})        
+        await this.token.addAddressToBlacklist(sender, { from: owner });
         await this.token.transfer(to, 10, { from: sender });
         await this.token.transfer(to, 20, { from: sender });
 
@@ -405,7 +405,7 @@ contract('NTFToken', function (accounts) {
       it('confirm pending transaction successfully!', async function () {
         await this.token.transfer(sender, amount, { from: owner });
         // Add sender to blacklist
-        await this.token.addAddressToBlacklist(sender, {from: owner})        
+        await this.token.addAddressToBlacklist(sender, { from: owner });
         await this.token.transfer(to, 10, { from: sender });
         await this.token.transfer(to, 20, { from: sender });
 
@@ -425,7 +425,7 @@ contract('NTFToken', function (accounts) {
       it('cancel pending transaction successfully!', async function () {
         await this.token.transfer(sender, amount, { from: owner });
         // Add sender to blacklist
-        await this.token.addAddressToBlacklist(sender, {from: owner})        
+        await this.token.addAddressToBlacklist(sender, { from: owner });
         await this.token.transfer(to, 10, { from: sender });
         await this.token.transfer(to, 20, { from: sender });
 
