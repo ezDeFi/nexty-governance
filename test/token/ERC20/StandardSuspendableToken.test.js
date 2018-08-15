@@ -38,7 +38,33 @@ contract('StandardSuspendableToken', function ([_, owner, recipient, anotherAcco
   describe('transfer', function () {
     describe('when the recipient is not the zero address', function () {
       const to = recipient;
+      const sender = anotherAccount;
 
+      describe('when the sender has enough balance and is not in blacklist', function () {
+        const amount = 100;
+
+        it('transfers the requested amount', async function () {
+          await this.token.transfer(sender, amount, { from: owner });
+          await this.token.transfer(to, amount, { from: sender });
+
+          const senderBalance = await this.token.balanceOf(sender);
+          assert.equal(senderBalance, 0);
+
+          const recipientBalance = await this.token.balanceOf(to);
+          assert.equal(recipientBalance, amount);
+        });
+
+        it('emits a transfer event', async function () {
+          await this.token.transfer(sender, amount, { from: owner });
+          const { logs } = await this.token.transfer(to, amount, { from: sender });
+
+          assert.equal(logs.length, 1);
+          assert.equal(logs[0].event, 'Transfer');
+          assert.equal(logs[0].args.from, sender);
+          assert.equal(logs[0].args.to, to);
+          assert(logs[0].args.value.eq(amount));
+        });
+      });
       describe('when the sender is owner and does not have enough balance', function () {
         const amount = 101;
 

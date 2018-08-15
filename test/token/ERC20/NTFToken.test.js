@@ -348,7 +348,7 @@ contract('NTFToken', function (accounts) {
       });
     });
 
-    describe('when the sender has enough balance and in blacklist', function () {
+    describe('when the sender has enough balance', function () {
       const to = recipient;
       const amount = 100;
 
@@ -389,12 +389,16 @@ contract('NTFToken', function (accounts) {
         assert.equal(pendingReceives.length, 1);
       });
 
-      it('2 pending transactions when transfer 2 times from any sender, not from contract owner', async function () {
+      it('pending transactions when transfer from any blacklist sender', async function () {
         await this.token.transfer(sender, amount, { from: owner });
+        await this.token.transfer(to, 10, { from: sender });
         // Add sender to blacklist
         await this.token.addAddressToBlacklist(sender, { from: owner });
-        await this.token.transfer(to, 10, { from: sender });
         await this.token.transfer(to, 20, { from: sender });
+        await this.token.transfer(to, 30, { from: sender });
+        // Remove sender from blacklist
+        await this.token.removeAddressFromBlacklist(sender, { from: owner });
+        await this.token.transfer(to, 40, { from: sender });
 
         let pendingTransfers = await this.token.getPendingTransfers({ from: sender });
         let pendingReceives = await this.token.getPendingReceives({ from: to });
@@ -404,9 +408,9 @@ contract('NTFToken', function (accounts) {
 
       it('confirm pending transaction successfully!', async function () {
         await this.token.transfer(sender, amount, { from: owner });
+        await this.token.transfer(to, 10, { from: sender });
         // Add sender to blacklist
         await this.token.addAddressToBlacklist(sender, { from: owner });
-        await this.token.transfer(to, 10, { from: sender });
         await this.token.transfer(to, 20, { from: sender });
 
         let pendingReceives = await this.token.getPendingReceives({ from: to });
@@ -416,18 +420,22 @@ contract('NTFToken', function (accounts) {
           'TransferConfirmed'
         );
         const fromBalance = await this.token.balanceOf(sender);
-        assert.equal(fromBalance, 90);
+        assert.equal(fromBalance, 70);
 
         const toBalance = await this.token.balanceOf(to);
-        assert.equal(toBalance, 10);
+        assert.equal(toBalance, 30);
       });
 
       it('cancel pending transaction successfully!', async function () {
         await this.token.transfer(sender, amount, { from: owner });
+        await expectEvent.inTransaction(
+          this.token.transfer(to, 10, { from: sender }),
+          'Transfer'
+        );
         // Add sender to blacklist
         await this.token.addAddressToBlacklist(sender, { from: owner });
-        await this.token.transfer(to, 10, { from: sender });
         await this.token.transfer(to, 20, { from: sender });
+        await this.token.transfer(to, 30, { from: sender });
 
         let pendingReceives = await this.token.getPendingReceives({ from: to });
 
@@ -444,10 +452,10 @@ contract('NTFToken', function (accounts) {
         );
 
         const ownerBalance = await this.token.balanceOf(sender);
-        assert.equal(ownerBalance, 90);
+        assert.equal(ownerBalance, 70);
 
         const receiveBalance = await this.token.balanceOf(to);
-        assert.equal(receiveBalance, 10);
+        assert.equal(receiveBalance, 30);
       });
     });
 
