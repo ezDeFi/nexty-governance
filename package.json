@@ -38,8 +38,7 @@
     "url": "https://github.com/nextyio/ntf-smart-contract/issues"
   },
   "dependencies": {
-    "openzeppelin-zos": "^1.9.1",
-    "zos-lib": "^1.0.0"
+    "openzeppelin-zos": "^1.9.3"
   },
   "devDependencies": {
     "babel-polyfill": "^6.23.0",
