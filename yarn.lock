@@ -3611,9 +3611,9 @@ openzeppelin-solidity@~1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-1.9.0.tgz#929c2e8eab5d1935a048390a77645b36dfc5cfad"
 
-openzeppelin-zos@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/openzeppelin-zos/-/openzeppelin-zos-1.9.1.tgz#3429044ada485bd6119910525f523d25546f368e"
+openzeppelin-zos@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/openzeppelin-zos/-/openzeppelin-zos-1.9.3.tgz#30ac1adbabcd8c029160eda8ce1123d9725d0852"
   dependencies:
     zos-lib "^0.1.26"
 
@@ -5325,15 +5325,6 @@ yeoman-generator@^2.0.5:
 zos-lib@^0.1.26:
   version "0.1.28"
   resolved "https://registry.yarnpkg.com/zos-lib/-/zos-lib-0.1.28.tgz#53db751d09b3b4a0ea0fc1fccf1535a6e692d572"
-  dependencies:
-    bignumber.js "^7.2.0"
-    openzeppelin-solidity "~1.9.0"
-    truffle-contract "^3.0.5"
-    truffle-provisioner "^0.1.0"
-
-zos-lib@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/zos-lib/-/zos-lib-1.0.0.tgz#16fe94cf2c600d1157172d9e892b49fcb336129f"
   dependencies:
     bignumber.js "^7.2.0"
     openzeppelin-solidity "~1.9.0"
