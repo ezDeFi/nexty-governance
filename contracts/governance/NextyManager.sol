@@ -134,7 +134,7 @@ contract NextyManager is Migratable, Blacklist {
     }
 
     //get bann status of a sealer's address
-    function isBanned(address _address) public view {
+    function isBanned(address _address) public view returns(bool) {
         return (sealers[_address].status == SealerStatus.PENALIZED);
     }
 
