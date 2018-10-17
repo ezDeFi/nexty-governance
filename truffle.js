@@ -33,8 +33,8 @@ const infuraProvider = network => providerWithMnemonic(
 );
 
 const PrivateKeyProvider = require('truffle-privatekey-provider');
-const pkey= '2377F0B216DB206C05E38949C7EE98D52F02B00DC7FC698B7B509EA62F9AB2F7';
-//address 0x21a790077be4f722a9bd773b7b78f7e7c2cc6e42  
+const pkey= 'B72F001329A170CB0F64851EE3B03779B17865003F95CC0BDF4BAB981F5FB257';
+//address 0x6f53c8502bb884775e422c7c34be681554cee2ba  
 const ropstenProvider = process.env.SOLIDITY_COVERAGE
   ? undefined
   : infuraProvider('ropsten');

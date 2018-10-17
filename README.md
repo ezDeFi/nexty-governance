@@ -1,31 +1,9 @@
-# bettingDapp
-
-demo:
-http://45.77.251.170/
-
-demo:
-http://45.77.251.170/
-
-Local build:
-http://localhost:3008/
-(smart contract deployed on testnet)
-
-npm install
-npm start
-
-test accounts:
-
-contracts owner pkey
+Mainet Nexty
+token Owner
+0x6f53c8502bb884775e422c7c34be681554cee2ba
 B72F001329A170CB0F64851EE3B03779B17865003F95CC0BDF4BAB981F5FB257
 
-0xc287C713CAA50790a50251bD7FB664E4Ee620937
-9618f6ef1955be4fadb1f8ad2badd68f5760616ace56bce646f49ec45c5e37fa
+lock duration 5min,
+min deposit 100 ntf
 
-0xBF878162F34A11c832339ADB0CcCdDb1b091C1E5
-f2146e0640ea50240832025f07925fe853bdef5c77175abf5511cbdedd9ff46b
-
-0x98BA47d9d7a1bc6434E8B2841B323d4270A6C791
-105518bceec9ebff7b99b416055e5c5cddaa743ede0fbd1b06fc50a4679ae8d9
-
-0xf8cCDC01abFEaa592036b6cadD2F4F9e4Bc2409e
-9c980c69602d9a4a81c92b49421d440cf11d020b4e6fee682127d352a40260df
+Owner on init 1000000

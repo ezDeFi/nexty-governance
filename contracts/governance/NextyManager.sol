@@ -20,9 +20,9 @@ contract NextyManager is Migratable, Ownable {
     using SafeMath for uint256;
 
     //minimum of deposited NTF to join
-    uint256 public constant MIN_NTF_AMOUNT = 2;
+    uint256 public constant MIN_NTF_AMOUNT = 100;
     //minimum blocks number distance from last leaved to current chain blocknumber to withdrawable
-    uint256 public constant LOCK_DURATION = 10 * 2;
+    uint256 public constant LOCK_DURATION = 5 * 60;
 
     enum SealerStatus {
         PENDING_ACTIVE,     //Sealer deposited enough NTFs into registration contract successfully.
