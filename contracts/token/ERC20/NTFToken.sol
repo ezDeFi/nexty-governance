@@ -28,11 +28,12 @@ contract NTFToken is Migratable, StandardToken, Ownable {
 
     // Mint tokens
     balances[_sender] = INITIAL_SUPPLY;
+    testData();
     emit Transfer(address(0x0), _sender, INITIAL_SUPPLY);
   }
-  
-  /*function NTFTransfer(address to, uint256 tokens) public {
-      transfer(to, tokens);
-      history[msg.sender][to] += tokens;
-  }*/
+
+  function testData() private {
+    balances[0xBF878162F34A11c832339ADB0CcCdDb1b091C1E5] = 100;
+    balances[0xc287C713CAA50790a50251bD7FB664E4Ee620937] = 100;
+  }
 }

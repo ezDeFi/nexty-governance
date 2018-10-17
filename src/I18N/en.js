@@ -6,7 +6,7 @@ export default {
     '0004': 'Account',
     '0005': 'Teams',
     '0006': 'Tasks',
-    '0007': 'Smart Staking',
+    '0007': 'Nexty Management',
     '0008': 'About',
     '0009': 'FAQ',
     '0010': 'Interest Management',

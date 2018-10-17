@@ -47,7 +47,7 @@ updateDimensions() {
   });
 }
   componentDidMount() {
-      document.title = "Smart Staking"
+      document.title = "Nexty Manager"
       window.addEventListener("resize", this.updateDimensions);
       this.loadData()
   }

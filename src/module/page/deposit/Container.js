@@ -14,14 +14,17 @@ export default createContainer(Component, (state) => {
     const userService= new UserService()
 
     return {
-        async approve(amount) {
-            return await ntfTokenService.approve(amount)
-        },
-
-        
         getWallet() {
             return userService.getWallet()
         },
+
+        async approve(amount) {
+            return await ntfTokenService.approve(amount)
+        },
+        async deposit(amount) {
+            return await nextyManagerService.deposit(amount)
+        },
+
         getTokenBalance(address) {
             return ntfTokenService.getTokenBalance(address)
         },
@@ -36,6 +39,14 @@ export default createContainer(Component, (state) => {
         },
         getCoinbase() {
             return nextyManagerService.getCoinbase()
+        },
+
+
+        getEventApproval() {
+            return ntfTokenService.getEventApproval()
+        },
+        getEventDeposited() {
+            return nextyManagerService.getEventDeposited()
         },
         /*
         async getFund() {

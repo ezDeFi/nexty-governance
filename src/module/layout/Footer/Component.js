@@ -13,8 +13,8 @@ export default class extends BaseComponent {
                     <Row className="d_rowFooter">
                         <Col xs={24} sm={24} md={12} span={12}>
                             <div className="d_footerSection">
-                                <b>WHAT IS NEXTY SMART STAKING?</b>
-                                <p className="margin-left-15">Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program. Smart Staking encourages users to keep the coins with different reward rate incentives throughout different program lengths.</p>
+                                <b>WHAT IS NEXTY MANAGER?</b>
+                                <p className="margin-left-15"></p>
                                 <a href="/assets/Nexty-Smart-Staking-How-to-use.pdf" target="_blank"><b>HOW TO USE</b></a>
                             </div>
                         </Col>

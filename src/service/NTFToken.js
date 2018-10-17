@@ -58,11 +58,11 @@ export default class extends BaseService {
 
     //Actions Function, cost gas
 
-    async joinQueue(params) {
+    async approve(_amount) {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["BinaryBetting"].ABI, { name: 'joinQueue' }), '')
+        var params = [contract.NextyManager.address, _amount];
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NTFToken"].ABI, { name: 'approve' }), '')
         const payloadData = functionDef.toPayload(params).data
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
         console.log(params);
@@ -70,8 +70,8 @@ export default class extends BaseService {
         const rawTx = {
             nonce: nonce,
             from: wallet.getAddressString(),
-            value: web3.toWei(params[0], "ether"),
-            to: contract.BinaryBetting.address,
+            value: 0,
+            to: contract.NTFToken.address,
             data: payloadData
         }
 
@@ -81,135 +81,25 @@ export default class extends BaseService {
         return await this.sendRawTransaction(rawTx)
     }
 
-    async joinRoom(params) {
+    getTokenBalance(address) {
+        const storeUser = this.store.getState().user
+        let {contract} = storeUser.profile
+        if (!contract) {
+            return
+        }
+        return Number(contract.NTFToken.balanceOf(address))
+    }
+
+    getAllowance() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["BinaryBetting"].ABI, { name: 'joinRoom' }), '')
-        const payloadData = functionDef.toPayload(params).data
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-
-        const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: web3.toWei(params[0], "ether"),
-            to: contract.BinaryBetting.address,
-            data: payloadData
+        if (!contract) {
+            return
         }
-
-        const gas = this.estimateGas(rawTx)
-        rawTx.gas = gas
-
-        return await this.sendRawTransaction(rawTx)
-    }
-
-    async leaveQueue() {
-        return await this.callFunction("leaveQueue", [])
-    }
-
-    async sendHash(_hash) {
-        return await this.callFunction("sendHash", [_hash])
-    }
-
-    async sendRandom(_random) {
-        return await this.callFunction("sendHash", [_random])
-    }
-
-    async activeRoundFighting() {
-        return await this.callFunction("activeRoundFighting", [])
+        return Number(contract.NTFToken.allowance(wallet.getAddressString(), contract.NextyManager.address))
     }
 
     //Read Functions
-
-    async getAmounts() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await contract.BinaryBetting.getAmounts()
-    }
-
-    async getFactors() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await contract.BinaryBetting.getFactors()
-    }
-
-    async getRoomNumber(_amount, _factor) {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomNumber(_amount, _factor))
-    }
-
-    async getRoomState() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomState())
-    }
-
-    async getPlayerState() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getPlayerState())
-    }
-
-    async getRoomId() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomId())
-    }
-
-    async getRoomAmount() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomAmount())
-    }
-
-    async getRoomFactor() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomFactor())
-    }
-
-    async getRoomRestPlayers() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomRestPlayers())
-    }
-
-    async roomAsleep() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.roomAsleep())
-    }
 
     //Events
     // event RoomLocked(uint256 _amount, uint256 _factor, uint256 _id);
@@ -228,13 +118,13 @@ export default class extends BaseService {
     // event RandomRequest(uint256 _amount, uint256 _factor, uint256 _id);
     // event RandomSent(address _address);
 
-    getEventRoomLocked() {
+    getEventApproval() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return contract.BinaryBetting.RoomLocked()
+        return contract.NTFToken.Approval()
     }
     
     getEventRoomCleaned() {

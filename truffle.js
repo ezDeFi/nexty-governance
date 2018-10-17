@@ -63,7 +63,7 @@ module.exports = {
         `http://13.228.68.50:8545`,
       ),
       gas: 7000000,
-      gasPrice: 1,
+      gasPrice: 21000,
       network_id: 66666, // eslint-disable-line camelcase
     },
     ropsten: {

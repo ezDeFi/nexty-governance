@@ -35,7 +35,7 @@ export default class extends LoggedInPage {
             <div className="c_Home">
                 <div className="d_topBackdrop" style={backdropStyle}>
                     <div className="d_topBackdrop_title">
-                        Nexty Smart Staking
+                        Nexty
                     </div>
                 </div>
                 <div className="horizGap">
@@ -46,7 +46,7 @@ export default class extends LoggedInPage {
                         <a href="/">
                             <img src="/assets/images/ss.jpeg" />
                             <h3>
-                                Smart Staking
+                                
                             </h3>
                         </a>
                     </Col>

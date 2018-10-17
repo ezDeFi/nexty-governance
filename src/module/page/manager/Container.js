@@ -14,19 +14,33 @@ export default createContainer(Component, (state) => {
     const userService= new UserService()
 
     return {
-        async approve(amount) {
-            return await ntfTokenService.approve(amount)
-        },
-
-        
         getWallet() {
             return userService.getWallet()
         },
+
+        async callFunction(functionName, params) {
+            return await nextyManagerService.callFunction(functionName, params)
+        },
+
+        async join(coinbase) {
+            return await nextyManagerService.join(coinbase)
+        },
+
+        async leave() {
+            return await nextyManagerService.leave()
+        },
+
         getTokenBalance(address) {
             return ntfTokenService.getTokenBalance(address)
         },
         getAllowance() {
             return ntfTokenService.getAllowance()
+        },
+        getMinNtfAmount() {
+            return nextyManagerService.getMinNtfAmount()
+        },
+        getLockDuration() {
+            return nextyManagerService.getLockDuration()
         },
         getDepositedBalance() {
             return nextyManagerService.getDepositedBalance()
@@ -36,6 +50,20 @@ export default createContainer(Component, (state) => {
         },
         getCoinbase() {
             return nextyManagerService.getCoinbase()
+        },
+        getUnlockTime() {
+            return nextyManagerService.getUnlockTime()
+        },
+        isWithdrawable() {
+            return nextyManagerService.isWithdrawable()
+        },
+
+
+        getEventJoined() {
+            return nextyManagerService.getEventJoined()
+        },
+        getEventLeft() {
+            return nextyManagerService.getEventLeft()
         },
         /*
         async getFund() {

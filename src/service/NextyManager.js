@@ -11,7 +11,7 @@ export default class extends BaseService {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["BinaryBetting"].ABI, { name: functionName }), '')
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NextyManager"].ABI, { name: functionName }), '')
         const payloadData = functionDef.toPayload(params).data
 
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString()) 
@@ -19,12 +19,13 @@ export default class extends BaseService {
             nonce: nonce,
             from: wallet.getAddressString(),
             value: '0x0',
-            to: contract.BinaryBetting.address,
+            to: contract.NextyManager.address,
             data: payloadData
         }
         //const gas = this.estimateGas(rawTx)
         const gas = 8000000
         rawTx.gas = gas
+        console.log(functionName, params)
         return await this.sendRawTransaction(rawTx)
     }
 
@@ -57,12 +58,11 @@ export default class extends BaseService {
     }
 
     //Actions Function, cost gas
-
-    async joinQueue(params) {
+    async deposit(_amount) {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["BinaryBetting"].ABI, { name: 'joinQueue' }), '')
+        var params = [_amount];
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NextyManager"].ABI, { name: 'deposit' }), '')
         const payloadData = functionDef.toPayload(params).data
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
         console.log(params);
@@ -70,8 +70,8 @@ export default class extends BaseService {
         const rawTx = {
             nonce: nonce,
             from: wallet.getAddressString(),
-            value: web3.toWei(params[0], "ether"),
-            to: contract.BinaryBetting.address,
+            value: 0,
+            to: contract.NextyManager.address,
             data: payloadData
         }
 
@@ -81,19 +81,20 @@ export default class extends BaseService {
         return await this.sendRawTransaction(rawTx)
     }
 
-    async joinRoom(params) {
+    async withdraw() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["BinaryBetting"].ABI, { name: 'joinRoom' }), '')
+        var params = [];
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NextyManager"].ABI, { name: 'withdraw' }), '')
         const payloadData = functionDef.toPayload(params).data
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+        console.log(params);
 
         const rawTx = {
             nonce: nonce,
             from: wallet.getAddressString(),
-            value: web3.toWei(params[0], "ether"),
-            to: contract.BinaryBetting.address,
+            value: 0,
+            to: contract.NextyManager.address,
             data: payloadData
         }
 
@@ -103,219 +104,107 @@ export default class extends BaseService {
         return await this.sendRawTransaction(rawTx)
     }
 
-    async leaveQueue() {
-        return await this.callFunction("leaveQueue", [])
-    }
-
-    async sendHash(_hash) {
-        return await this.callFunction("sendHash", [_hash])
-    }
-
-    async sendRandom(_random) {
-        return await this.callFunction("sendHash", [_random])
-    }
-
-    async activeRoundFighting() {
-        return await this.callFunction("activeRoundFighting", [])
-    }
-
     //Read Functions
-
-    async getAmounts() {
+    getMinNtfAmount() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await contract.BinaryBetting.getAmounts()
+        return Number(contract.NextyManager.MIN_NTF_AMOUNT())
     }
 
-    async getFactors() {
+    getLockDuration() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await contract.BinaryBetting.getFactors()
+        return Number(contract.NextyManager.LOCK_DURATION())
     }
 
-    async getRoomNumber(_amount, _factor) {
+    getDepositedBalance() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await Number(contract.BinaryBetting.getRoomNumber(_amount, _factor))
+        return Number(contract.NextyManager.getBalance(wallet.getAddressString()))
     }
 
-    async getRoomState() {
+    getStatus() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await Number(contract.BinaryBetting.getRoomState())
+        return Number(contract.NextyManager.getStatus(wallet.getAddressString()))
     }
 
-    async getPlayerState() {
+    getCoinbase() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await Number(contract.BinaryBetting.getPlayerState())
+        return (contract.NextyManager.getCoinbase(wallet.getAddressString())).toString()
     }
 
-    async getRoomId() {
+    getUnlockTime() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await Number(contract.BinaryBetting.getRoomId())
+        return Number(contract.NextyManager.getUnlockTime(wallet.getAddressString())) * 1000
     }
 
-    async getRoomAmount() {
+    isWithdrawable() {
         const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
+        let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return await Number(contract.BinaryBetting.getRoomAmount())
+        return Number(contract.NextyManager.isWithdrawable(wallet.getAddressString()))
     }
 
-    async getRoomFactor() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomFactor())
-    }
-
-    async getRoomRestPlayers() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.getRoomRestPlayers())
-    }
-
-    async roomAsleep() {
-        const storeUser = this.store.getState().user
-        let {contract} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return await Number(contract.BinaryBetting.roomAsleep())
-    }
 
     //Events
-    // event RoomLocked(uint256 _amount, uint256 _factor, uint256 _id);
-    // event RoomCleaned(uint256 _amount, uint256 _factor, uint256 _id);
-    
-    // event JoinSuccess(address _address, uint256 _id);
-    // event RefundSuccess(address _address,uint256 _amount);
-    // event LeaveSuccess(address _address);
-    
-    // event BadNews(address _address);
-    // event GoodNews(address _address, uint256 _amount);
-    
-    // event HashRequest(uint256 _amount, uint256 _factor, uint256 _id);
-    // event HashSent(address _address);
-    
-    // event RandomRequest(uint256 _amount, uint256 _factor, uint256 _id);
-    // event RandomSent(address _address);
 
-    getEventRoomLocked() {
+    getEventDeposited() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return contract.BinaryBetting.RoomLocked()
-    }
-    
-    getEventRoomCleaned() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RoomCleaned()
+        return contract.NextyManager.Deposited()
     }
 
-    getEventJoinSuccess() {
+    getEventWithdrawn() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return contract.BinaryBetting.JoinSuccess()
+        return contract.NextyManager.Withdrawn()
     }
 
-    getEventRefundSuccess() {
+    getEventJoined() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return contract.BinaryBetting.RefundSuccess()
+        return contract.NextyManager.Joined()
     }
 
-    getEventBadNews() {
+    getEventLeft() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return contract.BinaryBetting.BadNews()
-    }
-
-    getEventGoodNews() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.GoodNews()
-    }
-
-    getEventHashRequest() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.HashRequest()
-    }
-
-    getEventRandomRequest() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RandomRequest()
-    }
-
-    getEventHashSent() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.HashSent()
-    }
-
-    getEventRandomSent() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RandomSent()
+        return contract.NextyManager.Left()
     }
 
 }

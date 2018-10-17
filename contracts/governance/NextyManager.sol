@@ -2,7 +2,7 @@
 pragma solidity ^0.4.24;
 
 import "zos-lib/contracts/migrations/Migratable.sol";
-//import "openzeppelin-zos/contracts/ownership/Ownable.sol";
+import "openzeppelin-zos/contracts/ownership/Ownable.sol";
 import "./SafeMath.sol";
 import "./Blacklist.sol";
 
@@ -16,13 +16,13 @@ contract NTFToken {
 /**
  * @title Nexty sealers management smart contract
  */
-contract NextyManager is Migratable, Blacklist {
+contract NextyManager is Migratable, Ownable {
     using SafeMath for uint256;
 
     //minimum of deposited NTF to join
     uint256 public constant MIN_NTF_AMOUNT = 2;
     //minimum blocks number distance from last leaved to current chain blocknumber to withdrawable
-    uint256 public constant MIN_BLOCKS_DISTANCE = 100;
+    uint256 public constant LOCK_DURATION = 10 * 2;
 
     enum SealerStatus {
         PENDING_ACTIVE,     //Sealer deposited enough NTFs into registration contract successfully.
@@ -46,8 +46,8 @@ contract NextyManager is Migratable, Blacklist {
         uint256 balance;
         //sealer used address to seal blocks
         address coinbase;
-        //blocknumber, that sealer leaved from sealers set. On first deposit got value of 0
-        uint256 leavedBlocknumber;
+        //withdrawable time after leaving
+        uint256 unlockTime;
     }
 
     //ntf token contract, unit used to join Nexty sealers
@@ -67,7 +67,7 @@ contract NextyManager is Migratable, Blacklist {
 
     event Deposited(address _sealer, uint _tokens);
     event Joined(address _sealer, address _coinbase);
-    event Leaved(address _sealer, address _coinbase);
+    event Left(address _sealer, address _coinbase);
     event Withdrawn(address _sealer, uint256 _tokens);
     event Banned(address _sealer);
     event Unbanned(address _sealer);
@@ -105,12 +105,7 @@ contract NextyManager is Migratable, Blacklist {
     }
 
     modifier withdrawable() {
-        require(sealers[msg.sender].status != SealerStatus.ACTIVE, "NTF locked while sealing");
-        uint256 currentBlock = block.number;
-        //distance from current block to the block, that sealer leaved sealers set
-        uint256 distance = currentBlock.sub(sealers[msg.sender].leavedBlocknumber);
-        //withdrawl period
-        require(distance >= MIN_BLOCKS_DISTANCE, "NTF still locked after leaving");
+        require(isWithdrawable(msg.sender), "unable to withdraw at the moment");
         _;
     }
 
@@ -123,10 +118,17 @@ contract NextyManager is Migratable, Blacklist {
     /**
     *contract initialize
     */
+    function initialize(address _ntfAddress) isInitializer("NextyManager", "0.1") public {
+        //Ownable.initialize(_sender);
+        ntfAddress = _ntfAddress;
+        voteAddress = _ntfAddress;
+    }
+    /*
     function NextyManager(address _ntfAddress, address _voteAddress) public {
         ntfAddress = _ntfAddress;
         voteAddress = _voteAddress;
     }
+    */
 
     //change voting smart contract address
     function moveVoteContract(address _to) public onlyOwner {
@@ -144,7 +146,7 @@ contract NextyManager is Migratable, Blacklist {
 
         sealers[msg.sender].coinbase = 0x0;
         sealers[msg.sender].status = SealerStatus.PENALIZED;
-        sealers[msg.sender].leavedBlocknumber = block.number;
+        //sealers[msg.sender].unlockTime = block.timestamp + LOCK_DURATION;
         delete getSealer[_coinbase];
         removeCoinbase(_coinbase);
         emit Banned(_address);
@@ -208,10 +210,10 @@ contract NextyManager is Migratable, Blacklist {
 
         sealers[msg.sender].coinbase = 0x0;
         sealers[msg.sender].status = SealerStatus.PENDING_WITHDRAW;
-        sealers[msg.sender].leavedBlocknumber = block.number;
+        sealers[msg.sender].unlockTime = LOCK_DURATION.add(block.timestamp);
         delete getSealer[_coinbase];
         removeCoinbase(_coinbase);
-        emit Leaved(msg.sender, _coinbase);
+        emit Left(msg.sender, _coinbase);
         return true;
     }
 
@@ -220,10 +222,44 @@ contract NextyManager is Migratable, Blacklist {
     */
     function withdraw() public notBanned withdrawable returns (bool) {
         uint256 tokens = sealers[msg.sender].balance;
-        //NTFToken(ntfAddress).transfer(msg.sender, tokens);
+        NTFToken(ntfAddress).transfer(msg.sender, tokens);
+        sealers[msg.sender].balance = 0;
         sealers[msg.sender].status = SealerStatus.WITHDRAWN;
         emit Withdrawn(msg.sender, tokens);
         return true;
+    }
+
+    //get values functions
+
+    function getStatusCode(SealerStatus _status) private returns(uint256){
+        if (_status == SealerStatus.PENDING_ACTIVE) return 0;
+        if (_status == SealerStatus.ACTIVE) return 1;
+        if (_status == SealerStatus.PENDING_WITHDRAW) return 2;
+        if (_status == SealerStatus.WITHDRAWN) return 3;
+        return 127;
+    }
+
+    function getStatus(address _address) public view returns(uint256) {
+        return getStatusCode(sealers[_address].status);
+    }
+
+    function getBalance(address _address) public view returns(uint256) {
+        return sealers[_address].balance;
+    }  
+
+    function getCoinbase(address _address) public view returns(address) {
+        return sealers[_address].coinbase;
+    }  
+
+    function getUnlockTime(address _address) public view returns(uint256) {
+        return sealers[_address].unlockTime;
+    }
+
+    function isWithdrawable(address _address) public view returns(bool) {
+        return  
+        (sealers[_address].status != SealerStatus.ACTIVE) &&
+        (sealers[_address].status != SealerStatus.PENALIZED) &&
+        (sealers[_address].unlockTime < block.timestamp);
     }
 
 }

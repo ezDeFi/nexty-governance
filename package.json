@@ -1,7 +1,7 @@
 {
   "name": "smart-staking",
   "version": "1.0.0",
-  "description": "Dapp Smart Staking",
+  "description": "Dapp Nexty Management",
   "scripts": {
     "test": "scripts/test.sh",
     "start": "rimraf dev_dist && webpack-dev-server --mode development --config ./webpack/webpack.dev.js",
