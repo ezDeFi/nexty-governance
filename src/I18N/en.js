@@ -15,6 +15,7 @@ export default {
     '0013': 'Deposit',
     '0014': 'Withdraw',
     '0015': 'Management',
+    '0016': 'NTF Transfer',
 
     '0100': 'Developer',
     '0101': 'Social',

@@ -23,11 +23,11 @@ export default createContainer(Component, (state) => {
         },
 
         async join(coinbase) {
-            return await nextyManagerService.join(coinbase)
+            return await nextyManagerService.callFunction('join',coinbase)
         },
 
         async leave() {
-            return await nextyManagerService.leave()
+            return await nextyManagerService.callFunction('leave',[])
         },
 
         getTokenBalance(address) {
@@ -58,23 +58,12 @@ export default createContainer(Component, (state) => {
             return nextyManagerService.isWithdrawable()
         },
 
-
+        //events
         getEventJoined() {
             return nextyManagerService.getEventJoined()
         },
         getEventLeft() {
             return nextyManagerService.getEventLeft()
         },
-        /*
-        async getFund() {
-            return await contractService.getFund()
-        },
-        async getFundBonus() {
-            return await contractService.getFundBonus()
-        },
-        async getPackagesInfo() {
-            return await contractService.getPackagesInfo()
-        }
-        */
     }
 })

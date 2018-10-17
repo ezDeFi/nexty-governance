@@ -98,6 +98,9 @@ loadData() {
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
+                    <Menu.Item key="transfer">
+                        <Icon type="wallet" /> {I18N.get('0016')}
+                    </Menu.Item>
                     <Menu.Item key="deposit">
                         <Icon type="wallet" /> {I18N.get('0013')}
                     </Menu.Item>
@@ -120,6 +123,7 @@ loadData() {
         if (_.includes([
             'home',
             'dashboard',
+            'transfer',
             'deposit',
             'withdraw',
             'manager'
@@ -148,6 +152,7 @@ loadData() {
         let sidebar = [
             'home',
             'dashboard',
+            'transfer',
             'deposit',
             'withdraw',
             'manager'

@@ -25,7 +25,6 @@ export default class extends BaseService {
         //const gas = this.estimateGas(rawTx)
         const gas = 8000000
         rawTx.gas = gas
-        console.log(functionName, params)
         return await this.sendRawTransaction(rawTx)
     }
 
@@ -55,53 +54,6 @@ export default class extends BaseService {
         }
 
         return gas
-    }
-
-    //Actions Function, cost gas
-    async deposit(_amount) {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        var params = [_amount];
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NextyManager"].ABI, { name: 'deposit' }), '')
-        const payloadData = functionDef.toPayload(params).data
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-        console.log(params);
-
-        const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: 0,
-            to: contract.NextyManager.address,
-            data: payloadData
-        }
-
-        const gas = this.estimateGas(rawTx)
-        rawTx.gas = gas
-
-        return await this.sendRawTransaction(rawTx)
-    }
-
-    async withdraw() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        var params = [];
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NextyManager"].ABI, { name: 'withdraw' }), '')
-        const payloadData = functionDef.toPayload(params).data
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-        console.log(params);
-
-        const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: 0,
-            to: contract.NextyManager.address,
-            data: payloadData
-        }
-
-        const gas = this.estimateGas(rawTx)
-        rawTx.gas = gas
-
-        return await this.sendRawTransaction(rawTx)
     }
 
     //Read Functions

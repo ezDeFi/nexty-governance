@@ -19,14 +19,11 @@ export default createContainer(Component, (state) => {
         },
 
         async callFunction(functionName, params) {
-            return await nextyManagerService.callFunction(functionName, params)
+            return await ntfTokenService.callFunction(functionName, params)
         },
 
-        async approve(amount) {
-            return await ntfTokenService.approve(amount)
-        },
-        async deposit(amount) {
-            return await nextyManagerService.callFunction('deposit',[amount])
+        async transfer(toAddress, tokens) {
+            return await ntfTokenService.callFunction('transfer', [toAddress, tokens])
         },
 
         getTokenBalance(address) {
@@ -46,11 +43,8 @@ export default createContainer(Component, (state) => {
         },
 
         //events
-        getEventApproval() {
-            return ntfTokenService.getEventApproval()
-        },
-        getEventDeposited() {
-            return nextyManagerService.getEventDeposited()
+        getEventTransfer() {
+            return ntfTokenService.getEventTransfer()
         },
     }
 })

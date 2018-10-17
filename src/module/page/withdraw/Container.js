@@ -18,8 +18,12 @@ export default createContainer(Component, (state) => {
             return userService.getWallet()
         },
 
+        async callFunction(functionName, params) {
+            return await ntfTokenService.callFunction(functionName, params)
+        },
+
         async withdraw() {
-            return await nextyManagerService.withdraw()
+            return await nextyManagerService.callFunction('withdraw', [])
         },
 
         getTokenBalance(address) {
@@ -44,23 +48,9 @@ export default createContainer(Component, (state) => {
             return nextyManagerService.isWithdrawable()
         },
 
-
-        getEventApproval() {
-            return ntfTokenService.getEventApproval()
-        },
+        //events
         getEventWithdrawn() {
             return nextyManagerService.getEventWithdrawn()
         },
-        /*
-        async getFund() {
-            return await contractService.getFund()
-        },
-        async getFundBonus() {
-            return await contractService.getFundBonus()
-        },
-        async getPackagesInfo() {
-            return await contractService.getPackagesInfo()
-        }
-        */
     }
 })

@@ -11,7 +11,7 @@ export default class extends BaseService {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["BinaryBetting"].ABI, { name: functionName }), '')
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NTFToken"].ABI, { name: functionName }), '')
         const payloadData = functionDef.toPayload(params).data
 
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString()) 
@@ -19,10 +19,11 @@ export default class extends BaseService {
             nonce: nonce,
             from: wallet.getAddressString(),
             value: '0x0',
-            to: contract.BinaryBetting.address,
+            to: contract.NTFToken.address,
             data: payloadData
         }
         //const gas = this.estimateGas(rawTx)
+        console.log(functionName, params)
         const gas = 8000000
         rawTx.gas = gas
         return await this.sendRawTransaction(rawTx)
@@ -56,31 +57,12 @@ export default class extends BaseService {
         return gas
     }
 
-    //Actions Function, cost gas
-
-    async approve(_amount) {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        var params = [contract.NextyManager.address, _amount];
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NTFToken"].ABI, { name: 'approve' }), '')
-        const payloadData = functionDef.toPayload(params).data
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-        console.log(params);
-
-        const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: 0,
-            to: contract.NTFToken.address,
-            data: payloadData
-        }
-
-        const gas = this.estimateGas(rawTx)
-        rawTx.gas = gas
-
-        return await this.sendRawTransaction(rawTx)
+    async approve(amount) {
+        var toAddress = WEB3.PAGE["NextyManager"].ADDRESS
+        return await this.callFunction('approve', [toAddress, amount])
     }
 
+    //Read Functions
     getTokenBalance(address) {
         const storeUser = this.store.getState().user
         let {contract} = storeUser.profile
@@ -99,24 +81,7 @@ export default class extends BaseService {
         return Number(contract.NTFToken.allowance(wallet.getAddressString(), contract.NextyManager.address))
     }
 
-    //Read Functions
-
     //Events
-    // event RoomLocked(uint256 _amount, uint256 _factor, uint256 _id);
-    // event RoomCleaned(uint256 _amount, uint256 _factor, uint256 _id);
-    
-    // event JoinSuccess(address _address, uint256 _id);
-    // event RefundSuccess(address _address,uint256 _amount);
-    // event LeaveSuccess(address _address);
-    
-    // event BadNews(address _address);
-    // event GoodNews(address _address, uint256 _amount);
-    
-    // event HashRequest(uint256 _amount, uint256 _factor, uint256 _id);
-    // event HashSent(address _address);
-    
-    // event RandomRequest(uint256 _amount, uint256 _factor, uint256 _id);
-    // event RandomSent(address _address);
 
     getEventApproval() {
         const storeUser = this.store.getState().user
@@ -126,86 +91,14 @@ export default class extends BaseService {
         }
         return contract.NTFToken.Approval()
     }
-    
-    getEventRoomCleaned() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RoomCleaned()
-    }
 
-    getEventJoinSuccess() {
+    getEventTransfer() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         if (!contract) {
             return
         }
-        return contract.BinaryBetting.JoinSuccess()
-    }
-
-    getEventRefundSuccess() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RefundSuccess()
-    }
-
-    getEventBadNews() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.BadNews()
-    }
-
-    getEventGoodNews() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.GoodNews()
-    }
-
-    getEventHashRequest() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.HashRequest()
-    }
-
-    getEventRandomRequest() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RandomRequest()
-    }
-
-    getEventHashSent() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.HashSent()
-    }
-
-    getEventRandomSent() {
-        const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-        if (!contract) {
-            return
-        }
-        return contract.BinaryBetting.RandomSent()
+        return contract.NTFToken.Transfer()
     }
 
 }
