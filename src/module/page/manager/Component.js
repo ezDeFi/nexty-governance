@@ -391,12 +391,16 @@ export default class extends LoggedInPage {
         var eventName = isJoinable ? 'Joined' : 'Left'
         var self = this
         this.props.callFunction(functionName, params).then((result) => {
+            console.log(self.props.getTransaction(result))
             if (!result) {
-                Message.error('Cannot send transaction!')
+                Notification.error({
+                    message: 'revert',
+                });
             }
 
             var event = isJoinable ? self.props.getEventJoined() : self.props.getEventLeft() 
             event.watch(function (err, response) {
+                console.log(err)
                 if(response.event == eventName) {
                     self.setState({
                         tx_success: true,

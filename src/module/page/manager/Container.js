@@ -30,6 +30,9 @@ export default createContainer(Component, (state) => {
             return await nextyManagerService.callFunction('leave',[])
         },
 
+        getTransaction(hash) {
+            return nextyManagerService.getTransaction(hash)
+        },
         getTokenBalance(address) {
             return ntfTokenService.getTokenBalance(address)
         },

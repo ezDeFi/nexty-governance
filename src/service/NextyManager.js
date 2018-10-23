@@ -56,6 +56,12 @@ export default class extends BaseService {
         return gas
     }
 
+    getTransaction(hash) {
+        const storeUser = this.store.getState().user
+        let {contract, web3, wallet} = storeUser.profile
+        return web3.eth.getTransaction(hash)
+    }
+
     //Read Functions
     getMinNtfAmount() {
         const storeUser = this.store.getState().user
