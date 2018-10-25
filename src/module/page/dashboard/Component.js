@@ -105,7 +105,7 @@ export default class extends LoggedInPage {
                     <Row>
                         <Col span={24}>
                             <span className="text-stat">Coinbase</span>
-                            <h4>{this.state.coinbase == '0x0000000000000000000000000000000000000000' ? 'Not setted' : this.state.coinbase}</h4>
+                            <h4>{this.state.coinbase == '0x0000000000000000000000000000000000000000' ? 'Not set' : this.state.coinbase}</h4>
                         </Col>
                     </Row>
                     <div className="ebp-header-divider dashboard-rate-margin">

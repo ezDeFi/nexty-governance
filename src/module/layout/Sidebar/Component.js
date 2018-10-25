@@ -47,7 +47,7 @@ updateDimensions() {
   });
 }
   componentDidMount() {
-      document.title = "Nexty Manager"
+      document.title = "Nexty Governance"
       window.addEventListener("resize", this.updateDimensions);
       this.loadData()
   }
@@ -80,7 +80,7 @@ loadData() {
                 style={{align: 'left'}}
                 >
                 <div className="xlogo" style={{background:'#0d47a1'}}>
-                    <img src='/assets/images/logo.png' />
+                    <img src='/assets/images/Asset 1@20x-8.png' />
                 </div>
                 <div style={{width: '50px', height: '50px', position: 'fixed', bottom: '20px', left: '20px', zIndex : '99999'}}>
                     <a href="https://t.me/nexty_io" target="_blank" rel="noopener"><img style ={{width: '50px', zIndex : '99999'}} src="/assets/images/telegram.png" /></a>

@@ -13,7 +13,7 @@ const MenuItemGroup = Menu.ItemGroup
 
 export default class extends BaseComponent {
     componentDidMount() {
-        document.title = "Nexty Manager"
+        document.title = "Nexty Governance"
     }
 
     buildAcctDropdown() {
@@ -58,7 +58,7 @@ export default class extends BaseComponent {
         } else {
             return (
                 <div className="xlogo" style={{background:'#0d47a1'}}>
-                    <img src='/assets/images/logo.png' />
+                    <img src='/assets/images/Asset 1@20x-8.png' />
                 </div>
 
             )

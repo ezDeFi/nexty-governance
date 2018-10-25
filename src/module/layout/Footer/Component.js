@@ -13,7 +13,7 @@ export default class extends BaseComponent {
                     <Row className="d_rowFooter">
                         <Col xs={24} sm={24} md={12} span={12}>
                             <div className="d_footerSection">
-                                <b>WHAT IS NEXTY MANAGER?</b>
+                                <b>WHAT IS NEXTY GOVERNANCE?</b>
                                 <p className="margin-left-15"></p>
                                 <a href="/assets/Nexty-Smart-Staking-How-to-use.pdf" target="_blank"><b>HOW TO USE</b></a>
                             </div>
