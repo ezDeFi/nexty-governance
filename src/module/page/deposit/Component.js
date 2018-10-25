@@ -171,17 +171,13 @@ export default class extends LoggedInPage {
                     </Row>
 
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={6}>
-
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                        <Col span={18}>
-                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Submit</Button>
+                        <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
+                        <Col xs={24} sm={24} md={10} lg={8} xl={8} className="content-center">
+                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top submit-button">Submit</Button>
                         </Col>
                     </Row>
                     </div>
                 </div>
-
             </div>
         )
     }

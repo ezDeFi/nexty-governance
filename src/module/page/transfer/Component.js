@@ -168,7 +168,7 @@ export default class extends LoggedInPage {
 
                 </div>
                 <div className="ebp-page">
-                    <h3 className="text-center">NTF Deposit</h3>
+                    <h3 className="text-center">NTF Transfer</h3>
                     <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                         <Row>
                             {alerts}
@@ -241,17 +241,13 @@ export default class extends LoggedInPage {
                     </Row>
 
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={6}>
-
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                        <Col span={18}>
-                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Send</Button>
+                        <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
+                        <Col xs={24} sm={24} md={10} lg={8} xl={8} className="content-center">
+                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top submit-button">Send</Button>
                         </Col>
                     </Row>
                     </div>
                 </div>
-
             </div>
         )
     }
@@ -260,7 +256,7 @@ export default class extends LoggedInPage {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-                <Breadcrumb.Item> Deposit</Breadcrumb.Item>
+                <Breadcrumb.Item> Transfer</Breadcrumb.Item>
             </Breadcrumb>
         );
     }

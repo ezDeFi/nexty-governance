@@ -52,6 +52,23 @@ export default class extends LoggedInPage {
         })
     }
 
+    getStatus(status) {
+        switch(status){
+                    case 0: return 'PENDING_ACTIVE'
+                    break;
+                    case 1: return 'ACTIVE'
+                    break;
+                    case 2: return 'PENDING_WITHDRAW'
+                    break;
+                    case 3: return 'WITHDRAWN'
+                    break;
+                    case 127: return 'PENALIZED'
+                    break;
+                    default: return 'UNKNOWN'
+
+        }
+    }
+
     ord_renderContent () {
         let {wallet, web3} = this.props.profile
         if (!wallet || !web3) {
@@ -69,26 +86,26 @@ export default class extends LoggedInPage {
                 <div className="ebp-page content-center">
                     <Row>
                         <Col span={12} style={{'display':'block'}}>
-                            <h1>{parseFloat(this.state.balance).toFixed(2)} NTF </h1>
                             <span className="text-stat">Holding</span>
+                            <h1>{parseFloat(this.state.balance).toFixed(2)} NTF </h1>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={12}>
-                            <h1>{parseFloat(this.state.depositedBalance).toFixed(2)} NTF</h1>
                             <span className="text-stat">Deposited</span>
+                            <h1>{parseFloat(this.state.depositedBalance).toFixed(2)} NTF</h1>
                         </Col>
                     </Row>
 
                     <Row>
                         <Col span={12} style={{'display':'block'}}>
-                            <h1>{parseFloat(this.state.status)}</h1>
                             <span className="text-stat">Status</span>
+                            <h1>{this.getStatus(this.state.status)}</h1>
                         </Col>
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <h4>{this.state.coinbase}</h4>
                             <span className="text-stat">Coinbase</span>
+                            <h4>{this.state.coinbase == '0x0000000000000000000000000000000000000000' ? 'Not setted' : this.state.coinbase}</h4>
                         </Col>
                     </Row>
                     <div className="ebp-header-divider dashboard-rate-margin">
