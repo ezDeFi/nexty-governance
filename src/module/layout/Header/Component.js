@@ -58,7 +58,9 @@ export default class extends BaseComponent {
         } else {
             return (
                 <div className="xlogo" style={{background:'#0d47a1'}}>
+                
                     <img src='/assets/images/Asset 1@20x-8.png' />
+                    <link rel="shortcut icon" href="assets/images/btc.gif"/> 
                 </div>
 
             )
