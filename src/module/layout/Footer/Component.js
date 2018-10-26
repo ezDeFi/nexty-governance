@@ -15,7 +15,7 @@ export default class extends BaseComponent {
                             <div className="d_footerSection">
                                 <b>WHAT IS NEXTY GOVERNANCE?</b>
                                 <p className="margin-left-15"></p>
-                                <a href="/assets/Nexty-Smart-Staking-How-to-use.pdf" target="_blank"><b>HOW TO USE</b></a>
+                                <a href="/assets/howtouse.pdf" target="_blank"><b>HOW TO USE</b></a>
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={12} span={12}>
