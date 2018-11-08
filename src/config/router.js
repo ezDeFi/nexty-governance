@@ -10,39 +10,39 @@ import LoginPage from '@/module/page/login/Container'
 import NotFound from '@/module/page/error/NotFound'
 
 export default [
-    {
-        path: '/',
-        page: HomePage
-    },
-    {
-        path: '/home',
-        page: HomePage
-    },
-    {
-        path: '/dashboard',
-        page: DashboardPage
-    },
-    {
-        path: '/login',
-        page: LoginPage
-    },
-    {
-        path: '/deposit',
-        page: DepositPage
-    },
-    {
-        path: '/withdraw',
-        page: WithdrawPage
-    },
-    {
-        path: '/manager',
-        page: ManagerPage
-    },
-    {
-        path: '/transfer',
-        page: TransferPage
-    },
-    {
-        page: NotFound
-    }
+  {
+    path: '/',
+    page: HomePage
+  },
+  {
+    path: '/home',
+    page: HomePage
+  },
+  {
+    path: '/dashboard',
+    page: DashboardPage
+  },
+  {
+    path: '/login',
+    page: LoginPage
+  },
+  {
+    path: '/deposit',
+    page: DepositPage
+  },
+  {
+    path: '/withdraw',
+    page: WithdrawPage
+  },
+  {
+    path: '/manager',
+    page: ManagerPage
+  },
+  {
+    path: '/transfer',
+    page: TransferPage
+  },
+  {
+    page: NotFound
+  }
 ]
