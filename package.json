@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Dapp Nexty Management",
   "scripts": {
+    "parser": "babel-eslint",
     "pretest": "eslint --ignore-path .gitignore .",
     "test": "scripts/test.sh",
     "start": "rimraf dev_dist && webpack-dev-server --mode development --config ./webpack/webpack.dev.js",
@@ -63,6 +64,7 @@
     "dotenv": "^4.0.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
+    "eslint-config-steelbrain": "^6.0.0",
     "eslint-config-strongloop": "^2.1.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "2.11.0",
