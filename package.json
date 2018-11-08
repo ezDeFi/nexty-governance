@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Dapp Nexty Management",
   "scripts": {
-	"pretest": "eslint --ignore-path .gitignore .",
+    "pretest": "eslint --ignore-path .gitignore .",
     "test": "scripts/test.sh",
     "start": "rimraf dev_dist && webpack-dev-server --mode development --config ./webpack/webpack.dev.js",
     "build": "rimraf dist && NODE_ENV=production webpack --mode production --config ./webpack/webpack.prod.js --colors --progress",
@@ -25,6 +25,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "openzeppelin-zos": "^1.9.4",
+    "prettier": "^1.15.1",
     "react": "16.3.2",
     "react-async-script": "^0.9.1",
     "react-dom": "16.3.2",
