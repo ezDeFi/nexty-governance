@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Dapp Nexty Management",
   "scripts": {
+	"pretest": "eslint --ignore-path .gitignore .",
     "test": "scripts/test.sh",
     "start": "rimraf dev_dist && webpack-dev-server --mode development --config ./webpack/webpack.dev.js",
     "build": "rimraf dist && NODE_ENV=production webpack --mode production --config ./webpack/webpack.prod.js --colors --progress",
