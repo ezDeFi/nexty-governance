@@ -10,13 +10,13 @@ import {api_request, upload_file} from './request';
  * @param mapState - map state to props
  * @param mapDispatch - map dispatch to props
  */
-export const createContainer = (component, mapState, mapDispatch=_.noop())=>{
+export const createContainer = (component, mapState, mapDispatch = _.noop()) => {
     return withRouter(connect(mapState, mapDispatch)(component));
 };
 
-export const constant = (moduleName, detailArray)=>{
+export const constant = (moduleName, detailArray) => {
     const result = {};
-    _.each(detailArray, (detail)=>{
+    _.each(detailArray, (detail) => {
         result[detail] = `${moduleName}/${detail}`;
     });
 

@@ -1,20 +1,20 @@
 import BaseService from '../model/BaseService'
 import _ from 'lodash'
 import Tx from 'ethereumjs-tx'
-const SolidityFunction = require('web3/lib/web3/function')
 import {WEB3} from '@/constant'
+const SolidityFunction = require('web3/lib/web3/function')
 
 export default class extends BaseService {
 
-    //Basic Functions
+    // Basic Functions
     async callFunction(functionName, params) {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-        
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NextyManager"].ABI, { name: functionName }), '')
+
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE['NextyManager'].ABI, { name: functionName }), '')
         const payloadData = functionDef.toPayload(params).data
 
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString()) 
+        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
         const rawTx = {
             nonce: nonce,
             from: wallet.getAddressString(),
@@ -22,7 +22,7 @@ export default class extends BaseService {
             to: contract.NextyManager.address,
             data: payloadData
         }
-        //const gas = this.estimateGas(rawTx)
+        // const gas = this.estimateGas(rawTx)
         const gas = 8000000
         rawTx.gas = gas
         return await this.sendRawTransaction(rawTx)
@@ -47,9 +47,9 @@ export default class extends BaseService {
 
         try {
             gas = web3.eth.estimateGas(rawTx)
-            //gas = 6021975
+            // gas = 6021975
         } catch (err) {
-            //gas = 300000
+            // gas = 300000
             gas = 300000
         }
 
@@ -62,7 +62,7 @@ export default class extends BaseService {
         return web3.eth.getTransaction(hash)
     }
 
-    //Read Functions
+    // Read Functions
     getMinNtfAmount() {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
@@ -126,8 +126,7 @@ export default class extends BaseService {
         return Number(contract.NextyManager.isWithdrawable(wallet.getAddressString()))
     }
 
-
-    //Events
+    // Events
 
     getEventDeposited() {
         const storeUser = this.store.getState().user

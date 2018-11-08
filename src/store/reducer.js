@@ -22,5 +22,5 @@ export default combineReducers({
     router: routerReducer,
     task: task.getReducer(),
     user: user.getReducer(),
-    community: community.getReducer(),
+    community: community.getReducer()
 })

@@ -24,7 +24,6 @@ class C extends BaseComponent {
         })
     }
 
-
     constructor(props) {
         super(props)
 
@@ -35,9 +34,9 @@ class C extends BaseComponent {
     compareToFirstPassword(rule, value, callback) {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-          callback('Two passwords that you enter is inconsistent!');
+            callback('Two passwords that you enter is inconsistent!');
         } else {
-          callback();
+            callback();
         }
     }
 
@@ -61,8 +60,8 @@ class C extends BaseComponent {
         })
         const firstName_el = (
             <Input size="large"
-                   prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                   placeholder="First name"/>
+                prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                placeholder="First name"/>
         )
 
         const lastName_fn = getFieldDecorator('lastName', {
@@ -71,8 +70,8 @@ class C extends BaseComponent {
         })
         const lastName_el = (
             <Input size="large"
-                   prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                   placeholder="Last name"/>
+                prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                placeholder="Last name"/>
         )
 
         const username_fn = getFieldDecorator('username', {
@@ -90,7 +89,7 @@ class C extends BaseComponent {
                 required: true, message: 'Please input your email'
             }, {
                 type: 'email', message: 'The input is not valid E-mail!'
-            }],
+            }]
         })
         const email_el = (
             <Input size="large"
@@ -120,8 +119,8 @@ class C extends BaseComponent {
         })
         const pwdConfirm_el = (
             <Input size="large"
-                   prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                   type="password" placeholder="Password confirm"/>
+                prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                type="password" placeholder="Password confirm"/>
         )
 
         const country_fn = getFieldDecorator('country', {
@@ -130,7 +129,7 @@ class C extends BaseComponent {
         })
         const country_el = (
             <Input size="large"
-                   placeholder="Country"/>
+                placeholder="Country"/>
         )
 
         const recaptcha_fn = getFieldDecorator('recaptcha', {
@@ -138,9 +137,9 @@ class C extends BaseComponent {
         })
         const recaptcha_el = (
             <ReCAPTCHA
-                 ref={(el) => { this.captcha = el; }}
-                 sitekey={RECAPTCHA_KEY}
-             />
+                ref={(el) => { this.captcha = el; }}
+                sitekey={RECAPTCHA_KEY}
+            />
         )
 
         return {

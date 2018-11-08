@@ -21,7 +21,7 @@ const prodEnv = {
 const stagingEnv = {
     NODE_ENV: JSON.stringify('staging'),
     PLATFORM_ENV: JSON.stringify('web'),
-    SERVER_URL: JSON.stringify('https://staging-server.com/api'),
+    SERVER_URL: JSON.stringify('https://staging-server.com/api')
 };
 
 const cssFilename_lib = 'static/css/lib.css?[hash:8]';
@@ -30,23 +30,23 @@ const extractCSS_LIB = new ExtractTextPlugin(cssFilename_lib);
 const extractCSS_APP = new ExtractTextPlugin(cssFilename_app);
 module.exports = merge(common, {
     cache: false,
-    performance : {
-        hints : false
+    performance: {
+        hints: false
     },
     output: {
         path: resolve('dist'),
         chunkFilename: 'static/js/[name].bundle.js?[hash:8]',
         filename: 'static/js/[name].js?[hash:8]',
-        publicPath: '',
+        publicPath: ''
     },
-    //devtool: 'inline-source-map',
+    // devtool: 'inline-source-map',
     stats: {
-        //need it
+        // need it
         entrypoints: false,
-        children: false,
+        children: false
     },
     module: {
-        strictExportPresence: true, //need this
+        strictExportPresence: true, // need this
         rules: [
             // {
             //     test: /\.(js|jsx)$/,
@@ -72,8 +72,8 @@ module.exports = merge(common, {
                             limit: 10000,
                             name: '[name].[hash:8].[ext]',
                             publicPath: '/static/media',
-                            outputPath: 'static/media',
-                        },
+                            outputPath: 'static/media'
+                        }
                     },
                     {
                         test: /\.(js|jsx)$/,
@@ -82,15 +82,15 @@ module.exports = merge(common, {
                         exclude: /node_modules/,
                         options: {
                             plugins: ['react-html-attrs'],
-                            compact: true,
-                        },
+                            compact: true
+                        }
                     },
                     {
                         test: /\.css$/,
                         use: extractCSS_LIB.extract({
                             fallback: 'style-loader',
-                            use: [{ loader: 'css-loader' }, { loader: 'postcss-loader' }],
-                        }),
+                            use: [{ loader: 'css-loader' }, { loader: 'postcss-loader' }]
+                        })
                     },
                     {
                         test: /\.(scss)$/,
@@ -106,11 +106,11 @@ module.exports = merge(common, {
                                             importLoaders: 1,
                                             minimize: true,
                                             sourceMap: true,
-                                            publicPath: resolve('dist'),
-                                        },
+                                            publicPath: resolve('dist')
+                                        }
                                     },
                                     {
-                                        loader: require.resolve('postcss-loader'),
+                                        loader: require.resolve('postcss-loader')
                                         // options: {
                                         //     ident: 'postcss',
                                         //     plugins: () => [
@@ -128,23 +128,23 @@ module.exports = merge(common, {
                                         // },
                                     },
                                     {
-                                        loader: require.resolve('sass-loader'),
+                                        loader: require.resolve('sass-loader')
                                     }
                                 ],
-                                publicPath: resolve('dist'),
+                                publicPath: resolve('dist')
                             })
-                        ),
+                        )
                     },
                     {
                         loader: require.resolve('file-loader'),
                         exclude: [/\.js$/, /\.html$/, /\.json$/],
                         options: {
-                            name: 'static/media/[name].[hash:8].[ext]',
-                        },
-                    },
-                ],
-            },
-        ],
+                            name: 'static/media/[name].[hash:8].[ext]'
+                        }
+                    }
+                ]
+            }
+        ]
     },
     plugins: [
         new CleanWebpackPlugin(resolve('dist')),
@@ -167,15 +167,15 @@ module.exports = merge(common, {
                 minifyJS: true,
                 minifyCSS: true,
                 minifySCSS: true,
-                minifyURLs: true,
-            },
+                minifyURLs: true
+            }
         }),
         extractCSS_LIB,
         extractCSS_APP,
         new webpack.DefinePlugin({
-            'process.env': process.env.NODE_ENV === 'production' ? prodEnv : stagingEnv,
+            'process.env': process.env.NODE_ENV === 'production' ? prodEnv : stagingEnv
         }),
         new webpack.optimize.AggressiveMergingPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-    ],
+        new webpack.NoEmitOnErrorsPlugin()
+    ]
 });

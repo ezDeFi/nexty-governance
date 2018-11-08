@@ -11,7 +11,7 @@ export default createContainer(Component, (state) => {
 }, () => {
     const ntfTokenService = new NTFToken()
     const nextyManagerService = new NextyManager()
-    const userService= new UserService()
+    const userService = new UserService()
 
     return {
         getWallet() {
@@ -48,9 +48,9 @@ export default createContainer(Component, (state) => {
             return nextyManagerService.isWithdrawable()
         },
 
-        //events
+        // events
         getEventWithdrawn() {
             return nextyManagerService.getEventWithdrawn()
-        },
+        }
     }
 })

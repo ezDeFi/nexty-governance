@@ -1,20 +1,20 @@
 import NTFToken from './../build/contracts/NTFToken.json';
 import NextyManager from './../build/contracts/NextyManager.json';
 export const USER_ROLE = {
-    MEMBER : 'MEMBER',
-    LEADER : 'LEADER',
-    ADMIN : 'ADMIN',
+    MEMBER: 'MEMBER',
+    LEADER: 'LEADER',
+    ADMIN: 'ADMIN',
     COUNCIL: 'COUNCIL'
 };
 
 const CONTRACT_ABI_NTFToken = NTFToken.abi;
-const CONTRACT_ADDRESS_NTFToken = NTFToken.networks["66666"].address;
+const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['66666'].address;
 
 const CONTRACT_ABI_NextyManager = NextyManager.abi;
-const CONTRACT_ADDRESS_NextyManager = NextyManager.networks["66666"].address;
+const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address;
 
 export const WEB3 = {
-    //HTTP: 'http://125.212.250.61:11111', // testnet
+    // HTTP: 'http://125.212.250.61:11111', // testnet
     HTTP: 'http://13.228.68.50:8545', // mainnet
     PAGE: {
         'NTFToken': {
@@ -28,8 +28,7 @@ export const WEB3 = {
     }
 }
 
-
-//To change WEB3 ABI ADDRESS
+// To change WEB3 ABI ADDRESS
 
 export const USER_LANGUAGE = {
     en: 'en',
@@ -37,8 +36,8 @@ export const USER_LANGUAGE = {
 }
 
 export const TEAM_ROLE = {
-    MEMBER : 'MEMBER',
-    OWNER : 'OWNER'
+    MEMBER: 'MEMBER',
+    OWNER: 'OWNER'
 };
 
 export const TASK_CATEGORY = {
@@ -106,7 +105,7 @@ export const CONTRIB_CATEGORY = {
 }
 
 export const DEFAULT_IMAGE = {
-    TASK : '/assets/images/task_thumbs/12.jpg'
+    TASK: '/assets/images/task_thumbs/12.jpg'
 };
 
 export const MIN_VALUE_DEPOSIT = 500000;

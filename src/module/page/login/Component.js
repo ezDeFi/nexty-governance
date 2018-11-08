@@ -10,7 +10,7 @@ export default class extends StandardPage {
         return (
             <div>
                 <div className="p_login ebp-wrap" >
-                    <Col span={24} style={{marginTop:'100px'}}>
+                    <Col span={24} style={{marginTop: '100px'}}>
                         <LoginForm />
 
                     </Col>

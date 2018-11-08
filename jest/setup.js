@@ -1,16 +1,16 @@
-jest.mock('react-redux', ()=>{
+jest.mock('react-redux', () => {
     return {
-        connect(){
-            return (component)=>{
+        connect() {
+            return (component) => {
                 return component;
             };
         }
     };
 });
 
-jest.mock('react-router', ()=>{
+jest.mock('react-router', () => {
     return {
-        withRouter(component){
+        withRouter(component) {
             return component;
         }
     };

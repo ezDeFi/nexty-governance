@@ -11,7 +11,7 @@ export default createContainer(Component, (state) => {
 }, () => {
     const ntfTokenService = new NTFToken()
     const nextyManagerService = new NextyManager()
-    const userService= new UserService()
+    const userService = new UserService()
 
     return {
 
@@ -32,6 +32,6 @@ export default createContainer(Component, (state) => {
         },
         getCoinbase() {
             return nextyManagerService.getCoinbase()
-        },
+        }
     }
 })

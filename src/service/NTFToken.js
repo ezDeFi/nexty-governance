@@ -1,20 +1,20 @@
 import BaseService from '../model/BaseService'
 import _ from 'lodash'
 import Tx from 'ethereumjs-tx'
-const SolidityFunction = require('web3/lib/web3/function')
 import {WEB3} from '@/constant'
+const SolidityFunction = require('web3/lib/web3/function')
 
 export default class extends BaseService {
 
-    //Basic Functions
+    // Basic Functions
     async callFunction(functionName, params) {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-        
-        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE["NTFToken"].ABI, { name: functionName }), '')
+
+        const functionDef = new SolidityFunction('', _.find(WEB3.PAGE['NTFToken'].ABI, { name: functionName }), '')
         const payloadData = functionDef.toPayload(params).data
 
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString()) 
+        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
         const rawTx = {
             nonce: nonce,
             from: wallet.getAddressString(),
@@ -22,7 +22,7 @@ export default class extends BaseService {
             to: contract.NTFToken.address,
             data: payloadData
         }
-        //const gas = this.estimateGas(rawTx)
+        // const gas = this.estimateGas(rawTx)
         console.log(functionName, params)
         const gas = 8000000
         rawTx.gas = gas
@@ -48,9 +48,9 @@ export default class extends BaseService {
 
         try {
             gas = web3.eth.estimateGas(rawTx)
-            //gas = 6021975
+            // gas = 6021975
         } catch (err) {
-            //gas = 300000
+            // gas = 300000
             gas = 300000
         }
 
@@ -58,11 +58,11 @@ export default class extends BaseService {
     }
 
     async approve(amount) {
-        var toAddress = WEB3.PAGE["NextyManager"].ADDRESS
+        var toAddress = WEB3.PAGE['NextyManager'].ADDRESS
         return await this.callFunction('approve', [toAddress, amount])
     }
 
-    //Read Functions
+    // Read Functions
     getTokenBalance(address) {
         const storeUser = this.store.getState().user
         let {contract} = storeUser.profile
@@ -81,7 +81,7 @@ export default class extends BaseService {
         return Number(contract.NTFToken.allowance(wallet.getAddressString(), contract.NextyManager.address))
     }
 
-    //Events
+    // Events
 
     getEventApproval() {
         const storeUser = this.store.getState().user

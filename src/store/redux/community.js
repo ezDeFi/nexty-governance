@@ -4,8 +4,8 @@ class CommunityRedux extends BaseRedux {
     defineTypes () {
         return ['community']
     }
-    
-    defineDefaultState(){
+
+    defineDefaultState() {
         return {
         };
     }

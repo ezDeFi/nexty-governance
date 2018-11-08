@@ -13,7 +13,7 @@ const MenuItemGroup = Menu.ItemGroup
 
 export default class extends BaseComponent {
     componentDidMount() {
-        document.title = "Nexty Governance"
+        document.title = 'Nexty Governance'
     }
 
     buildAcctDropdown() {
@@ -23,11 +23,11 @@ export default class extends BaseComponent {
 
         return (
             <Menu onClick={this.clickItem.bind(this)}>
-                {isLogin ?
-                    <Menu.Item key="profile">
+                {isLogin
+                    ? <Menu.Item key="profile">
                         {I18N.get('0200')}
-                    </Menu.Item> :
-                    <Menu.Item key="login">
+                    </Menu.Item>
+                    : <Menu.Item key="login">
                         {I18N.get('0201')}
                     </Menu.Item>
                 }
@@ -50,17 +50,17 @@ export default class extends BaseComponent {
         if (isLogin) {
             return (
 
-                  <Button className="right-side" onClick={this.logout.bind(this)} ghost>
-                      <Icon type="logout" />{I18N.get('0204')}
-                  </Button>
+                <Button className="right-side" onClick={this.logout.bind(this)} ghost>
+                    <Icon type="logout" />{I18N.get('0204')}
+                </Button>
 
             )
         } else {
             return (
-                <div className="xlogo" style={{background:'#0d47a1'}}>
-                
+                <div className="xlogo" style={{background: '#0d47a1'}}>
+
                     <img src='/assets/images/Asset 1@20x-8.png' />
-                    <link rel="shortcut icon" href="assets/images/btc.gif"/> 
+                    <link rel="shortcut icon" href="assets/images/btc.gif"/>
                 </div>
 
             )

@@ -25,10 +25,10 @@ export default class extends LoggedInPage {
         ]
     }
 
-    ord_renderContent(){
+    ord_renderContent() {
 
         const backdropStyle = {
-            backgroundPosition: '0 50%',
+            backgroundPosition: '0 50%'
         }
 
         return (
@@ -46,7 +46,7 @@ export default class extends LoggedInPage {
                         <a href="/">
                             <img src="/assets/images/ss.jpeg" />
                             <h3>
-                                
+
                             </h3>
                         </a>
                     </Col>

@@ -7,18 +7,18 @@ class UserRedux extends BaseRedux {
 
     defineDefaultState() {
         return {
-            is_login : false,
+            is_login: false,
             is_admin: false,
 
-            login_form : {
-                privatekey : '',
-                loading : false
+            login_form: {
+                privatekey: '',
+                loading: false
             },
 
-            profile : {
-                web3 : null,
-                wallet : null,
-                contract : null
+            profile: {
+                web3: null,
+                wallet: null,
+                contract: null
             }
         };
     }

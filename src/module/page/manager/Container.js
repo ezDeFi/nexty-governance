@@ -11,7 +11,7 @@ export default createContainer(Component, (state) => {
 }, () => {
     const ntfTokenService = new NTFToken()
     const nextyManagerService = new NextyManager()
-    const userService= new UserService()
+    const userService = new UserService()
 
     return {
         getWallet() {
@@ -23,11 +23,11 @@ export default createContainer(Component, (state) => {
         },
 
         async join(coinbase) {
-            return await nextyManagerService.callFunction('join',coinbase)
+            return await nextyManagerService.callFunction('join', coinbase)
         },
 
         async leave() {
-            return await nextyManagerService.callFunction('leave',[])
+            return await nextyManagerService.callFunction('leave', [])
         },
 
         getTransaction(hash) {
@@ -61,12 +61,12 @@ export default createContainer(Component, (state) => {
             return nextyManagerService.isWithdrawable()
         },
 
-        //events
+        // events
         getEventJoined() {
             return nextyManagerService.getEventJoined()
         },
         getEventLeft() {
             return nextyManagerService.getEventLeft()
-        },
+        }
     }
 })
