@@ -1,15 +1,13 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import BaseComponent from '@/model/BaseComponent'
-import { Layout, Menu, Icon, Badge, Avatar, Modal, Dropdown, Button } from 'antd'
-import _ from 'lodash'
+import { Layout, Menu, Icon, Modal, Button } from 'antd' // eslint-disable-line
+import _ from 'lodash' // eslint-disable-line
 import I18N from '@/I18N'
 import './style.scss'
 
 import { USER_ROLE } from '@/constant'
 
-const { Header } = Layout
-const SubMenu = Menu.SubMenu
-const MenuItemGroup = Menu.ItemGroup
+const { Header } = Layout // eslint-disable-line
 
 export default class extends BaseComponent {
   componentDidMount () {
@@ -66,8 +64,7 @@ export default class extends BaseComponent {
     }
   }
 
-  ord_render () {
-    const isLogin = this.props.isLogin
+  ord_render () { // eslint-disable-line
 
     return (
       <Header style={{ background: '#0d47a1', padding: 0 }}>

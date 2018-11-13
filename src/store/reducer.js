@@ -5,7 +5,7 @@ import task from './redux/task'
 import user from './redux/user'
 import community from './redux/community'
 
-const default_state = {
+const default_state = { // eslint-disable-line
   init: false
 }
 

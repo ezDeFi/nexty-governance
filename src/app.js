@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'react-router-redux'
+import { BrowserRouter, Route, Switch } from 'react-router-dom' // eslint-disable-line
+import { Provider } from 'react-redux' // eslint-disable-line
+import { ConnectedRouter } from 'react-router-redux' // eslint-disable-line
 import store from '@/store'
 import config from '@/config'
 import { USER_ROLE } from '@/constant'
-import { api_request } from './util'
+import { api_request } from './util' // eslint-disable-line
 
 import './boot'
 import './style/index.scss'
@@ -16,12 +16,12 @@ const middleware = (render, props) => {
   return render
 }
 
-const App = () => {
+const App = () => { // eslint-disable-line
   return (
     <Switch id="ss-main">
       {_.map(config.router, (item, i) => {
         const props = _.omit(item, ['page', 'path', 'type'])
-        const R = item.type || Route
+        const R = item.type || Route // eslint-disable-line
         return (
           <R path={item.path} key={i} exact component={item.page} {...props} />
         )
@@ -41,7 +41,7 @@ const render = () => {
   )
 }
 
-if (sessionStorage.getItem('api-token')) {
+if (sessionStorage.getItem('api-token')) { // eslint-disable-line
   const userRedux = store.getRedux('user')
   api_request({
     path: '/user/current_user',

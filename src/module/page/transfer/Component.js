@@ -1,13 +1,11 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import LoggedInPage from '../LoggedInPage'
-import Footer from '@/module/layout/Footer/Container'
-import Tx from 'ethereumjs-tx'
-import { Link } from 'react-router-dom'
+import Tx from 'ethereumjs-tx' // eslint-disable-line
+import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
-import moment from 'moment/moment'
+import moment from 'moment/moment' // eslint-disable-line
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification } from 'antd'
-const FormItem = Form.Item
+import { Col, Row, Icon, Form, Input, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
 
 let SHA3 = require('crypto-js/sha3')
@@ -16,12 +14,6 @@ let sha3 = (value) => {
     outputLength: 256
   }).toString()
 }
-
-function isMobileDevice () {
-  return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobi l e') !== -1)
-};
-
-const isMobile = isMobileDevice()
 
 Message.config({
   top: 100
@@ -70,7 +62,7 @@ export default class extends LoggedInPage {
   validValue (value) {
     var deciPart = (value + '.').split('.')[1]
     //   console.log(deciPart)
-    if (deciPart.length > 2) { return value.toFixed(2) } else { return value };
+    if (deciPart.length > 2) { return value.toFixed(2) } else { return value }
   }
 
   onAmountChange (value) {
@@ -134,7 +126,7 @@ export default class extends LoggedInPage {
     })
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     const self = this
     let alerts = []
     if (this.state.submitted) {
@@ -149,7 +141,7 @@ export default class extends LoggedInPage {
     //     alerts.push(<Alert message={this.state.error} type="error" showIcon />)
     // }
 
-    let txhash = null
+    let txhash = null // eslint-disable-line
     if (this.state.txhash) {
       const message = 'Transaction hash: ' + this.state.txhash
       txhash = <Alert description={message} type="success" showIcon />
@@ -250,7 +242,7 @@ export default class extends LoggedInPage {
     )
   }
 
-  ord_renderBreadcrumb () {
+  ord_renderBreadcrumb () { // eslint-disable-line
     return (
       <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
         <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
@@ -316,7 +308,7 @@ export default class extends LoggedInPage {
 
       var event = self.props.getEventTransfer()
       event.watch(function (err, response) {
-        if (response.event == 'Transfer') {
+        if ((!err) && (response.event === 'Transfer')) {
           self.setState({
             tx_success: true,
             isLoading: false
@@ -357,7 +349,7 @@ export default class extends LoggedInPage {
     if (this.state.amount < MIN_VALUE_DEPOSIT) {
       errorFields.push(<p className="alert-no-padding">Amount must be equal or greater than { MIN_VALUE_DEPOSIT } NTF</p>)
     }
-    if (errorFields.length == 0) return null
+    if (errorFields.length === 0) return null
     return (
       <div>
         {errorFields}

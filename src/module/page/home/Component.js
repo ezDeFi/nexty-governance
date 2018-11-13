@@ -1,13 +1,10 @@
-import React from 'react'
-import StandardPage from '../StandardPage'
+import React from 'react' // eslint-disable-line
 import LoggedInPage from '../LoggedInPage'
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 
 import './style.scss'
 
-import { Col, Row, List, Button, Breadcrumb, Icon } from 'antd'
-import Footer from '@/module/layout/Footer/Container'
-import moment from 'moment/moment'
+import { Col, Row, Breadcrumb, Icon } from 'antd' // eslint-disable-line
 
 export default class extends LoggedInPage {
   componentDidMount () {
@@ -24,7 +21,7 @@ export default class extends LoggedInPage {
     ]
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     const backdropStyle = {
       backgroundPosition: '0 50%'
     }
@@ -53,7 +50,7 @@ export default class extends LoggedInPage {
     )
   }
 
-  ord_renderBreadcrumb () {
+  ord_renderBreadcrumb () { // eslint-disable-line
     return (
       <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
         <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>

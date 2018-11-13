@@ -1,12 +1,10 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import BaseComponent from '@/model/BaseComponent'
-import ReCAPTCHA from 'react-google-recaptcha'
-import { RECAPTCHA_KEY } from '@/config/constant'
-import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox, Alert, message } from 'antd'
+import { Col, Icon, Form, Input, Button } from 'antd' // eslint-disable-line
 
 import './style.scss'
 
-const FormItem = Form.Item
+const FormItem = Form.Item // eslint-disable-line
 
 class C extends BaseComponent {
   handleSubmit (e) {
@@ -21,11 +19,11 @@ class C extends BaseComponent {
 
   getInputProps () {
     const { getFieldDecorator } = this.props.form
-    const privateKey_fn = getFieldDecorator('privateKey', {
+    const privateKey_fn = getFieldDecorator('privateKey', { // eslint-disable-line
       rules: [{ required: true, message: 'Please input your private key!' }],
       initialValue: ''
     })
-    const privateKey_el = (
+    const privateKey_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="key" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         placeholder="Private key"/>
@@ -36,8 +34,8 @@ class C extends BaseComponent {
     }
   }
 
-  ord_render () {
-    const { getFieldDecorator } = this.props.form
+  ord_render () { // eslint-disable-line
+    const { getFieldDecorator } = this.props.form // eslint-disable-line
     const p = this.getInputProps()
     return (
       <Col span={24} className="c_loginForm">

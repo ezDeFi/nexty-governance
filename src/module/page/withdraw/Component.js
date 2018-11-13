@@ -1,20 +1,12 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import LoggedInPage from '../LoggedInPage'
-import Footer from '@/module/layout/Footer/Container'
-import Tx from 'ethereumjs-tx'
-import { Link } from 'react-router-dom'
+import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
+import Tx from 'ethereumjs-tx' // eslint-disable-line
+import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
 import moment from 'moment/moment'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification } from 'antd'
-const FormItem = Form.Item
-const MIN_VALUE_DEPOSIT = 1
-
-function isMobileDevice () {
-  return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobi l e') !== -1)
-};
-
-const isMobile = isMobileDevice()
+import { Col, Row, Icon, Form, Button, Breadcrumb, Modal, Alert, Message, notification } from 'antd' // eslint-disable-line
 
 Message.config({
   top: 100
@@ -70,7 +62,7 @@ export default class extends LoggedInPage {
   validValue (value) {
     var deciPart = (value + '.').split('.')[1]
     //   console.log(deciPart)
-    if (deciPart.length > 2) { return value.toFixed(2) } else { return value };
+    if (deciPart.length > 2) { return value.toFixed(2) } else { return value }
   }
 
   getStatus (status) {
@@ -110,7 +102,7 @@ export default class extends LoggedInPage {
     })
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     const self = this
     let alerts = []
     if (this.state.submitted) {
@@ -125,7 +117,7 @@ export default class extends LoggedInPage {
     //     alerts.push(<Alert message={this.state.error} type="error" showIcon />)
     // }
 
-    let txhash = null
+    let txhash = null // eslint-disable-line
     if (this.state.txhash) {
       const message = 'Transaction hash: ' + this.state.txhash
       txhash = <Alert description={message} type="success" showIcon />
@@ -195,7 +187,7 @@ export default class extends LoggedInPage {
                       <Row style={{ 'marginTop': '15px', 'color': 'red' }}>
                         Unwithdrawable
                       </Row>
-                      {(this.state.status != 1) &&
+                      {(this.state.status !== 1) &&
                     <Row style={{ 'marginTop': '15px' }}>
                       <Col span={6}>
                             UnlockTime:
@@ -225,7 +217,7 @@ export default class extends LoggedInPage {
     )
   }
 
-  ord_renderBreadcrumb () {
+  ord_renderBreadcrumb () { // eslint-disable-line
     return (
       <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
         <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
@@ -270,7 +262,7 @@ export default class extends LoggedInPage {
 
       var event = self.props.getEventWithdrawn()
       event.watch(function (err, response) {
-        if (response.event == 'Withdrawn') {
+        if ((!err) && (response.event === 'Withdrawn')) {
           self.setState({
             tx_success: true,
             isLoading: false

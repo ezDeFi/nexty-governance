@@ -25,7 +25,7 @@ export default class extends BaseService {
     console.log(functionName, params)
     const gas = 8000000
     rawTx.gas = gas
-    return await this.sendRawTransaction(rawTx)
+    return await this.sendRawTransaction(rawTx) // eslint-disable-line
   }
 
   sendRawTransaction (rawTx) {
@@ -58,7 +58,7 @@ export default class extends BaseService {
 
   async approve (amount) {
     var toAddress = WEB3.PAGE['NextyManager'].ADDRESS
-    return await this.callFunction('approve', [toAddress, amount])
+    return await this.callFunction('approve', [toAddress, amount]) // eslint-disable-line
   }
 
   // Read Functions
@@ -73,7 +73,7 @@ export default class extends BaseService {
 
   getAllowance () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
@@ -84,7 +84,7 @@ export default class extends BaseService {
 
   getEventApproval () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }
@@ -93,7 +93,7 @@ export default class extends BaseService {
 
   getEventTransfer () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }

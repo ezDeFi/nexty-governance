@@ -7,11 +7,11 @@ export const USER_ROLE = {
   COUNCIL: 'COUNCIL'
 }
 
-const CONTRACT_ABI_NTFToken = NTFToken.abi
-const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['66666'].address
+const CONTRACT_ABI_NTFToken = NTFToken.abi // eslint-disable-line
+const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['66666'].address // eslint-disable-line
 
-const CONTRACT_ABI_NextyManager = NextyManager.abi
-const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address
+const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
+const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address // eslint-disable-line
 
 export const WEB3 = {
   // HTTP: 'http://125.212.250.61:11111', // testnet

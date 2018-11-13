@@ -19,11 +19,11 @@ export default createContainer(Component, (state) => {
     },
 
     async callFunction (functionName, params) {
-      return await ntfTokenService.callFunction(functionName, params)
+      return await ntfTokenService.callFunction(functionName, params) // eslint-disable-line
     },
 
     async withdraw () {
-      return await nextyManagerService.callFunction('withdraw', [])
+      return await nextyManagerService.callFunction('withdraw', []) // eslint-disable-line
     },
 
     getTokenBalance (address) {

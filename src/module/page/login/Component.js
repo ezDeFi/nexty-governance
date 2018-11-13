@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import StandardPage from '../StandardPage'
-import LoginForm from '@/module/form/LoginForm/Container'
-import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox, Alert, message } from 'antd'
+import LoginForm from '@/module/form/LoginForm/Container' // eslint-disable-line
+import { Col } from 'antd' // eslint-disable-line
 
 import './style.scss'
 
 export default class extends StandardPage {
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     return (
       <div>
         <div className="p_login ebp-wrap" >
@@ -20,7 +20,7 @@ export default class extends StandardPage {
     )
   }
 
-  ord_checkLogin (isLogin) {
+  ord_checkLogin (isLogin) { // eslint-disable-line
     if (isLogin) {
       this.props.history.replace('/dashboard')
     }

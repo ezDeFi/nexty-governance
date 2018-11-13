@@ -19,15 +19,15 @@ export default class extends React.Component {
   }
 
   // could be override
-  ord_init () {}
-  ord_render () { return null }
-  ord_props () {
+  ord_init () {} // eslint-disable-line
+  ord_render () { return null } // eslint-disable-line
+  ord_props () { // eslint-disable-line
     return {}
   }
-  ord_states () {
+  ord_states () { // eslint-disable-line
     return {}
   }
-  ord_methods () {
+  ord_methods () { // eslint-disable-line
     return {}
   }
 };

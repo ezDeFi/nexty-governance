@@ -1,7 +1,7 @@
 import React from 'react'
 import BaseComponent from '@/model/BaseComponent'
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { Form, Icon, Input, Button } from 'antd' // eslint-disable-line
+import ReCAPTCHA from 'react-google-recaptcha' // eslint-disable-line
 import {
   RECAPTCHA_KEY,
   MIN_LENGTH_PASSWORD
@@ -9,7 +9,7 @@ import {
 
 import './style.scss'
 
-const FormItem = Form.Item
+const FormItem = Form.Item // eslint-disable-line
 
 class C extends BaseComponent {
   handleSubmit (e) {
@@ -32,8 +32,7 @@ class C extends BaseComponent {
   compareToFirstPassword (rule, value, callback) {
     const form = this.props.form
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
-    } else {
+      callback('Two passwords that you enter is inconsistent!') // eslint-disable-line
       callback()
     }
   }
@@ -44,7 +43,7 @@ class C extends BaseComponent {
       form.validateFields(['confirmPassword'], { force: true })
     }
     if (value && value.length < MIN_LENGTH_PASSWORD) {
-      callback(`The Password must be at least ${MIN_LENGTH_PASSWORD} characters.`)
+      callback(`The Password must be at least ${MIN_LENGTH_PASSWORD} characters.`) // eslint-disable-line
     }
     callback()
   }
@@ -52,88 +51,88 @@ class C extends BaseComponent {
   getInputProps () {
     const { getFieldDecorator } = this.props.form
 
-    const firstName_fn = getFieldDecorator('firstName', {
+    const firstName_fn = getFieldDecorator('firstName', { // eslint-disable-line
       rules: [{ required: true, message: 'Please input your first name' }],
       initialValue: ''
     })
-    const firstName_el = (
+    const firstName_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         placeholder="First name"/>
     )
 
-    const lastName_fn = getFieldDecorator('lastName', {
+    const lastName_fn = getFieldDecorator('lastName', { // eslint-disable-line
       rules: [{ required: true, message: 'Please input your last name' }],
       initialValue: ''
     })
-    const lastName_el = (
+    const lastName_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         placeholder="Last name"/>
     )
 
-    const username_fn = getFieldDecorator('username', {
+    const username_fn = getFieldDecorator('username', { // eslint-disable-line
       rules: [{ required: true, message: 'Please input your username' }],
       initialValue: ''
     })
-    const username_el = (
+    const username_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         placeholder="Username"/>
     )
 
-    const email_fn = getFieldDecorator('email', {
+    const email_fn = getFieldDecorator('email', { // eslint-disable-line
       rules: [{
         required: true, message: 'Please input your email'
       }, {
         type: 'email', message: 'The input is not valid E-mail!'
       }]
     })
-    const email_el = (
+    const email_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         placeholder="Email"/>
     )
 
-    const pwd_fn = getFieldDecorator('password', {
+    const pwd_fn = getFieldDecorator('password', { // eslint-disable-line
       rules: [{
         required: true, message: 'Please input a Password'
       }, {
         validator: this.validateToNextPassword.bind(this)
       }]
     })
-    const pwd_el = (
+    const pwd_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         type="password" placeholder="Password"/>
     )
 
-    const pwdConfirm_fn = getFieldDecorator('passwordConfirm', {
+    const pwdConfirm_fn = getFieldDecorator('passwordConfirm', { // eslint-disable-line
       rules: [{
         required: true, message: 'Please input your password again'
       }, {
         validator: this.compareToFirstPassword.bind(this)
       }]
     })
-    const pwdConfirm_el = (
+    const pwdConfirm_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
         type="password" placeholder="Password confirm"/>
     )
 
-    const country_fn = getFieldDecorator('country', {
+    const country_fn = getFieldDecorator('country', { // eslint-disable-line
       rules: [{ required: true, message: 'Please select your country' }],
       initialValue: ''
     })
-    const country_el = (
+    const country_el = ( // eslint-disable-line
       <Input size="large"
         placeholder="Country"/>
     )
 
-    const recaptcha_fn = getFieldDecorator('recaptcha', {
+    const recaptcha_fn = getFieldDecorator('recaptcha', { // eslint-disable-line
       rules: [{ required: true }]
     })
-    const recaptcha_el = (
+    const recaptcha_el = ( // eslint-disable-line
       <ReCAPTCHA
         ref={(el) => { this.captcha = el }}
         sitekey={RECAPTCHA_KEY}
@@ -152,8 +151,8 @@ class C extends BaseComponent {
     }
   }
 
-  ord_render () {
-    const { getFieldDecorator } = this.props.form
+  ord_render () { // eslint-disable-line
+    const { getFieldDecorator } = this.props.form // eslint-disable-line
     const p = this.getInputProps()
 
     // TODO: terms of service checkbox

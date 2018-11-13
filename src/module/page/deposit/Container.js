@@ -19,14 +19,14 @@ export default createContainer(Component, (state) => {
     },
 
     async callFunction (functionName, params) {
-      return await nextyManagerService.callFunction(functionName, params)
+      return await nextyManagerService.callFunction(functionName, params) // eslint-disable-line
     },
 
     async approve (amount) {
-      return await ntfTokenService.approve(amount)
+      return await ntfTokenService.approve(amount) // eslint-disable-line
     },
     async deposit (amount) {
-      return await nextyManagerService.callFunction('deposit', [amount])
+      return await nextyManagerService.callFunction('deposit', [amount]) // eslint-disable-line
     },
 
     getTokenBalance (address) {

@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import BaseComponent from '@/model/BaseComponent'
-import { Col, Row, Icon } from 'antd'
-import { Link } from 'react-router-dom'
+import { Col, Row, Icon } from 'antd' // eslint-disable-line
+import { Link } from 'react-router-dom' // eslint-disable-line
 
 import './style.scss'
 
 export default class extends BaseComponent {
-  ord_render () {
+  ord_render () { // eslint-disable-line
     return (
       <div className="c_Footer">
         <div className="d_rowGrey">

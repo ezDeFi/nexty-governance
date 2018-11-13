@@ -19,15 +19,15 @@ export default createContainer(Component, (state) => {
     },
 
     async callFunction (functionName, params) {
-      return await nextyManagerService.callFunction(functionName, params)
+      return await nextyManagerService.callFunction(functionName, params) // eslint-disable-line
     },
 
     async join (coinbase) {
-      return await nextyManagerService.callFunction('join', coinbase)
+      return await nextyManagerService.callFunction('join', coinbase) // eslint-disable-line
     },
 
     async leave () {
-      return await nextyManagerService.callFunction('leave', [])
+      return await nextyManagerService.callFunction('leave', []) // eslint-disable-line
     },
 
     getTransaction (hash) {

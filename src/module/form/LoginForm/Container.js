@@ -1,4 +1,4 @@
-import { createContainer, goPath } from '@/util'
+import { createContainer, goPath } from '@/util' // eslint-disable-line
 import Component from './Component'
 import UserService from '@/service/UserService'
 import { message } from 'antd'

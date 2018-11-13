@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { withRouter } from 'react-router'
-import { api_request, upload_file } from './request'
+import { api_request, upload_file } from './request' // eslint-disable-line
 
 /**
  * Helper for React-Redux connect
@@ -24,6 +24,6 @@ export const constant = (moduleName, detailArray) => {
 }
 
 export {
-  api_request,
-  upload_file
+  api_request, // eslint-disable-line
+  upload_file // eslint-disable-line
 }

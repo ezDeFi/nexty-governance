@@ -1,14 +1,9 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import LoggedInPage from '../LoggedInPage'
-import Footer from '@/module/layout/Footer/Container'
-import Tx from 'ethereumjs-tx'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
-import moment from 'moment/moment'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, Notification } from 'antd'
-const FormItem = Form.Item
-const MIN_VALUE_DEPOSIT = 1
+import { Col, Row, Icon, Input, Button, Breadcrumb, Modal, Alert, Message, Notification } from 'antd' // eslint-disable-line
 
 let SHA3 = require('crypto-js/sha3')
 let sha3 = (value) => {
@@ -16,12 +11,6 @@ let sha3 = (value) => {
     outputLength: 256
   }).toString()
 }
-
-function isMobileDevice () {
-  return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobi l e') !== -1)
-};
-
-const isMobile = isMobileDevice()
 
 Message.config({
   top: 100
@@ -87,7 +76,7 @@ export default class extends LoggedInPage {
   validValue (value) {
     var deciPart = (value + '.').split('.')[1]
     //   console.log(deciPart)
-    if (deciPart.length > 2) { return value.toFixed(2) } else { return value };
+    if (deciPart.length > 2) { return value.toFixed(2) } else { return value }
   }
 
   getStatus (status) {
@@ -111,12 +100,12 @@ export default class extends LoggedInPage {
     var status = this.state.status
     var amount = this.state.depositedBalance
     var minAmount = this.state.minNtfAmount
-    return (status != 1) && (status != 127) && (amount >= minAmount)
+    return (status !== 1) && (status !== 127) && (amount >= minAmount)
   }
 
   isLeaveable (status) {
-    var status = this.state.status
-    return (status == 1)
+    // var status = this.state.status
+    return (status === 1)
   }
 
   getUnlockTime (unlockTime) {
@@ -185,7 +174,7 @@ export default class extends LoggedInPage {
     })
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     const self = this
     let alerts = []
     if (this.state.submitted) {
@@ -200,7 +189,7 @@ export default class extends LoggedInPage {
     //     alerts.push(<Alert message={this.state.error} type="error" showIcon />)
     // }
 
-    let txhash = null
+    let txhash = null // eslint-disable-line
     if (this.state.txhash) {
       const message = 'Transaction hash: ' + this.state.txhash
       txhash = <Alert description={message} type="success" showIcon />
@@ -317,7 +306,7 @@ export default class extends LoggedInPage {
     )
   }
 
-  ord_renderBreadcrumb () {
+  ord_renderBreadcrumb () { // eslint-disable-line
     return (
       <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
         <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
@@ -408,7 +397,7 @@ export default class extends LoggedInPage {
       var event = isJoinable ? self.props.getEventJoined() : self.props.getEventLeft()
       event.watch(function (err, response) {
         console.log(err)
-        if (response.event == eventName) {
+        if (response.event === eventName) {
           self.setState({
             tx_success: true,
             isLoading: false

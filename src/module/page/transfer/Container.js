@@ -19,11 +19,11 @@ export default createContainer(Component, (state) => {
     },
 
     async callFunction (functionName, params) {
-      return await ntfTokenService.callFunction(functionName, params)
+      return await ntfTokenService.callFunction(functionName, params) // eslint-disable-line
     },
 
     async transfer (toAddress, tokens) {
-      return await ntfTokenService.callFunction('transfer', [toAddress, tokens])
+      return await ntfTokenService.callFunction('transfer', [toAddress, tokens]) // eslint-disable-line
     },
 
     getTokenBalance (address) {

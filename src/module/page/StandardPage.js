@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import BasePage from '@/model/BasePage'
-import { Layout } from 'antd'
-import Header from '../layout/Header/Container'
-import Footer from '../layout/Footer/Container'
+import { Layout } from 'antd' // eslint-disable-line
+import Header from '../layout/Header/Container' // eslint-disable-line
+import Footer from '../layout/Footer/Container' // eslint-disable-line
 
 export default class extends BasePage {
-  ord_renderPage () {
+  ord_renderPage () { // eslint-disable-line
     return (
       <Layout className="p_standardPage">
         <Header/>
@@ -17,7 +17,7 @@ export default class extends BasePage {
     )
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     return null
   }
 }

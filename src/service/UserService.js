@@ -1,6 +1,6 @@
 import BaseService from '../model/BaseService'
 import Web3 from 'web3'
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 import WalletService from '@/service/WalletService'
 import { WEB3 } from '@/constant'
 
@@ -49,7 +49,7 @@ export default class extends BaseService {
             await this.dispatch(userRedux.actions.is_admin_update(true))
         }
         */
-    sessionStorage.setItem('contract-adress', contractAdress)
+    sessionStorage.setItem('contract-adress', contractAdress) // eslint-disable-line
     await this.dispatch(userRedux.actions.is_login_update(true))
     await this.dispatch(userRedux.actions.profile_update({
       web3,
@@ -72,7 +72,7 @@ export default class extends BaseService {
 
   async getWallet () {
     const storeUser = this.store.getState().user
-    let { web3, wallet } = storeUser.profile
+    let { wallet } = storeUser.profile
     const walletAddress = wallet.getAddressString()
     return walletAddress
   }
@@ -86,7 +86,7 @@ export default class extends BaseService {
       this.dispatch(userRedux.actions.is_admin_update(false))
       this.dispatch(userRedux.actions.profile_reset())
       this.dispatch(tasksRedux.actions.all_tasks_reset())
-      sessionStorage.clear()
+      sessionStorage.clear() // eslint-disable-line
       resolve(true)
     })
   }

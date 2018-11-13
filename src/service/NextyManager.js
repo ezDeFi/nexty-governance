@@ -24,7 +24,7 @@ export default class extends BaseService {
     // const gas = this.estimateGas(rawTx)
     const gas = 8000000
     rawTx.gas = gas
-    return await this.sendRawTransaction(rawTx)
+    return await this.sendRawTransaction(rawTx) // eslint-disable-line
   }
 
   sendRawTransaction (rawTx) {
@@ -57,14 +57,14 @@ export default class extends BaseService {
 
   getTransaction (hash) {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { web3 } = storeUser.profile
     return web3.eth.getTransaction(hash)
   }
 
   // Read Functions
   getMinNtfAmount () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }
@@ -73,7 +73,7 @@ export default class extends BaseService {
 
   getLockDuration () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }
@@ -82,7 +82,7 @@ export default class extends BaseService {
 
   getDepositedBalance () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
@@ -91,7 +91,7 @@ export default class extends BaseService {
 
   getStatus () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
@@ -100,7 +100,7 @@ export default class extends BaseService {
 
   getCoinbase () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
@@ -109,7 +109,7 @@ export default class extends BaseService {
 
   getUnlockTime () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
@@ -118,7 +118,7 @@ export default class extends BaseService {
 
   isWithdrawable () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
@@ -129,7 +129,7 @@ export default class extends BaseService {
 
   getEventDeposited () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }
@@ -138,7 +138,7 @@ export default class extends BaseService {
 
   getEventWithdrawn () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }
@@ -147,7 +147,7 @@ export default class extends BaseService {
 
   getEventJoined () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }
@@ -156,7 +156,7 @@ export default class extends BaseService {
 
   getEventLeft () {
     const storeUser = this.store.getState().user
-    let { contract, web3, wallet } = storeUser.profile
+    let { contract } = storeUser.profile
     if (!contract) {
       return
     }

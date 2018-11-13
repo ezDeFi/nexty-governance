@@ -1,18 +1,16 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import BasePage from '@/model/BasePage'
-import {
-  Layout, Menu, Icon, Input, Upload, message, Button, Breadcrumb, Alert, BackTop } from 'antd'
-import Header from '../layout/Header/Container'
+import { Layout, BackTop } from 'antd' // eslint-disable-line
+import Header from '../layout/Header/Container' // eslint-disable-line
 // import './style.scss';
-import Sidebar from '../layout/Sidebar/Container'
-import Footer from '../layout/Footer/Container'
+import Sidebar from '../layout/Sidebar/Container' // eslint-disable-line
+import Footer from '../layout/Footer/Container' // eslint-disable-line
 
-const { Sider, Content } = Layout
-const ReactRouter = require('react-router-dom')
-const Link = ReactRouter.Link
+const { Content } = Layout // eslint-disable-line
+const ReactRouter = require('react-router-dom') // eslint-disable-line
 
 export default class extends BasePage {
-  ord_renderPage () {
+  ord_renderPage () { // eslint-disable-line
     return (
       <div>
         <Layout>
@@ -47,11 +45,11 @@ export default class extends BasePage {
     )
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     return null
   }
 
-  ord_renderBreadcrumb () {
+  ord_renderBreadcrumb () { // eslint-disable-line
     return null
   }
 }

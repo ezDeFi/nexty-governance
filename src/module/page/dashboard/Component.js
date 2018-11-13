@@ -1,19 +1,12 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import LoggedInPage from '../LoggedInPage'
-import Footer from '@/module/layout/Footer/Container'
-import Tx from 'ethereumjs-tx'
-import { Link } from 'react-router-dom'
+import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
+import Tx from 'ethereumjs-tx' // eslint-disable-line
+import { Link } from 'react-router-dom' // eslint-disable-line
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb } from 'antd'
-const FormItem = Form.Item
-
-function isMobileDevice () {
-  return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobi l e') !== -1)
-};
-
-const isMobile = isMobileDevice()
+import { Col, Row, Icon, Form, Breadcrumb } from 'antd' // eslint-disable-line
 
 export default class extends LoggedInPage {
   componentDidMount () {
@@ -55,27 +48,19 @@ export default class extends LoggedInPage {
   getStatus (status) {
     switch (status) {
       case 0: return 'PENDING_ACTIVE'
-        break
       case 1: return 'ACTIVE'
-        break
       case 2: return 'PENDING_WITHDRAW'
-        break
       case 3: return 'WITHDRAWN'
-        break
       case 127: return 'PENALIZED'
-        break
       default: return 'UNKNOWN'
     }
   }
 
-  ord_renderContent () {
+  ord_renderContent () { // eslint-disable-line
     let { wallet, web3 } = this.props.profile
     if (!wallet || !web3) {
       return null
     }
-
-    const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-    const address = wallet.getAddressString()
 
     return (
       <div className="p_Profile">
@@ -104,7 +89,7 @@ export default class extends LoggedInPage {
           <Row>
             <Col span={24}>
               <span className="text-stat">Coinbase</span>
-              <h4>{this.state.coinbase == '0x0000000000000000000000000000000000000000' ? 'Not set' : this.state.coinbase}</h4>
+              <h4>{this.state.coinbase === '0x0000000000000000000000000000000000000000' ? 'Not set' : this.state.coinbase}</h4>
             </Col>
           </Row>
           <div className="ebp-header-divider dashboard-rate-margin">
@@ -116,7 +101,7 @@ export default class extends LoggedInPage {
     )
   }
 
-  ord_renderBreadcrumb () {
+  ord_renderBreadcrumb () { // eslint-disable-line
     return (
       <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
         <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
