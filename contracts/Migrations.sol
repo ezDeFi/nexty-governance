@@ -1,4 +1,4 @@
-// solhint-disable-next-line
+// solium-disable linebreak-style
 pragma solidity ^0.4.23;
 
 

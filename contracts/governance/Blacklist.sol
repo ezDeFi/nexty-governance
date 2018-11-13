@@ -1,3 +1,4 @@
+// solium-disable linebreak-style
 pragma solidity ^0.4.24;
     
 import "openzeppelin-zos/contracts/ownership/Ownable.sol";
@@ -58,7 +59,7 @@ contract Blacklist is Ownable {
     */
     function addAddressesToBlacklist(address[] addrs) onlyOwner public returns(bool success) {
         for (uint256 i = 0; i < addrs.length; i++) {
-                if (addAddressToBlacklist(addrs[i])) {
+            if (addAddressToBlacklist(addrs[i])) {
                 success = true;
             }
         }

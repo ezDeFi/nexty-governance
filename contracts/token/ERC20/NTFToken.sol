@@ -1,3 +1,4 @@
+// solium-disable linebreak-style
 pragma solidity ^0.4.24;
 
 import "zos-lib/contracts/migrations/Migratable.sol";
