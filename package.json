@@ -11,7 +11,7 @@
     "lint": "eslint ./**.js **.js",
     "travislint": "eslint --ignore-path .gitignore .",
     "lint:fix": "eslint . --fix",
-    "lint:sol": "solhint contracts/**.sol"
+    "lint:sol": "solium -d contracts/"
   },
   "author": "liyangwood@gmail.com",
   "dependencies": {
