@@ -1,4 +1,12 @@
 node_modules/
+build/**
+dist/**
+jest/**
+migrations/**
+nginx/**
+public/**
+scripts/**
+webpack/**
 .idea/
 coverage/
 
