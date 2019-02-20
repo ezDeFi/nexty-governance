@@ -30,7 +30,7 @@ contract NextyGovernance {
                             //and cannot become active sealer and cannot withdraw balance neither.
     }
 
-    struct Record {
+    struct SealerRecord {
         SealerStatus status;
         //ntf amount deposited
         uint256 balance;
@@ -43,14 +43,15 @@ contract NextyGovernance {
     // NTF token contract, unit used to join Nexty sealers
     IERC20 public token;
 
-    // get invester address of a coinbase
-    mapping(address => Record) public sealers;
+    // coinbase => SealerRecord map
+    mapping(address => SealerRecord) public cbSealerRecord;
 
+    // coinbase array
     address[] public coinbases;
-    // check if address of a coinbase
-    mapping(address => bool) public isCoinbase;
-    // get sealer's address of a coinbase address
-    mapping(address => address) public getSealer;
+    // coinbase set
+    mapping(address => bool) public cbSet;
+    // coinbase => sealer map
+    mapping(address => address) public cbSealer;
 
     event Deposited(address _sealer, uint _amount);
     event Joined(address _sealer, address _coinbase);
@@ -66,7 +67,7 @@ contract NextyGovernance {
     * - must not be the sender's address
     */
     modifier validCoinbase(address _coinbase) {
-        require(!isCoinbase[_coinbase], "coinbase already used");
+        require(!cbSet[_coinbase], "coinbase already used");
         require(_coinbase != address(0x0), "coinbase zero");
         require(_coinbase != address(this), "same contract's address");
         require(_coinbase != msg.sender, "same sender's address");
@@ -74,18 +75,18 @@ contract NextyGovernance {
     }
 
     modifier notBanned() {
-        require(sealers[msg.sender].status != SealerStatus.PENALIZED, "banned ");
+        require(cbSealerRecord[msg.sender].status != SealerStatus.PENALIZED, "banned ");
         _;
     }
 
     modifier joinable() {
-        require(sealers[msg.sender].status != SealerStatus.ACTIVE, "already joined ");
-        require(sealers[msg.sender].balance >= MIN_NTF_AMOUNT, "not enough ntf");
+        require(cbSealerRecord[msg.sender].status != SealerStatus.ACTIVE, "already joined ");
+        require(cbSealerRecord[msg.sender].balance >= MIN_NTF_AMOUNT, "not enough ntf");
         _;
     }
 
     modifier leaveable() {
-        require(sealers[msg.sender].status == SealerStatus.ACTIVE, "not joined ");
+        require(cbSealerRecord[msg.sender].status == SealerStatus.ACTIVE, "not joined ");
         _;
     }
 
@@ -101,27 +102,27 @@ contract NextyGovernance {
         token = IERC20(_token);
         for (uint i = 0; i < _sealers.length; i++) {
             coinbases.push(_sealers[i]);
-            isCoinbase[_sealers[i]] = true;
-            getSealer[_sealers[i]] = _sealers[i];
-            sealers[_sealers[i]].coinbase = _sealers[i];
-            sealers[_sealers[i]].status = SealerStatus.ACTIVE;    
+            cbSet[_sealers[i]] = true;
+            cbSealer[_sealers[i]] = _sealers[i];
+            cbSealerRecord[_sealers[i]].coinbase = _sealers[i];
+            cbSealerRecord[_sealers[i]].status = SealerStatus.ACTIVE;    
         }        
     }
 
     // Get ban status of a sealer's address
     function isBanned(address _address) public view returns(bool) {
-        return (sealers[_address].status == SealerStatus.PENALIZED);
+        return (cbSealerRecord[_address].status == SealerStatus.PENALIZED);
     }
 
     ////////////////////////////////
 
     function addCoinbase(address _coinbase) internal {
-        isCoinbase[_coinbase] = true;
+        cbSet[_coinbase] = true;
         coinbases.push(_coinbase);
     }
 
     function removeCoinbase(address _coinbase) internal {
-        isCoinbase[_coinbase] = false;
+        cbSet[_coinbase] = false;
         for (uint i = 0; i < coinbases.length; i++) {
             if (_coinbase == coinbases[i]) {
                 coinbases[i] = coinbases[coinbases.length - 1];
@@ -138,7 +139,7 @@ contract NextyGovernance {
     */
     function deposit(uint256 _amount) public returns (bool) {
         token.transferFrom(msg.sender, address(this), _amount);
-        sealers[msg.sender].balance = (sealers[msg.sender].balance).add(_amount);
+        cbSealerRecord[msg.sender].balance = (cbSealerRecord[msg.sender].balance).add(_amount);
         emit Deposited(msg.sender, _amount);
         return true;
     }
@@ -150,9 +151,9 @@ contract NextyGovernance {
     * @param _coinbase Destination address
     */
     function join(address _coinbase) public notBanned joinable validCoinbase(_coinbase) returns (bool) {
-        sealers[msg.sender].coinbase = _coinbase;
-        sealers[msg.sender].status = SealerStatus.ACTIVE;
-        getSealer[_coinbase] = msg.sender;
+        cbSealerRecord[msg.sender].coinbase = _coinbase;
+        cbSealerRecord[msg.sender].status = SealerStatus.ACTIVE;
+        cbSealer[_coinbase] = msg.sender;
         addCoinbase(_coinbase);
         emit Joined(msg.sender, _coinbase);
         return true;
@@ -162,12 +163,12 @@ contract NextyGovernance {
     * Request to exit out of activation sealer set
     */
     function leave() public notBanned leaveable returns (bool) {
-        address _coinbase = sealers[msg.sender].coinbase;
+        address _coinbase = cbSealerRecord[msg.sender].coinbase;
 
-        sealers[msg.sender].coinbase = 0x0000000000000000000000000000000000000000;
-        sealers[msg.sender].status = SealerStatus.PENDING_WITHDRAW;
-        sealers[msg.sender].unlockTime = LOCK_DURATION.add(block.timestamp);
-        delete getSealer[_coinbase];
+        cbSealerRecord[msg.sender].coinbase = 0x0000000000000000000000000000000000000000;
+        cbSealerRecord[msg.sender].status = SealerStatus.PENDING_WITHDRAW;
+        cbSealerRecord[msg.sender].unlockTime = LOCK_DURATION.add(block.timestamp);
+        delete cbSealer[_coinbase];
         removeCoinbase(_coinbase);
         emit Left(msg.sender, _coinbase);
         return true;
@@ -177,9 +178,9 @@ contract NextyGovernance {
     * To withdraw sealer’s NTF balance when they already exited and after withdrawal period.
     */
     function withdraw() public notBanned withdrawable returns (bool) {
-        uint256 amount = sealers[msg.sender].balance;
-        sealers[msg.sender].balance = 0;
-        sealers[msg.sender].status = SealerStatus.WITHDRAWN;        
+        uint256 amount = cbSealerRecord[msg.sender].balance;
+        cbSealerRecord[msg.sender].balance = 0;
+        cbSealerRecord[msg.sender].status = SealerStatus.WITHDRAWN;        
         token.transfer(msg.sender, amount);
         emit Withdrawn(msg.sender, amount);
         return true;
@@ -194,25 +195,25 @@ contract NextyGovernance {
     }
 
     function getStatus(address _address) public view returns(uint256) {
-        return getStatusCode(sealers[_address].status);
+        return getStatusCode(cbSealerRecord[_address].status);
     }
 
     function getBalance(address _address) public view returns(uint256) {
-        return sealers[_address].balance;
+        return cbSealerRecord[_address].balance;
     }  
 
     function getCoinbase(address _address) public view returns(address) {
-        return sealers[_address].coinbase;
+        return cbSealerRecord[_address].coinbase;
     }  
 
     function getUnlockTime(address _address) public view returns(uint256) {
-        return sealers[_address].unlockTime;
+        return cbSealerRecord[_address].unlockTime;
     }
 
     function isWithdrawable(address _address) public view returns(bool) {
-        return  
-        (sealers[_address].status != SealerStatus.ACTIVE) &&
-        (sealers[_address].status != SealerStatus.PENALIZED) &&
-        (sealers[_address].unlockTime < block.timestamp);
+        return
+        (cbSealerRecord[_address].status != SealerStatus.ACTIVE)&&
+        (cbSealerRecord[_address].status != SealerStatus.PENALIZED)&&
+        (cbSealerRecord[_address].unlockTime < block.timestamp);
     }
 }
