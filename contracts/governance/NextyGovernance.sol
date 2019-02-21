@@ -58,9 +58,6 @@ contract NextyGovernance {
     // coinbase => SealerRecord map
     mapping(address => SealerRecord) public cbSealerRecord;
 
-    // coinbase set
-    mapping(address => bool) public cbSet;
-
     event Deposited(address _sealer, uint _amount);
     event Joined(address _sealer, address _coinbase);
     event Left(address _sealer, address _coinbase);
@@ -75,7 +72,7 @@ contract NextyGovernance {
     * - must not be the sender's address
     */
     modifier validCoinbase(address _coinbase) {
-        require(!cbSet[_coinbase], "coinbase already used");
+        require(cbSealer[_coinbase] != address("0x0"), "coinbase already used");
         require(_coinbase != address(0x0), "coinbase zero");
         require(_coinbase != address(this), "same contract's address");
         require(_coinbase != msg.sender, "same sender's address");
@@ -110,7 +107,6 @@ contract NextyGovernance {
         token = IERC20(_token);
         for (uint i = 0; i < _sealers.length; i++) {
             coinbases.push(_sealers[i]);
-            cbSet[_sealers[i]] = true;
             cbSealer[_sealers[i]] = _sealers[i];
             cbSealerRecord[_sealers[i]].coinbase = _sealers[i];
             cbSealerRecord[_sealers[i]].status = SealerStatus.ACTIVE;    
@@ -125,12 +121,10 @@ contract NextyGovernance {
     ////////////////////////////////
 
     function addCoinbase(address _coinbase) internal {
-        cbSet[_coinbase] = true;
         coinbases.push(_coinbase);
     }
 
     function removeCoinbase(address _coinbase) internal {
-        cbSet[_coinbase] = false;
         for (uint i = 0; i < coinbases.length; i++) {
             if (_coinbase == coinbases[i]) {
                 coinbases[i] = coinbases[coinbases.length - 1];
