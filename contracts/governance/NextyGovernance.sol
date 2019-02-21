@@ -12,7 +12,7 @@ contract NextyGovernance {
     // minimum of deposited NTF to join
     uint256 public constant MIN_NTF_AMOUNT = 100;
     // minimum blocks number distance from last leaved to current chain blocknumber to withdrawable
-    uint256 public constant LOCK_DURATION = 5 * 60;
+    uint256 public constant LOCK_HEIGHT = 24 * 60 * 60 / 2; // 24 hours with 2s blocktime
     // zero address
     address constant ZERO_ADDRESS = address(0x0);
 
@@ -38,8 +38,8 @@ contract NextyGovernance {
         uint256 balance;
         // delegated address to seal blocks
         address signer;
-        // withdrawable time after leaving
-        uint256 unlockTime;
+        // withdrawable block number after leaving
+        uint256 unlockHeight;
     }
 
     // Consensus variables
@@ -171,7 +171,7 @@ contract NextyGovernance {
 
         account[msg.sender].signer = ZERO_ADDRESS;
         account[msg.sender].status = Status.PENDING_WITHDRAW;
-        account[msg.sender].unlockTime = LOCK_DURATION.add(block.timestamp);
+        account[msg.sender].unlockHeight = LOCK_HEIGHT.add(block.number);
         delete signerCoinbase[_signer];
         removeSigner(_signer);
         emit Left(msg.sender, _signer);
@@ -210,14 +210,14 @@ contract NextyGovernance {
         return account[_address].signer;
     }  
 
-    function getUnlockTime(address _address) public view returns(uint256) {
-        return account[_address].unlockTime;
+    function getUnlockHeight(address _address) public view returns(uint256) {
+        return account[_address].unlockHeight;
     }
 
     function isWithdrawable(address _address) public view returns(bool) {
         return 
         (account[_address].status != Status.ACTIVE) && 
         (account[_address].status != Status.PENALIZED) && 
-        (account[_address].unlockTime < block.timestamp);
+        (account[_address].unlockHeight < block.number);
     }
 }
