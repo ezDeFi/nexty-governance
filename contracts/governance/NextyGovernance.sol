@@ -13,6 +13,8 @@ contract NextyGovernance {
     uint256 public constant MIN_NTF_AMOUNT = 100;
     // minimum blocks number distance from last leaved to current chain blocknumber to withdrawable
     uint256 public constant LOCK_DURATION = 5 * 60;
+    // zero address
+    address constant ZERO_ADDRESS = address(0x0);
 
     enum SealerStatus {
         PENDING_ACTIVE,     // Sealer deposited enough NTFs into registration contract successfully.
@@ -72,8 +74,8 @@ contract NextyGovernance {
     * - must not be the sender's address
     */
     modifier validCoinbase(address _coinbase) {
-        require(cbSealer[_coinbase] != address("0x0"), "coinbase already used");
-        require(_coinbase != address(0x0), "coinbase zero");
+        require(cbSealer[_coinbase] != ZERO_ADDRESS, "coinbase already used");
+        require(_coinbase != ZERO_ADDRESS, "coinbase zero");
         require(_coinbase != address(this), "same contract's address");
         require(_coinbase != msg.sender, "same sender's address");
         _;
@@ -167,7 +169,7 @@ contract NextyGovernance {
     function leave() public notBanned leaveable returns (bool) {
         address _coinbase = cbSealerRecord[msg.sender].coinbase;
 
-        cbSealerRecord[msg.sender].coinbase = 0x0000000000000000000000000000000000000000;
+        cbSealerRecord[msg.sender].coinbase = ZERO_ADDRESS;
         cbSealerRecord[msg.sender].status = SealerStatus.PENDING_WITHDRAW;
         cbSealerRecord[msg.sender].unlockTime = LOCK_DURATION.add(block.timestamp);
         delete cbSealer[_coinbase];
@@ -213,9 +215,9 @@ contract NextyGovernance {
     }
 
     function isWithdrawable(address _address) public view returns(bool) {
-        return
-        (cbSealerRecord[_address].status != SealerStatus.ACTIVE)&&
-        (cbSealerRecord[_address].status != SealerStatus.PENALIZED)&&
+        return 
+        (cbSealerRecord[_address].status != SealerStatus.ACTIVE) && 
+        (cbSealerRecord[_address].status != SealerStatus.PENALIZED) && 
         (cbSealerRecord[_address].unlockTime < block.timestamp);
     }
 }
