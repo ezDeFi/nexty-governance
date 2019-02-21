@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Dapp Nexty Management",
   "scripts": {
+    "compile": "truffle compile",
     "parser": "babel-eslint",
     "pretest": "eslint --ignore-path .gitignore .",
     "test": "scripts/test.sh",
