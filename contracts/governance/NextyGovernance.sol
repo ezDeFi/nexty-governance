@@ -40,18 +40,26 @@ contract NextyGovernance {
         uint256 unlockTime;
     }
 
+    // Consensus variables
+
+    // index = 0
+    // coinbase array
+    address[] public coinbases;
+
+    // index = 1
+    // coinbase => sealer map
+    mapping(address => address) public cbSealer;
+
+    // End of consensus variables
+
     // NTF token contract, unit used to join Nexty sealers
     IERC20 public token;
 
     // coinbase => SealerRecord map
     mapping(address => SealerRecord) public cbSealerRecord;
 
-    // coinbase array
-    address[] public coinbases;
     // coinbase set
     mapping(address => bool) public cbSet;
-    // coinbase => sealer map
-    mapping(address => address) public cbSealer;
 
     event Deposited(address _sealer, uint _amount);
     event Joined(address _sealer, address _coinbase);
