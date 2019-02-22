@@ -9,10 +9,6 @@ import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 contract NextyGovernance {
     using SafeMath for uint256;
 
-    // minimum of deposited NTF to join
-    uint256 public constant MIN_NTF_AMOUNT = 100;
-    // minimum blocks number distance from last leaved to current chain blocknumber to withdrawable
-    uint256 public constant LOCK_HEIGHT = 24 * 60 * 60 / 2; // 24 hours with 2s blocktime
     // zero address
     address constant ZERO_ADDRESS = address(0x0);
 
@@ -57,6 +53,11 @@ contract NextyGovernance {
     // coinbase => NTF Account map
     mapping(address => Account) public account;
 
+    // minimum of deposited NTF to join
+    uint256 public stakeRequire;
+    // minimum number of blocks signer has to wait from leaving block to withdraw the fund
+    uint256 public stakeLockHeight;
+
     // NTF token contract, unit used to join Nexty sealers
     IERC20 public token;
 
@@ -88,7 +89,7 @@ contract NextyGovernance {
 
     modifier joinable() {
         require(account[msg.sender].status != Status.ACTIVE, "already joined ");
-        require(account[msg.sender].balance >= MIN_NTF_AMOUNT, "not enough ntf");
+        require(account[msg.sender].balance >= stakeRequire, "not enough ntf");
         _;
     }
 
@@ -105,14 +106,16 @@ contract NextyGovernance {
     /**
     * contract initialize
     */
-    constructor(address _token, address[] memory _signers) public {
+    constructor(address _token, uint256 _stakeRequire, uint256 _stakeLockHeight, address[] memory _signers) public {
         token = IERC20(_token);
+        stakeRequire = _stakeRequire;
+        stakeLockHeight = _stakeLockHeight;
         for (uint i = 0; i < _signers.length; i++) {
             signers.push(_signers[i]);
             signerCoinbase[_signers[i]] = _signers[i];
             account[_signers[i]].signer = _signers[i];
             account[_signers[i]].status = Status.ACTIVE;    
-        }        
+        }
     }
 
     // Get ban status of a sealer's address
@@ -171,7 +174,7 @@ contract NextyGovernance {
 
         account[msg.sender].signer = ZERO_ADDRESS;
         account[msg.sender].status = Status.PENDING_WITHDRAW;
-        account[msg.sender].unlockHeight = LOCK_HEIGHT.add(block.number);
+        account[msg.sender].unlockHeight = stakeLockHeight.add(block.number);
         delete signerCoinbase[_signer];
         removeSigner(_signer);
         emit Left(msg.sender, _signer);
