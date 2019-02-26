@@ -1,5 +1,5 @@
-import NTFToken from './../build/contracts/NTFToken.json'
-import NextyManager from './../build/contracts/NextyManager.json'
+import NTFToken from './../build/contracts/NtfToken.json'
+import NextyManager from './../build/contracts/NextyGovernance.json'
 export const USER_ROLE = {
   MEMBER: 'MEMBER',
   LEADER: 'LEADER',
@@ -7,15 +7,22 @@ export const USER_ROLE = {
   COUNCIL: 'COUNCIL'
 }
 
+// const CONTRACT_ABI_NTFToken = NTFToken.abi // eslint-disable-line
+// const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['66666'].address // eslint-disable-line
+
+// const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
+// const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address // eslint-disable-line
+
 const CONTRACT_ABI_NTFToken = NTFToken.abi // eslint-disable-line
-const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['66666'].address // eslint-disable-line
+const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['5777'].address // eslint-disable-line
 
 const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
-const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address // eslint-disable-line
+const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['5777'].address // eslint-disable-line
 
 export const WEB3 = {
   // HTTP: 'http://125.212.250.61:11111', // testnet
-  HTTP: 'http://13.228.68.50:8545', // mainnet
+  // HTTP: 'http://13.228.68.50:8545', // mainnet
+  HTTP: 'http://localhost:8545', // localhost
   PAGE: {
     NTFToken: {
       ABI: CONTRACT_ABI_NTFToken,

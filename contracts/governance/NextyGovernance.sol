@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import "node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "node_modules/openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 
 /**
  * @title Nexty sealers management smart contract
@@ -75,7 +75,7 @@ contract NextyGovernance {
     * - must not be the sender's address
     */
     modifier validSigner(address _signer) {
-        require(signerCoinbase[_signer] != ZERO_ADDRESS, "signer already used");
+        require(signerCoinbase[_signer] == ZERO_ADDRESS, "coinbase already used");
         require(_signer != ZERO_ADDRESS, "signer zero");
         require(_signer != address(this), "same contract's address");
         require(_signer != msg.sender, "same sender's address");
