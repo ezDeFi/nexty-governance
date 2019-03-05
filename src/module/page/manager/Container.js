@@ -42,8 +42,11 @@ export default createContainer(Component, (state) => {
     getMinNtfAmount () {
       return nextyManagerService.getMinNtfAmount()
     },
-    getLockDuration () {
-      return nextyManagerService.getLockDuration()
+    getUnlockHeight (_address) {
+      return nextyManagerService.getUnlockHeight(_address)
+    },
+    getCurBlock () {
+      return nextyManagerService.getCurBlock()
     },
     getDepositedBalance () {
       return nextyManagerService.getDepositedBalance()
@@ -54,9 +57,9 @@ export default createContainer(Component, (state) => {
     getCoinbase () {
       return nextyManagerService.getCoinbase()
     },
-    getUnlockTime () {
-      return nextyManagerService.getUnlockTime()
-    },
+    // getUnlockTime () {
+    //   return nextyManagerService.getUnlockTime()
+    // },
     isWithdrawable () {
       return nextyManagerService.isWithdrawable()
     },

@@ -37,9 +37,9 @@ export default class extends LoggedInPage {
       minNtfAmount: this.props.getMinNtfAmount()
     })
 
-    console.log('Lock Duration', this.props.getLockDuration())
+    console.log('Lock Duration', this.props.getUnlockHeight(this.props.profile.wallet.getAddressString()))
     this.setState({
-      lockDuration: this.props.getLockDuration()
+      unlockHeight: this.props.getUnlockHeight(this.props.profile.wallet.getAddressString())
     })
 
     console.log('Deposited NTF Amount', this.props.getDepositedBalance())
@@ -62,10 +62,10 @@ export default class extends LoggedInPage {
       allowance: this.props.getAllowance()
     })
 
-    console.log('UnlockTime', this.props.getUnlockTime())
-    this.setState({
-      unlockTime: this.props.getUnlockTime()
-    })
+    //console.log('UnlockTime', this.props.getUnlockTime())
+    // this.setState({
+    //   unlockTime: this.props.getUnlockTime()
+    // })
 
     console.log('isWithdrawable', this.props.isWithdrawable())
     this.setState({

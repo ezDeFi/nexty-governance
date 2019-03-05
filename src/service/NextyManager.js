@@ -68,16 +68,32 @@ export default class extends BaseService {
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.MIN_NTF_AMOUNT())
+    return Number(contract.NextyManager.stakeRequire())
   }
 
-  getLockDuration () {
+  // getLockDuration () {
+  //   const storeUser = this.store.getState().user
+  //   let { contract } = storeUser.profile
+  //   if (!contract) {
+  //     return
+  //   }
+  //   return Number(contract.NextyManager.LOCK_DURATION())
+  // }
+
+  getUnlockHeight (_address) {
     const storeUser = this.store.getState().user
     let { contract } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.LOCK_DURATION())
+    return Number(contract.NextyManager.getUnlockHeight('0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d'))
+  }
+
+  getCurBlock () {
+    const storeUser = this.store.getState().user
+    let { web3 } = storeUser.profile
+
+    return Number(web3.eth.getBlockNumber())
   }
 
   getDepositedBalance () {
@@ -95,7 +111,7 @@ export default class extends BaseService {
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.getStatus(wallet.getAddressString()))
+    return Number(contract.NextyManager.getStatus('0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d'))
   }
 
   getCoinbase () {
@@ -113,7 +129,9 @@ export default class extends BaseService {
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.getUnlockTime(wallet.getAddressString())) * 1000
+    console.log('curBlock', this.getCurBlock())
+    console.log('unlockHeight', this.getUnlockHeight(wallet.getAddressString()))
+    return Number(this.getUnlockHeight(wallet.getAddressString()) - this.getCurBlock() )
   }
 
   isWithdrawable () {
