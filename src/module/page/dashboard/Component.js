@@ -42,12 +42,12 @@ export default class extends LoggedInPage {
           <Row>
             <Col span={12} style={{ 'display': 'block' }}>
               <span className="text-stat">Holding</span>
-              <h1>{parseFloat(this.props.balance).toFixed(2)} NTF </h1>
+              <h1>{parseFloat(this.props.tokenBalance)/1e18} NTF </h1>
             </Col>
             <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
             <Col span={12}>
               <span className="text-stat">Deposited</span>
-              <h1>{parseFloat(this.props.depositedBalance).toFixed(2)} NTF</h1>
+              <h1>{parseFloat(this.props.depositedBalance)/1e18} NTF</h1>
             </Col>
           </Row>
 

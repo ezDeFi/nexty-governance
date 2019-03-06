@@ -113,7 +113,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.props.tokenBalance).toFixed(2)} NTF
+                {parseFloat(this.props.tokenBalance)/1e18} NTF
               </Col>
             </Row>
             <Row style={{ 'marginTop': '15px' }}>
@@ -122,7 +122,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.props.depositedBalance).toFixed(2)} NTF
+                {parseFloat(this.props.depositedBalance)/1e18} NTF
               </Col>
             </Row>
             <hr />
