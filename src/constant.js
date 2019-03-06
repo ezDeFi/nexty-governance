@@ -14,15 +14,15 @@ export const USER_ROLE = {
 // const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address // eslint-disable-line
 
 const CONTRACT_ABI_NTFToken = NTFToken.abi // eslint-disable-line
-const CONTRACT_ADDRESS_NTFToken = NTFToken.networks['5777'].address // eslint-disable-line
+const CONTRACT_ADDRESS_NTFToken = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda' // eslint-disable-line
 
 const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
-const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['5777'].address // eslint-disable-line
+const CONTRACT_ADDRESS_NextyManager = '0x0000000000000000000000000000000000012345' // eslint-disable-line
 
 export const WEB3 = {
-  // HTTP: 'http://125.212.250.61:11111', // testnet
+  HTTP: 'http://108.61.148.72:8545', // testnet
   // HTTP: 'http://13.228.68.50:8545', // mainnet
-  HTTP: 'http://localhost:8545', // localhost
+  // HTTP: 'http://localhost:8545', // localhost
   PAGE: {
     NTFToken: {
       ABI: CONTRACT_ABI_NTFToken,

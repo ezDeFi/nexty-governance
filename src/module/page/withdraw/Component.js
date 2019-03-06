@@ -18,44 +18,17 @@ export default class extends LoggedInPage {
   }
 
   loadData () {
-    console.log('Wallet', this.props.profile.wallet.getAddressString())
+    this.props.isWithdrawable()
+    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getDepositedBalance()
+    this.props.getStatus()
+    this.props.getCoinbase()
+    this.props.getAllowance()
+    this.props.getUnlockTime()
+    this.props.isWithdrawable()
+
     this.setState({
       walletAddress: this.props.profile.wallet.getAddressString()
-    })
-
-    console.log('NTF Amount', this.props.getTokenBalance(this.props.profile.wallet.getAddressString()))
-    this.setState({
-      balance: this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
-    })
-
-    console.log('Deposited NTF Amount', this.props.getDepositedBalance())
-    this.setState({
-      depositedBalance: this.props.getDepositedBalance()
-    })
-
-    console.log('Status', this.props.getStatus())
-    this.setState({
-      status: this.props.getStatus()
-    })
-
-    console.log('Coinbase', this.props.getCoinbase())
-    this.setState({
-      coinbase: this.props.getCoinbase()
-    })
-
-    console.log('Allowance', this.props.getAllowance())
-    this.setState({
-      allowance: this.props.getAllowance()
-    })
-
-    console.log('UnlockTime', this.props.getUnlockTime())
-    this.setState({
-      unlockTime: this.props.getUnlockTime()
-    })
-
-    console.log('isWithdrawable', this.props.isWithdrawable())
-    this.setState({
-      isWithdrawable: this.props.isWithdrawable()
     })
   }
 
@@ -87,7 +60,7 @@ export default class extends LoggedInPage {
   }
 
   onAmountChange (value) {
-    if (this.state.balance < value) {
+    if (this.props.tokenBalance < value) {
       this.setState({
         notEnoughNTY: <p className="alert-no-padding">Your balance is not enough</p>
       })
@@ -158,7 +131,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.state.balance).toFixed(2)} NTF
+                {parseFloat(this.props.tokenBalance).toFixed(2)} NTF
               </Col>
             </Row>
 
@@ -168,11 +141,11 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18} style={{ color: 'red' }}>
-                {parseFloat(this.state.depositedBalance).toFixed(2)} NTF
+                {parseFloat(this.props.depositedBalance).toFixed(2)} NTF
               </Col>
             </Row>
 
-            {!this.state.isWithdrawable &&
+            {!this.props.isWithdrawable &&
                     <div>
                       <Row style={{ 'marginTop': '15px' }}>
                         <Col span={6}>
@@ -180,28 +153,28 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
-                          {this.getStatus(this.state.status)}
+                          {this.getStatus(this.props.managerStatus)}
                         </Col>
                       </Row>
 
                       <Row style={{ 'marginTop': '15px', 'color': 'red' }}>
                         Unwithdrawable
                       </Row>
-                      {(this.state.status !== 1) &&
+                      {(this.props.managerStatus !== 1) &&
                     <Row style={{ 'marginTop': '15px' }}>
                       <Col span={6}>
                             UnlockTime:
                       </Col>
                       <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                       <Col span={18}>
-                        {this.getUnlockTime(this.state.unlockTime)}
+                        {this.getUnlockTime(this.props.unlockTime)}
                       </Col>
                     </Row>
                       }
                     </div>
             }
 
-            {Boolean(this.state.isWithdrawable) &&
+            {Boolean(this.props.isWithdrawable) &&
                     <div>
                       <Row style={{ 'marginTop': '15px' }}>
                         <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
@@ -234,7 +207,7 @@ export default class extends LoggedInPage {
     const content = (
       <div>
         <div>
-                    Amount: {this.state.depositedBalance} NTF
+                    Amount: {this.props.depositedBalance} NTF
         </div>
       </div>
     )

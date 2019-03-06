@@ -14,35 +14,11 @@ export default class extends LoggedInPage {
   }
 
   loadData () {
-    console.log('Wallet', this.props.profile.wallet.getAddressString())
-    this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
-    })
-
-    console.log('NTF Amount', this.props.getTokenBalance(this.props.profile.wallet.getAddressString()))
-    this.setState({
-      balance: this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
-    })
-
-    console.log('Deposited NTF Amount', this.props.getDepositedBalance())
-    this.setState({
-      depositedBalance: this.props.getDepositedBalance()
-    })
-
-    console.log('Status', this.props.getStatus())
-    this.setState({
-      status: this.props.getStatus()
-    })
-
-    console.log('Coinbase', this.props.getCoinbase())
-    this.setState({
-      coinbase: this.props.getCoinbase()
-    })
-
-    console.log('Allowance', this.props.getAllowance())
-    this.setState({
-      allowance: this.props.getAllowance()
-    })
+    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getDepositedBalance()
+    this.props.getStatus()
+    this.props.getCoinbase()
+    this.props.getAllowance()
   }
 
   getStatus (status) {
@@ -57,11 +33,6 @@ export default class extends LoggedInPage {
   }
 
   ord_renderContent () { // eslint-disable-line
-    let { wallet, web3 } = this.props.profile
-    if (!wallet || !web3) {
-      return null
-    }
-
     return (
       <div className="p_Profile">
         <div className="ebp-header-divider">
@@ -71,25 +42,25 @@ export default class extends LoggedInPage {
           <Row>
             <Col span={12} style={{ 'display': 'block' }}>
               <span className="text-stat">Holding</span>
-              <h1>{parseFloat(this.state.balance).toFixed(2)} NTF </h1>
+              <h1>{parseFloat(this.props.balance).toFixed(2)} NTF </h1>
             </Col>
             <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
             <Col span={12}>
               <span className="text-stat">Deposited</span>
-              <h1>{parseFloat(this.state.depositedBalance).toFixed(2)} NTF</h1>
+              <h1>{parseFloat(this.props.depositedBalance).toFixed(2)} NTF</h1>
             </Col>
           </Row>
 
           <Row>
             <Col span={12} style={{ 'display': 'block' }}>
               <span className="text-stat">Status</span>
-              <h1>{this.getStatus(this.state.status)}</h1>
+              <h1>{this.getStatus(this.props.managerStatus)}</h1>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
               <span className="text-stat">Coinbase</span>
-              <h4>{this.state.coinbase === '0x0000000000000000000000000000000000000000' ? 'Not set' : this.state.coinbase}</h4>
+              <h4>{this.state.coinbase === '0x0000000000000000000000000000000000000000' ? 'Not set' : this.props.coinbase}</h4>
             </Col>
           </Row>
           <div className="ebp-header-divider dashboard-rate-margin">

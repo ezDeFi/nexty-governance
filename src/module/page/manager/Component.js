@@ -22,54 +22,13 @@ export default class extends LoggedInPage {
   }
 
   loadData () {
-    console.log('Wallet', this.props.profile.wallet.getAddressString())
+    this.props.getStatus()
+    this.props.getDepositedBalance()
+    this.props.getMinNtfAmount()
+    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+
     this.setState({
       walletAddress: this.props.profile.wallet.getAddressString()
-    })
-
-    console.log('NTF Amount', this.props.getTokenBalance(this.props.profile.wallet.getAddressString()))
-    this.setState({
-      balance: this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
-    })
-
-    console.log('Min NTF Amount', this.props.getMinNtfAmount())
-    this.setState({
-      minNtfAmount: this.props.getMinNtfAmount()
-    })
-
-    console.log('Lock Duration', this.props.getUnlockHeight(this.props.profile.wallet.getAddressString()))
-    this.setState({
-      unlockHeight: this.props.getUnlockHeight(this.props.profile.wallet.getAddressString())
-    })
-
-    console.log('Deposited NTF Amount', this.props.getDepositedBalance())
-    this.setState({
-      depositedBalance: this.props.getDepositedBalance()
-    })
-
-    console.log('Status', this.props.getStatus())
-    this.setState({
-      status: this.props.getStatus()
-    })
-
-    console.log('Coinbase', this.props.getCoinbase())
-    this.setState({
-      coinbase: this.props.getCoinbase()
-    })
-
-    console.log('Allowance', this.props.getAllowance())
-    this.setState({
-      allowance: this.props.getAllowance()
-    })
-
-    //console.log('UnlockTime', this.props.getUnlockTime())
-    // this.setState({
-    //   unlockTime: this.props.getUnlockTime()
-    // })
-
-    console.log('isWithdrawable', this.props.isWithdrawable())
-    this.setState({
-      isWithdrawable: this.props.isWithdrawable()
     })
   }
 
@@ -230,7 +189,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.state.balance).toFixed(2)} NTF
+                {parseFloat(this.props.tokenBalance).toFixed(2)} NTF
               </Col>
             </Row>
 
@@ -239,8 +198,8 @@ export default class extends LoggedInPage {
                             Deposited:
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18} style={{ color: ((this.state.depositedBalance < this.state.minNtfAmount) ? 'red' : 'blue') }}>
-                {parseFloat(this.state.depositedBalance).toFixed(2)} NTF
+              <Col span={18} style={{ color: ((this.props.depositedBalance < this.props.minNtfAmount) ? 'red' : 'blue') }}>
+                {parseFloat(this.props.depositedBalance).toFixed(2)} NTF
               </Col>
             </Row>
 
@@ -250,7 +209,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.state.minNtfAmount).toFixed(2)} NTF
+                {parseFloat(this.props.minNtfAmount).toFixed(2)} NTF
               </Col>
             </Row>
 
@@ -260,7 +219,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {this.getStatus(this.state.status)}
+                {this.getStatus(this.props.managerStatus)}
               </Col>
             </Row>
 
@@ -270,7 +229,7 @@ export default class extends LoggedInPage {
                     <div>
                       <Row style={{ 'marginTop': '15px' }}>
                         <Col span={6}>
-                            Coinbase:
+                            Signer address:
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
@@ -339,7 +298,7 @@ export default class extends LoggedInPage {
     const content = (
       <div>
         <div>
-                    Amount: {this.state.depositedBalance} NTF
+                    Amount: {this.props.depositedBalance} NTF
         </div>
         <div>
           {label} {this.state.lockDuration} seconds
