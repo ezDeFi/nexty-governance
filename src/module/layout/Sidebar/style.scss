@@ -1,0 +1,111 @@
+
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color .3s;
+  }
+
+  .trigger:hover {
+    color: #1890ff;
+  }
+
+  .xlogo {
+    height: 64px;
+    background: #367fa9;
+    // margin: 16px;
+    font-size: 1.2em;
+    line-height: 65px;
+    font-weight: 600;
+    cursor: pointer;
+    // text-align: center;
+    color: #fff;
+    font-family: Helvetica,Arial,sans-serif;
+  }
+
+  .xlogo img {
+    height: 100%;
+    padding: 3px 5px 7px 10px;
+  }
+
+  .xlogo:hover {
+    background: #2f6e92;
+    font-family: Helvetica,Arial,sans-serif;
+  }
+
+  .xavatar {
+    width: 100%;
+    max-width: 45px;
+    height: auto;
+  }
+
+  .img-circle {
+    border-radius: 50%;
+  }
+
+  .menu-sidebar li a{
+    color: white;
+    text-decoration: none;
+  }
+
+  .text-bold {
+    font-weight: 600;
+  }
+
+  .font-small-size {
+    font-size: 12px;
+  }
+
+  .convert-upload-panel .text-small-size {
+    margin-bottom: 8px;
+  }
+
+  .text-footer {
+    font-size: 11px;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .d_rowFooter {
+    background: #0d47a1;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .alert-dismissible .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+  }
+  .alert .close {
+    color: #000;
+    opacity: .2;
+    //filter: alpha(opacity=20);
+  }
+
+  .convert-control {
+    margin-top: 15px;
+  }
+
+  .btn-buy {
+    color: #FFF;
+    background-color: #ff7300;
+    border-color: #ff7300;
+    font-size: 11px;
+    padding: 7px 18px;
+    font-weight: 600;
+    vertical-align: middle;
+    margin-top: 15px;
+    margin-right: 16px
+  }
+
+  .menu-sidebar ul li {
+    color: #fff;
+  }
+
+  .ant-layout-sider {
+    height: none !important
+  }

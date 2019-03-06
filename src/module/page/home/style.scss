@@ -1,0 +1,125 @@
+
+@import "../../../style/variable";
+
+@mixin homeContent {
+  max-width: $main_width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.c_Home {
+
+  background-color: #ffffff;
+
+  .d_topBackdrop {
+    font-size: 44px;
+    font-weight: 500;
+    color: #fff;
+
+    text-transform: uppercase;
+
+    padding-left: 24px;
+    padding-top: 36px;
+    text-align: center;
+
+    height: 130px;
+
+    > .d_topBackdrop_title {
+      @include homeContent;
+    }
+  }
+
+  .d_rowPrograms {
+
+    @include homeContent;
+
+    &.last {
+      padding-bottom: $gap_3;
+      color: #777;
+    }
+
+    &.subtitle > div {
+      height: 93px;
+    }
+
+    p {
+      text-align: left;
+      max-width: 70%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    img {
+      margin: 0 auto;
+
+      width: 100px;
+
+      display: block;
+    }
+
+    h4 {
+      text-align: left;
+      max-width: 70%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: $gap_1;
+    }
+  }
+
+  .d_colProgram_middle {
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .d_rowEvents {
+    @include homeContent;
+
+    padding-top: $gap_3;
+  }
+
+  .d_colTasks {
+    // border-right: 1px solid #000000;
+
+    padding-left: $gap_3;
+    padding-right: $gap_2;
+  }
+
+  .d_colEvents {
+    border-left: 1px solid #000000;
+
+    padding-left: $gap_2;
+    padding-right: $gap_3;
+  }
+
+  .i_event {
+    padding: 0 $gap_2;
+
+    > img {
+      width: 100%;
+    }
+  }
+
+  .d_mission {
+    text-align: center;
+    max-width: 800px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 18px;
+
+    .d_tenets {
+      max-width: 600px;
+
+      margin-left: auto;
+      margin-right: auto;
+
+      padding-left: 25px;
+
+      font-size: 20px;
+      font-weight: 500;
+
+      font-style: italic;
+    }
+  }
+}

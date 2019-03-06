@@ -1,0 +1,44 @@
+
+@import "../../../style/variable";
+
+.d_rowFooter {
+
+  max-width: $main_width;
+  margin-left: auto;
+  margin-right: auto;
+
+  .d_footerSection {
+    text-align: left;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  a {
+    color: #fff;
+  }
+
+  img {
+    margin-top: -10px;
+  }
+}
+
+.d_rowGrey {
+  background-color: rgb(229, 229, 229);
+}
+
+.d_rowFooterBottom {
+  background: #082b5f;
+  color: #fff;
+  height: 35px;
+  text-align: center;
+
+  p {
+    padding-bottom: 0px;
+    padding-top: 10px;
+  }
+}
+
+.margin-left-15 {
+  margin-left: 22px;
+}

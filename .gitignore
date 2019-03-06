@@ -1,9 +1,16 @@
-build
-node_modules
-.DS_Store
-bundle.js
-geth.log
-.env.*
-.env
-zos.development.json
-yarn-error.log
+node_modules/
+build/**
+dist/**
+jest/**
+migrations/**
+nginx/**
+public/**
+scripts/**
+webpack/**
+.idea/
+coverage/
+
+# disable dist due to the aws server performance is too low to build dist.
+#dist/
+
+dev_dist/node_modules/
