@@ -87,12 +87,12 @@ export default class extends BaseService {
   getUnlockHeight (_address) {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
-    let { contract } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
 
-    contract.NextyManager.getUnlockHeight('0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d', (err, result) => (
+    contract.NextyManager.getUnlockHeight(wallet.getAddressString(), (err, result) => (
         this.dispatch(userRedux.actions.unlockHeight_update(Number(result)))
     ))
   }
@@ -127,7 +127,7 @@ export default class extends BaseService {
       return
     }
 
-    contract.NextyManager.getStatus('0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d', (err, result) => {
+    contract.NextyManager.getStatus(wallet.getAddressString(), (err, result) => {
         this.dispatch(userRedux.actions.managerStatus_update(Number(result)))
     })
   }

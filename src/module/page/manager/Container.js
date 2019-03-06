@@ -34,34 +34,34 @@ export default createContainer(Component, (state) => {
       return nextyManagerService.getTransaction(hash)
     },
     getTokenBalance (address) {
-      return ntfTokenService.getTokenBalance(address)
+      ntfTokenService.getTokenBalance(address)
     },
     getAllowance () {
-      return ntfTokenService.getAllowance()
+      ntfTokenService.getAllowance()
     },
     getMinNtfAmount () {
-      return nextyManagerService.getMinNtfAmount()
+      nextyManagerService.getMinNtfAmount()
     },
     getUnlockHeight (_address) {
-      return nextyManagerService.getUnlockHeight(_address)
+      nextyManagerService.getUnlockHeight(_address)
     },
     getCurBlock () {
-      return nextyManagerService.getCurBlock()
+      nextyManagerService.getCurBlock()
     },
     getDepositedBalance () {
-      return nextyManagerService.getDepositedBalance()
+      nextyManagerService.getDepositedBalance()
     },
     getStatus () {
-      return nextyManagerService.getStatus()
+      nextyManagerService.getStatus()
     },
     getCoinbase () {
-      return nextyManagerService.getCoinbase()
+      nextyManagerService.getCoinbase()
     },
     // getUnlockTime () {
     //   return nextyManagerService.getUnlockTime()
     // },
     isWithdrawable () {
-      return nextyManagerService.isWithdrawable()
+      nextyManagerService.isWithdrawable()
     },
 
     // events
