@@ -15,7 +15,7 @@ export default createContainer(Component, (state) => {
 
   return {
     getWallet () {
-      return userService.getWallet()
+      userService.getWallet()
     },
 
     async callFunction (functionName, params) {
@@ -27,19 +27,19 @@ export default createContainer(Component, (state) => {
     },
 
     getTokenBalance (address) {
-      return ntfTokenService.getTokenBalance(address)
+      ntfTokenService.getTokenBalance(address)
     },
     getAllowance () {
-      return ntfTokenService.getAllowance()
+      ntfTokenService.getAllowance()
     },
     getDepositedBalance () {
-      return nextyManagerService.getDepositedBalance()
+      nextyManagerService.getDepositedBalance()
     },
     getStatus () {
-      return nextyManagerService.getStatus()
+      nextyManagerService.getStatus()
     },
     getCoinbase () {
-      return nextyManagerService.getCoinbase()
+      nextyManagerService.getCoinbase()
     },
 
     // events

@@ -63,21 +63,29 @@ export default class extends BaseService {
 
   // Read Functions
   getTokenBalance (address) {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NTFToken.balanceOf(address))
+
+    contract.NTFToken.balanceOf(address, (error, result) => {
+      this.dispatch(userRedux.actions.tokenBalance_update(result))
+    })
   }
 
   getAllowance () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NTFToken.allowance(wallet.getAddressString(), contract.NextyManager.address))
+
+    contract.NTFToken.allowance(wallet.getAddressString(), WEB3.PAGE.NextyManager.ADDRESS, (error, result) => {
+        this.dispatch(userRedux.actions.allowance_update(result))
+    })
   }
 
   // Events

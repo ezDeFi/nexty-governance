@@ -15,6 +15,19 @@ class UserRedux extends BaseRedux {
         loading: false
       },
 
+      wallet: null,
+      balance: 0,
+      tokenBalance: 0,
+      allowance: null,
+      depositedBalance: 0,
+      managerStatus: '',
+      coinbase: '',
+      isWithdrawable: false,
+      minNtfAmount: 0,
+      unlockHeight: 0,
+      unlockTime: 0,
+      currentBlock: null,
+
       profile: {
         web3: null,
         wallet: null,

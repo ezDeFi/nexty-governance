@@ -63,12 +63,16 @@ export default class extends BaseService {
 
   // Read Functions
   getMinNtfAmount () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.stakeRequire())
+
+    contract.NextyManager.stakeRequire((err, result) => {
+        this.dispatch(userRedux.actions.minNtfAmount_update(Number(result)))
+    })
   }
 
   // getLockDuration () {
@@ -81,66 +85,83 @@ export default class extends BaseService {
   // }
 
   getUnlockHeight (_address) {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
-    let { contract } = storeUser.profile
+    let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.getUnlockHeight('0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d'))
+
+    contract.NextyManager.getUnlockHeight(wallet.getAddressString(), (err, result) => (
+        this.dispatch(userRedux.actions.unlockHeight_update(Number(result)))
+    ))
   }
 
   getCurBlock () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { web3 } = storeUser.profile
-
-    return Number(web3.eth.getBlockNumber())
+    this.dispatch(userRedux.actions.currentBlock_update(Number(web3.eth.getBlockNumber())))
   }
 
   getDepositedBalance () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
+
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.getBalance(wallet.getAddressString()))
+
+    contract.NextyManager.getBalance(wallet.getAddressString(), (err, result) => {
+        console.log('result', result)
+        this.dispatch(userRedux.actions.depositedBalance_update(Number(result)))
+    })
   }
 
   getStatus () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.getStatus('0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d'))
+
+    contract.NextyManager.getStatus(wallet.getAddressString(), (err, result) => {
+        this.dispatch(userRedux.actions.managerStatus_update(Number(result)))
+    })
   }
 
   getCoinbase () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
-    if (!contract) {
-      return
-    }
-    return (contract.NextyManager.getCoinbase(wallet.getAddressString())).toString()
+
+    contract.NextyManager.getCoinbase(wallet.getAddressString(), (err, result) => {
+        this.dispatch(userRedux.actions.coinbase_update(result.toString()))
+    })
   }
 
   getUnlockTime () {
+    const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
-    if (!contract) {
-      return
-    }
-    console.log('curBlock', this.getCurBlock())
-    console.log('unlockHeight', this.getUnlockHeight(wallet.getAddressString()))
-    return Number(this.getUnlockHeight(wallet.getAddressString()) - this.getCurBlock() )
+
+    this.dispatch(userRedux.actions.unlockTime_update(this.getUnlockHeight(wallet.getAddressString()) - this.getCurBlock()))
   }
 
   isWithdrawable () {
+    const userRedux = this.store.getRedux('user')
+
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
     if (!contract) {
       return
     }
-    return Number(contract.NextyManager.isWithdrawable(wallet.getAddressString()))
+
+    contract.NextyManager.isWithdrawable(wallet.getAddressString(), (err, result) => {
+        this.dispatch(userRedux.actions.isWithdrawable_update(Number(result)))
+    })
   }
 
   // Events

@@ -18,34 +18,17 @@ export default class extends LoggedInPage {
   }
 
   loadData () {
-    console.log('Wallet', this.props.profile.wallet.getAddressString())
+    this.props.getAllowance()
+    this.props.getCoinbase()
+    this.props.getStatus()
+    this.props.getDepositedBalance()
+
     this.setState({
       walletAddress: this.props.profile.wallet.getAddressString()
     })
 
-    console.log('NTF Amount', this.props.getTokenBalance(this.props.profile.wallet.getAddressString()))
     this.setState({
       balance: this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
-    })
-
-    console.log('Deposited NTF Amount', this.props.getDepositedBalance())
-    this.setState({
-      depositedBalance: this.props.getDepositedBalance()
-    })
-
-    console.log('Status', this.props.getStatus())
-    this.setState({
-      status: this.props.getStatus()
-    })
-
-    console.log('Coinbase', this.props.getCoinbase())
-    this.setState({
-      coinbase: this.props.getCoinbase()
-    })
-
-    console.log('Allowance', this.props.getAllowance())
-    this.setState({
-      allowance: this.props.getAllowance()
     })
   }
 
@@ -56,7 +39,7 @@ export default class extends LoggedInPage {
   }
 
   onAmountChange (value) {
-    if (this.state.balance < value) {
+    if (this.props.tokenBalance < value) {
       this.setState({
         notEnoughNTY: <p className="alert-no-padding">Your balance is not enough</p>
       })
@@ -130,7 +113,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.state.balance).toFixed(2)} NTF
+                {parseFloat(this.props.tokenBalance).toFixed(2)} NTF
               </Col>
             </Row>
             <Row style={{ 'marginTop': '15px' }}>
@@ -139,7 +122,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.state.depositedBalance).toFixed(2)} NTF
+                {parseFloat(this.props.depositedBalance).toFixed(2)} NTF
               </Col>
             </Row>
             <hr />
@@ -230,7 +213,7 @@ export default class extends LoggedInPage {
       event.watch(function (err, response) {
         if ((!err) && (response.event === 'Approval')) { // add require
           self.setState({
-            allowance: self.state.allowance + amount
+            allowance: self.props.allowance + amount
           })
           event.stopWatching()
           self.deposit(self.state.amount)
@@ -276,7 +259,7 @@ export default class extends LoggedInPage {
       isLoading: true
     })
 
-    var toApprove = this.state.amount - this.state.allowance
+    var toApprove = this.state.amount - this.props.allowance
     // approve if not enough to call deposit
     if (toApprove > 0) {
       this.approve(this.state.amount)
