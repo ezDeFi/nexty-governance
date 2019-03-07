@@ -19,7 +19,7 @@ export default class extends LoggedInPage {
 
   loadData () {
     this.props.isWithdrawable()
-    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getTokenBalance(this.props.currentAddress)
     this.props.getDepositedBalance()
     this.props.getStatus()
     this.props.getCoinbase()
@@ -28,7 +28,7 @@ export default class extends LoggedInPage {
     this.props.isWithdrawable()
 
     this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
+      walletAddress: this.props.currentAddress
     })
   }
 
@@ -227,6 +227,14 @@ export default class extends LoggedInPage {
   }
 
   withdraw () {
+    // if (this.props.loginMetamask) {
+    //   console.log('xxx', this.props)
+    //   this.props.contract.NextyManager.methods.withdraw().send({from: this.props.currentAddress}).then((result) => {
+    //     console.log('result', result)
+    //   })
+    //   return
+    // }
+
     var self = this
     this.props.withdraw().then((result) => {
       if (!result) {

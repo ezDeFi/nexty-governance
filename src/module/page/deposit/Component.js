@@ -4,6 +4,7 @@ import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
 import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
+import { WEB3 } from '@/constant'
 
 import { Col, Row, Icon, Form, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
@@ -24,11 +25,11 @@ export default class extends LoggedInPage {
     this.props.getDepositedBalance()
 
     this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
+      walletAddress: this.props.currentAddress
     })
 
     this.setState({
-      balance: this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+      balance: this.props.getTokenBalance(this.props.currentAddress)
     })
   }
 
@@ -198,7 +199,18 @@ export default class extends LoggedInPage {
     })
   }
 
-  approve (amount) {
+  async approve (amount) {
+    var toAddress = WEB3.PAGE['NextyManager'].ADDRESS
+    if (this.props.loginMetamask) {
+      this.props.contract.NTFToken.methods.approve(toAddress, 10).send({from: this.props.currentAddress}).then((result) => {
+        console.log('result', result)
+      }).catch((error) => {
+        console.log('error', error)
+      })
+
+      return
+    }
+
     var self = this
     self.setState({
       txhash: 'Creating'
@@ -264,7 +276,7 @@ export default class extends LoggedInPage {
     if (toApprove > 0) {
       this.approve(this.state.amount)
     } else {
-      this.deposit(this.state.amount)
+      this.approve(this.state.amount)
     }
     return true
   }

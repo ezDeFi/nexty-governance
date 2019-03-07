@@ -28,7 +28,7 @@ export default class extends LoggedInPage {
   }
 
   loadData () {
-    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getTokenBalance(this.props.currentAddress)
     this.props.getDepositedBalance()
     this.props.getStatus()
     this.props.getCoinbase()

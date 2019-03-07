@@ -25,10 +25,10 @@ export default class extends LoggedInPage {
     this.props.getStatus()
     this.props.getDepositedBalance()
     this.props.getMinNtfAmount()
-    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getTokenBalance(this.props.currentAddress)
 
     this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
+      walletAddress: this.props.currentAddress
     })
   }
 

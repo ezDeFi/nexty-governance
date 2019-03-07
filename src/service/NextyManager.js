@@ -13,10 +13,10 @@ export default class extends BaseService {
     const functionDef = new SolidityFunction('', _.find(WEB3.PAGE['NextyManager'].ABI, { name: functionName }), '')
     const payloadData = functionDef.toPayload(params).data
 
-    const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+    const nonce = web3.eth.getTransactionCount(storeUser.currentAddress)
     const rawTx = {
       nonce: nonce,
-      from: wallet.getAddressString(),
+      from: storeUser.currentAddress,
       value: '0x0',
       to: contract.NextyManager.address,
       data: payloadData
@@ -92,7 +92,7 @@ export default class extends BaseService {
       return
     }
 
-    contract.NextyManager.getUnlockHeight(wallet.getAddressString(), (err, result) => (
+    contract.NextyManager.getUnlockHeight(storeUser.currentAddress, (err, result) => (
         this.dispatch(userRedux.actions.unlockHeight_update(Number(result)))
     ))
   }
@@ -101,6 +101,9 @@ export default class extends BaseService {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { web3 } = storeUser.profile
+    if (!web3) {
+      return
+    }
     this.dispatch(userRedux.actions.currentBlock_update(Number(web3.eth.getBlockNumber())))
   }
 
@@ -113,8 +116,7 @@ export default class extends BaseService {
       return
     }
 
-    contract.NextyManager.getBalance(wallet.getAddressString(), (err, result) => {
-        console.log('result', result)
+    contract.NextyManager.getBalance(storeUser.currentAddress, (err, result) => {
         this.dispatch(userRedux.actions.depositedBalance_update(Number(result)))
     })
   }
@@ -127,7 +129,7 @@ export default class extends BaseService {
       return
     }
 
-    contract.NextyManager.getStatus(wallet.getAddressString(), (err, result) => {
+    contract.NextyManager.getStatus(storeUser.currentAddress, (err, result) => {
         this.dispatch(userRedux.actions.managerStatus_update(Number(result)))
     })
   }
@@ -136,8 +138,11 @@ export default class extends BaseService {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
+    if (!contract) {
+      return
+    }
 
-    contract.NextyManager.getCoinbase(wallet.getAddressString(), (err, result) => {
+    contract.NextyManager.getCoinbase(storeUser.currentAddress, (err, result) => {
         this.dispatch(userRedux.actions.coinbase_update(result.toString()))
     })
   }
@@ -147,7 +152,7 @@ export default class extends BaseService {
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
 
-    this.dispatch(userRedux.actions.unlockTime_update(this.getUnlockHeight(wallet.getAddressString()) - this.getCurBlock()))
+    this.dispatch(userRedux.actions.unlockTime_update(this.getUnlockHeight(storeUser.currentAddress) - this.getCurBlock()))
   }
 
   isWithdrawable () {
@@ -159,7 +164,7 @@ export default class extends BaseService {
       return
     }
 
-    contract.NextyManager.isWithdrawable(wallet.getAddressString(), (err, result) => {
+    contract.NextyManager.isWithdrawable(storeUser.currentAddress, (err, result) => {
         this.dispatch(userRedux.actions.isWithdrawable_update(Number(result)))
     })
   }

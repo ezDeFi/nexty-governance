@@ -29,7 +29,7 @@ export default class extends BaseService {
 
     web3.eth.defaultAccount = walletAddress
     wallet.balance = web3.eth.getBalance(walletAddress)
-
+    await this.dispatch(userRedux.actions.currentAddress_update(walletAddress))
     // const owner = contract.owner()
     /*
         const owner = {
@@ -61,11 +61,37 @@ export default class extends BaseService {
     return true
   }
 
+  async metaMaskLogin(address) {
+    const userRedux = this.store.getRedux('user')
+    let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
+
+    const NTFToken = web3.eth.contract(WEB3.PAGE['NTFToken'].ABI)
+    const NTFTokenContract = NTFToken.at(WEB3.PAGE['NTFToken'].ADDRESS)
+
+    const NextyManager = web3.eth.contract(WEB3.PAGE['NextyManager'].ABI)
+    const NextyManagerContract = NextyManager.at(WEB3.PAGE['NextyManager'].ADDRESS)
+    const contract = {
+      NTFToken: NTFTokenContract,
+      NextyManager: NextyManagerContract
+    }
+
+    web3.eth.defaultAccount = address
+
+    await this.dispatch(userRedux.actions.is_login_update(true))
+    await this.dispatch(userRedux.actions.currentAddress_update(address))
+    await this.dispatch(userRedux.actions.profile_update({
+      web3,
+      contract
+    }))
+
+    return true
+  }
+
   async getBalance () {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { web3, wallet } = storeUser.profile
-    const walletAddress = wallet.getAddressString()
+    const walletAddress = storeUser.currentAddress
     const balance = web3.eth.getBalance(walletAddress)
 
     this.dispatch(userRedux.actions.balance_update(web3.fromWei(balance, 'ether')))
@@ -75,7 +101,7 @@ export default class extends BaseService {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { wallet } = storeUser.profile
-    const walletAddress = wallet.getAddressString()
+    const walletAddress = storeUser.currentAddress
 
     this.dispatch(userRedux.actions.wallet_update(walletAddress))
   }
