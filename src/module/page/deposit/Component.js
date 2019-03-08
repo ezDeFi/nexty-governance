@@ -249,6 +249,7 @@ export default class extends LoggedInPage {
   }
 
   depositByMetamask(amount) {
+    const self = this
     this.props.contract.NextyManager.methods.deposit(web3.toWei(amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
       self.setState({
@@ -258,7 +259,6 @@ export default class extends LoggedInPage {
       })
     })
 
-    const self = this
     var event = self.props.getEventDeposited()
     event.watch(function (err, response) {
       if ((!err) && (response.event === 'Deposited')) {

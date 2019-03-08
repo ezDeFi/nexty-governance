@@ -60,7 +60,7 @@ if (window.ethereum) {
         window.web3.eth.getAccounts( async (err, accounts) => {
             if (accounts.length > 0) {
                 window.web3.version.getNetwork( async (err, networkId) => {
-                    if (networkId === '111111' && !isLogined) {
+                    if (networkId === '111111') {
                         let web3 = new Web3(window.ethereum)
 
                         const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
@@ -75,7 +75,10 @@ if (window.ethereum) {
                         await store.dispatch(userRedux.actions.loginMetamask_update(true))
                         await store.dispatch(userRedux.actions.contract_update(contract))
                         await userService.metaMaskLogin(accounts[0])
-                        userService.path.push('/dashboard')
+
+                        if (!isLogined) {
+                          userService.path.push('/dashboard')
+                        }
                         isLogined = true
                     } else if (!isLogined) {
                         await userService.path.push('/login')
@@ -86,6 +89,7 @@ if (window.ethereum) {
                     isRequest = true
                     await window.ethereum.enable()
                 }
+                isLogined = false
                 await userService.path.push('/login')
             }
         })
