@@ -4,10 +4,7 @@ import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
 import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
-<<<<<<< HEAD
 import { WEB3 } from '@/constant'
-=======
->>>>>>> master
 
 import { Col, Row, Icon, Form, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
