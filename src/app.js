@@ -53,22 +53,20 @@ const render = () => {
 const userRedux = store.getRedux('user')
 const userService = new UserService()
 let isRequest = false
+let isLogined = false
 
 if (window.ethereum) {
     window.web3.currentProvider.publicConfigStore.on('update', async () => {
         window.web3.eth.getAccounts( async (err, accounts) => {
             if (accounts.length > 0) {
                 window.web3.version.getNetwork( async (err, networkId) => {
-                    if (networkId === '111111') {
+                    if (networkId === '111111' && !isLogined) {
                         let web3 = new Web3(window.ethereum)
 
                         const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
                         const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
 
                         const totalSupply = await NTFTokenContract.methods.totalSupply().call()
-                        console.log('totalSupply', totalSupply)
-
-                        console.log('NTFTokenContract', NTFTokenContract)
                         const contract = {
                           NTFToken: NTFTokenContract,
                           NextyManager: NextyManagerContract
@@ -78,7 +76,8 @@ if (window.ethereum) {
                         await store.dispatch(userRedux.actions.contract_update(contract))
                         await userService.metaMaskLogin(accounts[0])
                         userService.path.push('/dashboard')
-                    } else {
+                        isLogined = true
+                    } else if (!isLogined) {
                         await userService.path.push('/login')
                     }
                 })

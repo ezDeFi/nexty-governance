@@ -199,19 +199,33 @@ export default class extends LoggedInPage {
     })
   }
 
-  async approve (amount) {
+  approveByMetamask(amount) {
     var toAddress = WEB3.PAGE['NextyManager'].ADDRESS
-    if (this.props.loginMetamask) {
-      this.props.contract.NTFToken.methods.approve(toAddress, 10).send({from: this.props.currentAddress}).then((result) => {
-        console.log('result', result)
-      }).catch((error) => {
-        console.log('error', error)
-      })
+    var self = this
 
-      return
+    this.props.contract.NTFToken.methods.approve(toAddress, web3.toWei(amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
+      console.log('result', result)
+    })
+
+    var event = self.props.getEventApproval()
+    event.watch(function (err, response) {
+    if ((!err) && (response.event === 'Approval')) { // add require
+        self.setState({
+          allowance: self.props.allowance + amount
+        })
+        event.stopWatching()
+        self.deposit(self.state.amount)
+      }
+    })
+  }
+
+  async approve (amount) {
+    var self = this
+
+    if (this.props.loginMetamask) {
+      return this.approveByMetamask(amount)
     }
 
-    var self = this
     self.setState({
       txhash: 'Creating'
     })
@@ -234,8 +248,41 @@ export default class extends LoggedInPage {
     })
   }
 
+  depositByMetamask(amount) {
+    this.props.contract.NextyManager.methods.deposit(web3.toWei(amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
+      Message.success('Transaction has been sent successfully!')
+      self.setState({
+        txhash: result,
+        amount: '',
+        submitted: false
+      })
+    })
+
+    const self = this
+    var event = self.props.getEventDeposited()
+    event.watch(function (err, response) {
+      if ((!err) && (response.event === 'Deposited')) {
+        self.setState({
+          tx_success: true,
+          isLoading: false
+        })
+        self.loadData()
+        notification.success({
+          message: 'Deposited success',
+          description: 'Deposited successfully!'
+        })
+        event.stopWatching()
+      }
+    })
+  }
+
   deposit (amount) {
     var self = this
+
+    if (this.props.loginMetamask) {
+      return this.depositByMetamask(amount)
+    }
+
     this.props.deposit(amount).then((result) => {
       if (!result) {
         Message.error('Cannot send transaction!')
