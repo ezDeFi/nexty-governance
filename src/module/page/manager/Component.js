@@ -25,10 +25,10 @@ export default class extends LoggedInPage {
     this.props.getStatus()
     this.props.getDepositedBalance()
     this.props.getMinNtfAmount()
-    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getTokenBalance(this.props.currentAddress)
 
     this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
+      walletAddress: this.props.currentAddress
     })
   }
 
@@ -56,14 +56,14 @@ export default class extends LoggedInPage {
   }
 
   isJoinable () {
-    var status = this.state.status
-    var amount = this.state.depositedBalance
-    var minAmount = this.state.minNtfAmount
+    var status = this.props.managerStatus
+    var amount = this.props.depositedBalance
+    var minAmount = this.props.minNtfAmount
     return (status !== 1) && (status !== 127) && (amount >= minAmount)
   }
 
   isLeaveable (status) {
-    // var status = this.state.status
+    var status = this.props.managerStatus
     return (status === 1)
   }
 
@@ -334,6 +334,24 @@ export default class extends LoggedInPage {
     })
   }
 
+  joinByMetamask() {
+    var self = this
+    var eventName = 'Joined'
+    this.props.contract.NextyManager.methods.join(this.state.coinbaseInput).send({from: this.props.currentAddress}).then((result) => {
+      Message.success('Transaction has been sent successfully!')
+      this.loadData()
+    })
+  }
+
+  leaveByMetamask() {
+    var self = this
+    var eventName = 'Left'
+    this.props.contract.NextyManager.methods.leave().send({from: this.props.currentAddress}).then((result) => {
+      Message.success('Transaction has been sent successfully!')
+      this.loadData()
+    })
+  }
+
   onConfirm () {
     this.setState({
       tx_success: false,
@@ -345,6 +363,15 @@ export default class extends LoggedInPage {
     var functionName = isJoinable ? 'join' : 'leave'
     var eventName = isJoinable ? 'Joined' : 'Left'
     var self = this
+
+    if (this.props.loginMetamask) {
+      if (isJoinable) {
+        return this.joinByMetamask()
+      } else {
+        return this.leaveByMetamask()
+      }
+    }
+
     this.props.callFunction(functionName, params).then((result) => {
       console.log(self.props.getTransaction(result))
       if (!result) {

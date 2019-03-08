@@ -4,6 +4,7 @@ import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
 import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
+import { WEB3 } from '@/constant'
 
 import { Col, Row, Icon, Form, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
@@ -24,11 +25,11 @@ export default class extends LoggedInPage {
     this.props.getDepositedBalance()
 
     this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
+      walletAddress: this.props.currentAddress
     })
 
     this.setState({
-      balance: this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+      balance: this.props.getTokenBalance(this.props.currentAddress)
     })
   }
 
@@ -198,8 +199,33 @@ export default class extends LoggedInPage {
     })
   }
 
-  approve (amount) {
+  approveByMetamask(amount) {
+    var toAddress = WEB3.PAGE['NextyManager'].ADDRESS
     var self = this
+
+    this.props.contract.NTFToken.methods.approve(toAddress, web3.toWei(amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
+      console.log('result', result)
+    })
+
+    var event = self.props.getEventApproval()
+    event.watch(function (err, response) {
+    if ((!err) && (response.event === 'Approval')) { // add require
+        self.setState({
+          allowance: self.props.allowance + amount
+        })
+        event.stopWatching()
+        self.deposit(self.state.amount)
+      }
+    })
+  }
+
+  async approve (amount) {
+    var self = this
+
+    if (this.props.loginMetamask) {
+      return this.approveByMetamask(amount)
+    }
+
     self.setState({
       txhash: 'Creating'
     })
@@ -222,8 +248,41 @@ export default class extends LoggedInPage {
     })
   }
 
+  depositByMetamask(amount) {
+    const self = this
+    this.props.contract.NextyManager.methods.deposit(web3.toWei(amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
+      Message.success('Transaction has been sent successfully!')
+      self.setState({
+        txhash: result,
+        amount: '',
+        submitted: false
+      })
+    })
+
+    var event = self.props.getEventDeposited()
+    event.watch(function (err, response) {
+      if ((!err) && (response.event === 'Deposited')) {
+        self.setState({
+          tx_success: true,
+          isLoading: false
+        })
+        self.loadData()
+        notification.success({
+          message: 'Deposited success',
+          description: 'Deposited successfully!'
+        })
+        event.stopWatching()
+      }
+    })
+  }
+
   deposit (amount) {
     var self = this
+
+    if (this.props.loginMetamask) {
+      return this.depositByMetamask(amount)
+    }
+
     this.props.deposit(amount).then((result) => {
       if (!result) {
         Message.error('Cannot send transaction!')

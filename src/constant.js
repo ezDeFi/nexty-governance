@@ -14,6 +14,7 @@ export const USER_ROLE = {
 // const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address // eslint-disable-line
 
 const CONTRACT_ABI_NTFToken = NTFToken.abi // eslint-disable-line
+
 const CONTRACT_ADDRESS_NTFToken = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda' // eslint-disable-line
 
 const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line

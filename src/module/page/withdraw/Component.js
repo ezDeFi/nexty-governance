@@ -19,7 +19,7 @@ export default class extends LoggedInPage {
 
   loadData () {
     this.props.isWithdrawable()
-    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getTokenBalance(this.props.currentAddress)
     this.props.getDepositedBalance()
     this.props.getStatus()
     this.props.getCoinbase()
@@ -28,7 +28,7 @@ export default class extends LoggedInPage {
     this.props.isWithdrawable()
 
     this.setState({
-      walletAddress: this.props.profile.wallet.getAddressString()
+      walletAddress: this.props.currentAddress
     })
   }
 
@@ -226,7 +226,38 @@ export default class extends LoggedInPage {
     })
   }
 
+  withdrawByMetamask() {
+    var self = this
+    this.props.contract.NextyManager.methods.withdraw().send({from: this.props.currentAddress}).then((result) => {
+      Message.success('Transaction has been sent successfully!')
+      self.setState({
+        txhash: result,
+        submitted: false
+      })
+    })
+
+    var event = self.props.getEventWithdrawn()
+    event.watch(function (err, response) {
+      if ((!err) && (response.event === 'Withdrawn')) {
+        self.setState({
+          tx_success: true,
+          isLoading: false
+        })
+        self.loadData()
+        notification.success({
+          message: 'Withdrawn success',
+          description: 'Withdrawn successfully!'
+        })
+        event.stopWatching()
+      }
+    })
+  }
+
   withdraw () {
+    if (this.props.loginMetamask) {
+      return this.withdrawByMetamask()
+    }
+
     var self = this
     this.props.withdraw().then((result) => {
       if (!result) {

@@ -28,7 +28,7 @@ export default class extends LoggedInPage {
   }
 
   loadData () {
-    this.props.getTokenBalance(this.props.profile.wallet.getAddressString())
+    this.props.getTokenBalance(this.props.currentAddress)
     this.props.getDepositedBalance()
     this.props.getStatus()
     this.props.getCoinbase()
@@ -270,11 +270,45 @@ export default class extends LoggedInPage {
     })
   }
 
+  transferByMetamask() {
+    const self = this
+    this.props.contract.NTFToken.methods.transfer(self.state.toAddress, web3.toWei(self.state.amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
+
+      Message.success('Transaction has been sent successfully!')
+      self.setState({
+        txhash: result,
+        amount: '',
+        toAddress: '',
+        submitted: false
+      })
+    })
+
+    var event = self.props.getEventTransfer()
+    event.watch(function (err, response) {
+      if ((!err) && (response.event === 'Transfer')) {
+        self.setState({
+          tx_success: true,
+          isLoading: false
+        })
+        self.loadData()
+        notification.success({
+          message: 'Transfered success',
+          description: 'Transfered successfully!'
+        })
+        event.stopWatching()
+      }
+    })
+  }
+
   onConfirm () {
     this.setState({
       isLoading: true,
       txhash: 'Creating'
     })
+
+    if (this.props.loginMetamask) {
+      return this.transferByMetamask()
+    }
 
     const self = this
     this.props.transfer(self.state.toAddress, self.state.amount).then((result) => {

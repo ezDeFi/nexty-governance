@@ -23,7 +23,8 @@ export default class extends BaseComponent {
     }
     const is_login = storeUser.is_login // eslint-disable-line
     const is_admin = storeUser.is_admin // eslint-disable-line
-    if (!is_login) { // eslint-disable-line
+
+    if (!is_login && !storeUser.loginMetamask) { // eslint-disable-line
       this.ord_checkLogin(is_login, is_admin)
     }
   }

@@ -13,10 +13,10 @@ export default class extends BaseService {
     const functionDef = new SolidityFunction('', _.find(WEB3.PAGE['NTFToken'].ABI, { name: functionName }), '')
     const payloadData = functionDef.toPayload(params).data
 
-    const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+    const nonce = web3.eth.getTransactionCount(storeUser.currentAddress)
     const rawTx = {
       nonce: nonce,
-      from: wallet.getAddressString(),
+      from: storeUser.currentAddress,
       value: '0x0',
       to: contract.NTFToken.address,
       data: payloadData
@@ -83,7 +83,7 @@ export default class extends BaseService {
       return
     }
 
-    contract.NTFToken.allowance(wallet.getAddressString(), WEB3.PAGE.NextyManager.ADDRESS, (error, result) => {
+    contract.NTFToken.allowance(storeUser.currentAddress, WEB3.PAGE.NextyManager.ADDRESS, (error, result) => {
         this.dispatch(userRedux.actions.allowance_update(result))
     })
   }
