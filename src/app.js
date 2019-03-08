@@ -60,7 +60,7 @@ if (window.ethereum) {
         window.web3.eth.getAccounts( async (err, accounts) => {
             if (accounts.length > 0) {
                 window.web3.version.getNetwork( async (err, networkId) => {
-                    if (networkId === '111111') {
+                    if (networkId === WEB3.NETWORK_ID) {
                         let web3 = new Web3(window.ethereum)
 
                         const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)

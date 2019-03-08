@@ -1,7 +1,7 @@
 import React from 'react' // eslint-disable-line
 import StandardPage from '../StandardPage'
 import LoginForm from '@/module/form/LoginForm/Container' // eslint-disable-line
-import { Col } from 'antd' // eslint-disable-line
+import { Col, Spin } from 'antd' // eslint-disable-line
 
 import './style.scss'
 
@@ -11,8 +11,12 @@ export default class extends StandardPage {
       <div>
         <div className="p_login ebp-wrap" >
           <Col span={24} style={{ marginTop: '100px' }}>
-            <LoginForm />
-
+            {window.ethereum ? <div>
+              <Spin tip="Loading...">
+              </Spin>
+            </div>
+              :
+             <LoginForm />}
           </Col>
 
         </div>
