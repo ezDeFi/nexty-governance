@@ -104,6 +104,7 @@ export default class extends BaseService {
     if (!web3) {
       return
     }
+
     this.dispatch(userRedux.actions.currentBlock_update(Number(web3.eth.getBlockNumber())))
   }
 
@@ -138,6 +139,7 @@ export default class extends BaseService {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
     let { contract, wallet } = storeUser.profile
+
     if (!contract) {
       return
     }
@@ -163,6 +165,7 @@ export default class extends BaseService {
     if (!contract) {
       return
     }
+
 
     contract.NextyManager.isWithdrawable(storeUser.currentAddress, (err, result) => {
         this.dispatch(userRedux.actions.isWithdrawable_update(Number(result)))

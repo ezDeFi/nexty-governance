@@ -4,7 +4,10 @@ import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
 import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
+<<<<<<< HEAD
 import { WEB3 } from '@/constant'
+=======
+>>>>>>> master
 
 import { Col, Row, Icon, Form, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
@@ -114,7 +117,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.props.tokenBalance).toFixed(2)} NTF
+                {parseFloat(this.props.tokenBalance)/1e18} NTF
               </Col>
             </Row>
             <Row style={{ 'marginTop': '15px' }}>
@@ -123,7 +126,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.props.depositedBalance).toFixed(2)} NTF
+                {parseFloat(this.props.depositedBalance)/1e18} NTF
               </Col>
             </Row>
             <hr />
@@ -323,7 +326,7 @@ export default class extends LoggedInPage {
     if (toApprove > 0) {
       this.approve(this.state.amount)
     } else {
-      this.approve(this.state.amount)
+      this.deposit(this.state.amount)
     }
     return true
   }

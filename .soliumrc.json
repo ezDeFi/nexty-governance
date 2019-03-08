@@ -4,9 +4,6 @@
     "security"
   ],
   "rules": {
-    "quotes": [
-      "error",
-      "double"
-    ]
+    "quotes": ["error", "double"]
   }
 }

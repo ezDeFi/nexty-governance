@@ -59,7 +59,6 @@ export default class extends LoggedInPage {
     var status = this.props.managerStatus
     var amount = this.props.depositedBalance
     var minAmount = this.props.minNtfAmount
-
     return (status !== 1) && (status !== 127) && (amount >= minAmount)
   }
 
