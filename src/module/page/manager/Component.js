@@ -154,8 +154,6 @@ export default class extends LoggedInPage {
     }
 
     const coinbaseInput = sessionStorage.getItem('signerAddress')
-
-    console.log('coinbaseInput', coinbaseInput)
     return (
       <div className="">
         <div className="ebp-header-divider">
@@ -350,11 +348,6 @@ export default class extends LoggedInPage {
   }
 
   onConfirm () {
-    this.setState({
-      tx_success: false,
-      isLoading: true
-    })
-
     var isJoinable = this.isJoinable()
     var params = isJoinable ? [this.state.coinbaseInput] : []
     var functionName = isJoinable ? 'join' : 'leave'
