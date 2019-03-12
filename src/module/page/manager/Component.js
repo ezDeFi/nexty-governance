@@ -25,6 +25,7 @@ export default class extends LoggedInPage {
     this.props.getStatus()
     this.props.getDepositedBalance()
     this.props.getMinNtfAmount()
+    this.props.getStakeLockHeight()
     this.props.getTokenBalance(this.props.currentAddress)
 
     this.setState({
@@ -298,10 +299,10 @@ export default class extends LoggedInPage {
     const content = (
       <div>
         <div>
-                    Amount: {this.props.depositedBalance} NTF
+          Amount: {this.props.depositedBalance / 1e18} NTF
         </div>
         <div>
-          {label} {this.state.lockDuration} seconds
+          {label} {this.props.stakeLockHeight} seconds
         </div>
       </div>
     )
@@ -340,6 +341,8 @@ export default class extends LoggedInPage {
     this.props.contract.NextyManager.methods.join(this.state.coinbaseInput).send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
       this.loadData()
+    }).catch((error) => {
+      Message.error('Call smart contract error')
     })
   }
 
@@ -349,6 +352,8 @@ export default class extends LoggedInPage {
     this.props.contract.NextyManager.methods.leave().send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
       this.loadData()
+    }).catch((error) => {
+      Message.error('Call smart contract error')
     })
   }
 

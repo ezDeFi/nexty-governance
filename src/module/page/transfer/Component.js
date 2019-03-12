@@ -281,6 +281,8 @@ export default class extends LoggedInPage {
         toAddress: '',
         submitted: false
       })
+    }).catch((error) => {
+      Message.error('Call smart contract error')
     })
 
     var event = self.props.getEventTransfer()

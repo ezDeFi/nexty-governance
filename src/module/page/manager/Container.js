@@ -33,6 +33,9 @@ export default createContainer(Component, (state) => {
     getTransaction (hash) {
       return nextyManagerService.getTransaction(hash)
     },
+    getStakeLockHeight () {
+      return nextyManagerService.getStakeLockHeight()
+    },
     getTokenBalance (address) {
       ntfTokenService.getTokenBalance(address)
     },
