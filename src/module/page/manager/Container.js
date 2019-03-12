@@ -23,6 +23,7 @@ export default createContainer(Component, (state) => {
     },
 
     async join (coinbase) {
+      sessionStorage.setItem('signerAddress', coinbase)
       return await nextyManagerService.callFunction('join', coinbase) // eslint-disable-line
     },
 

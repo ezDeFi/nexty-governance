@@ -19,6 +19,10 @@ Message.config({
 export default class extends LoggedInPage {
   componentDidMount () {
     this.loadData()
+
+    this.state = {
+      coinbaseInput: sessionStorage.getItem('signerAddress')
+    }
   }
 
   loadData () {
@@ -143,22 +147,15 @@ export default class extends LoggedInPage {
       }
     }
 
-    // let alerts = [];
-    // if(this.state.error) {
-    //     alerts.push(<Alert message={this.state.error} type="error" showIcon />)
-    // }
-
     let txhash = null // eslint-disable-line
     if (this.state.txhash) {
       const message = 'Transaction hash: ' + this.state.txhash
       txhash = <Alert description={message} type="success" showIcon />
     }
 
-    // const valid = this.state.package && this.state.amount && (alerts.length == 0);
-    // if(valid) {
-    //     alerts = [];
-    // }
+    const coinbaseInput = sessionStorage.getItem('signerAddress')
 
+    console.log('coinbaseInput', coinbaseInput)
     return (
       <div className="">
         <div className="ebp-header-divider">
@@ -235,8 +232,7 @@ export default class extends LoggedInPage {
                         <Col span={18}>
                           <Input
                             className= "defaultWidth"
-                            defaultValue= {''}
-                            value= {this.state.coinbaseInput}
+                            defaultValue={coinbaseInput}
                             onChange= {this.onCoinbaseChange.bind(this)}
                           />
                         </Col>
@@ -298,7 +294,7 @@ export default class extends LoggedInPage {
     const content = (
       <div>
         <div>
-                    Amount: {this.props.depositedBalance} NTF
+                    Amount: {this.props.depositedBalance / 1e18} NTF
         </div>
         <div>
           {label} {this.state.lockDuration} seconds
@@ -340,6 +336,7 @@ export default class extends LoggedInPage {
     this.props.contract.NextyManager.methods.join(this.state.coinbaseInput).send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
       this.loadData()
+      sessionStorage.setItem('signerAddress', this.state.coinbaseInput)
     })
   }
 
