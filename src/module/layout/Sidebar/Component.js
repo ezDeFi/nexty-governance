@@ -82,11 +82,11 @@ export default class extends BaseComponent {
           <a href="https://t.me/nexty_io" target="_blank" rel="noopener"><img style ={{ width: '50px', zIndex: '99999' }} src="/assets/images/telegram.png" /></a>
         </div>
 
-        <Icon onClick={this.toggleCollapsed} type={'menu-unfold'}
+        <Icon onClick={this.toggleCollapsed.bind(this)} type={'menu-unfold'}
           style={{ position: 'fixed', top: (window.innerHeight - 186) / 2, background: 'white', left: 0, fontSize: 20, zIndex: '1', display: !this.state.collapsed ? 'none' : 'block' }}
         />
 
-        <Icon onClick={this.toggleCollapsed} type={'menu-fold'}
+        <Icon onClick={this.toggleCollapsed.bind(this)} type={'menu-fold'}
           style={{ position: 'absolute', top: (window.innerHeight - 186) / 2, left: this.state.siderWidth, fontSize: 20, display: this.state.collapsed ? 'none' : 'block' }}
         />
 
