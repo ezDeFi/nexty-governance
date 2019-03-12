@@ -81,6 +81,7 @@ if (window.ethereum) {
                         }
                         isLogined = true
                     } else if (!isLogined) {
+                        await store.dispatch(userRedux.actions.loginMetamask_update(false))
                         await userService.path.push('/login')
                     }
                 })
@@ -89,11 +90,14 @@ if (window.ethereum) {
                     isRequest = true
                     await window.ethereum.enable()
                 }
+                await store.dispatch(userRedux.actions.loginMetamask_update(false))
                 isLogined = false
                 await userService.path.push('/login')
             }
         })
     })
+} else {
+  store.dispatch(userRedux.actions.loginMetamask_update(false))
 }
 
 if (sessionStorage.getItem('api-token')) { // eslint-disable-line
