@@ -2,6 +2,7 @@
 
   text-align: center;
   min-height: 60vh;
+  margin-bottom: 30px;
 
   .d_box {
 
@@ -9,5 +10,10 @@
     width: 60vw;
     margin: 80px auto 0;
     background: #ffffff;
+  }
+
+  .login-metamask {
+    max-width: 800px;
+    margin: 0 auto;
   }
 }

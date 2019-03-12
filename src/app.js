@@ -60,7 +60,7 @@ if (window.ethereum) {
         window.web3.eth.getAccounts( async (err, accounts) => {
             if (accounts.length > 0) {
                 window.web3.version.getNetwork( async (err, networkId) => {
-                    if (networkId === '111111') {
+                    if (networkId === WEB3.NETWORK_ID) {
                         let web3 = new Web3(window.ethereum)
 
                         const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
@@ -81,6 +81,7 @@ if (window.ethereum) {
                         }
                         isLogined = true
                     } else if (!isLogined) {
+                        await store.dispatch(userRedux.actions.loginMetamask_update(false))
                         await userService.path.push('/login')
                     }
                 })
@@ -89,11 +90,14 @@ if (window.ethereum) {
                     isRequest = true
                     await window.ethereum.enable()
                 }
+                await store.dispatch(userRedux.actions.loginMetamask_update(false))
                 isLogined = false
                 await userService.path.push('/login')
             }
         })
     })
+} else {
+  store.dispatch(userRedux.actions.loginMetamask_update(false))
 }
 
 if (sessionStorage.getItem('api-token')) { // eslint-disable-line
