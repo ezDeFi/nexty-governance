@@ -95,16 +95,16 @@ export default class extends BaseComponent {
             <Icon type="dashboard" /> {I18N.get('0003')}
           </Menu.Item>
           <Menu.Item key="transfer">
-            <Icon type="wallet" /> {I18N.get('0016')}
+            <Icon type="credit-card" /> {I18N.get('0016')}
           </Menu.Item>
           <Menu.Item key="deposit">
-            <Icon type="wallet" /> {I18N.get('0013')}
+            <Icon type="bank" /> {I18N.get('0013')}
           </Menu.Item>
           <Menu.Item key="withdraw">
-            <Icon type="wallet" /> {I18N.get('0014')}
+            <Icon type="export" /> {I18N.get('0014')}
           </Menu.Item>
           <Menu.Item key="manager">
-            <Icon type="wallet" /> {I18N.get('0015')}
+            <Icon type="setting" /> {I18N.get('0015')}
           </Menu.Item>
         </Menu>
       </Sider>
