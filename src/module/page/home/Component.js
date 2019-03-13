@@ -4,7 +4,7 @@ import _ from 'lodash' // eslint-disable-line
 
 import './style.scss'
 
-import { Col, Row, Breadcrumb, Icon } from 'antd' // eslint-disable-line
+import { Col, Row, Breadcrumb, Icon, Spin } from 'antd' // eslint-disable-line
 
 export default class extends LoggedInPage {
   componentDidMount () {
@@ -24,6 +24,13 @@ export default class extends LoggedInPage {
   ord_renderContent () { // eslint-disable-line
     const backdropStyle = {
       backgroundPosition: '0 50%'
+    }
+
+    if (!this.props.is_login) {
+      return (<div className="text-align">
+        <Spin tip="Logging...">
+        </Spin>
+      </div>)
     }
 
     return (
