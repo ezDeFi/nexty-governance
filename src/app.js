@@ -72,11 +72,10 @@ if (window.ethereum) {
                           NextyManager: NextyManagerContract
                         }
 
-                        await store.dispatch(userRedux.actions.loginMetamask_update(true))
-                        await store.dispatch(userRedux.actions.contract_update(contract))
-                        await userService.metaMaskLogin(accounts[0])
-
                         if (!isLogined) {
+                          await store.dispatch(userRedux.actions.loginMetamask_update(true))
+                          await store.dispatch(userRedux.actions.contract_update(contract))
+                          await userService.metaMaskLogin(accounts[0])
                           userService.path.push('/dashboard')
                         }
                         isLogined = true
