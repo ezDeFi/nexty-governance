@@ -17,12 +17,13 @@ Message.config({
 })
 
 export default class extends LoggedInPage {
+
+  state = {
+    coinbaseInput: sessionStorage.getItem('signerAddress')
+  }
+
   componentDidMount () {
     this.loadData()
-
-    this.state = {
-      coinbaseInput: sessionStorage.getItem('signerAddress')
-    }
   }
 
   loadData () {
@@ -333,7 +334,10 @@ export default class extends LoggedInPage {
     var eventName = 'Joined'
     this.props.contract.NextyManager.methods.join(this.state.coinbaseInput).send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
-      this.loadData()
+      self.setState({
+        isLoading: false
+      })
+      self.loadData()
       sessionStorage.setItem('signerAddress', this.state.coinbaseInput)
     })
   }
@@ -343,7 +347,10 @@ export default class extends LoggedInPage {
     var eventName = 'Left'
     this.props.contract.NextyManager.methods.leave().send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
-      this.loadData()
+      self.setState({
+        isLoading: false
+      })
+      self.loadData()
     })
   }
 
@@ -352,6 +359,9 @@ export default class extends LoggedInPage {
     var params = isJoinable ? [this.state.coinbaseInput] : []
     var functionName = isJoinable ? 'join' : 'leave'
     var eventName = isJoinable ? 'Joined' : 'Left'
+    this.setState({
+      isLoading: true
+    })
     var self = this
 
     if (this.props.loginMetamask) {
