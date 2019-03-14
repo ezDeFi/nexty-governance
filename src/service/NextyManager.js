@@ -75,6 +75,19 @@ export default class extends BaseService {
     })
   }
 
+  getStakeLockHeight() {
+    const userRedux = this.store.getRedux('user')
+    const storeUser = this.store.getState().user
+    let { contract } = storeUser.profile
+    if (!contract) {
+      return
+    }
+
+    contract.NextyManager.stakeLockHeight((err, result) => {
+      this.dispatch(userRedux.actions.stakeLockHeight_update(Number(result)))
+    })
+  }
+
   // getLockDuration () {
   //   const storeUser = this.store.getState().user
   //   let { contract } = storeUser.profile

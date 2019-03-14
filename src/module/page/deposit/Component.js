@@ -205,6 +205,8 @@ export default class extends LoggedInPage {
 
     this.props.contract.NTFToken.methods.approve(toAddress, web3.toWei(amount, 'ether')).send({from: this.props.currentAddress}).then((result) => {
       console.log('result', result)
+    }).catch((error) => {
+      Message.error('Call smart contract error')
     })
 
     var event = self.props.getEventApproval()
@@ -257,6 +259,8 @@ export default class extends LoggedInPage {
         amount: '',
         submitted: false
       })
+    }).catch((error) => {
+      Message.error('Call smart contract error')
     })
 
     var event = self.props.getEventDeposited()

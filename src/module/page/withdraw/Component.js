@@ -234,6 +234,8 @@ export default class extends LoggedInPage {
         txhash: result,
         submitted: false
       })
+    }).catch((error) => {
+      Message.error('Call smart contract error')
     })
 
     var event = self.props.getEventWithdrawn()
