@@ -15,10 +15,6 @@ export default [
     page: LoginPage
   },
   {
-    path: '/home',
-    page: HomePage
-  },
-  {
     path: '/dashboard',
     page: DashboardPage
   },
