@@ -17,6 +17,11 @@ Message.config({
 })
 
 export default class extends LoggedInPage {
+
+  state = {
+    coinbaseInput: sessionStorage.getItem('signerAddress')
+  }
+
   componentDidMount () {
     this.loadData()
   }
@@ -144,22 +149,13 @@ export default class extends LoggedInPage {
       }
     }
 
-    // let alerts = [];
-    // if(this.state.error) {
-    //     alerts.push(<Alert message={this.state.error} type="error" showIcon />)
-    // }
-
     let txhash = null // eslint-disable-line
     if (this.state.txhash) {
       const message = 'Transaction hash: ' + this.state.txhash
       txhash = <Alert description={message} type="success" showIcon />
     }
 
-    // const valid = this.state.package && this.state.amount && (alerts.length == 0);
-    // if(valid) {
-    //     alerts = [];
-    // }
-
+    const coinbaseInput = sessionStorage.getItem('signerAddress')
     return (
       <div className="">
         <div className="ebp-header-divider">
@@ -236,8 +232,7 @@ export default class extends LoggedInPage {
                         <Col span={18}>
                           <Input
                             className= "defaultWidth"
-                            defaultValue= {''}
-                            value= {this.state.coinbaseInput}
+                            defaultValue={coinbaseInput}
                             onChange= {this.onCoinbaseChange.bind(this)}
                           />
                         </Col>
@@ -352,7 +347,11 @@ export default class extends LoggedInPage {
     var eventName = 'Joined'
     this.props.contract.NextyManager.methods.join(this.state.coinbaseInput).send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
-      this.loadData()
+      self.setState({
+        isLoading: false
+      })
+      self.loadData()
+      sessionStorage.setItem('signerAddress', this.state.coinbaseInput)
     }).catch((error) => {
       Message.error('Call smart contract error')
     })
@@ -363,22 +362,23 @@ export default class extends LoggedInPage {
     var eventName = 'Left'
     this.props.contract.NextyManager.methods.leave().send({from: this.props.currentAddress}).then((result) => {
       Message.success('Transaction has been sent successfully!')
-      this.loadData()
+      self.setState({
+        isLoading: false
+      })
+      self.loadData()
     }).catch((error) => {
       Message.error('Call smart contract error')
     })
   }
 
   onConfirm () {
-    this.setState({
-      tx_success: false,
-      isLoading: true
-    })
-
     var isJoinable = this.isJoinable()
     var params = isJoinable ? [this.state.coinbaseInput] : []
     var functionName = isJoinable ? 'join' : 'leave'
     var eventName = isJoinable ? 'Joined' : 'Left'
+    this.setState({
+      isLoading: true
+    })
     var self = this
 
     if (this.props.loginMetamask) {

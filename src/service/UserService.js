@@ -118,7 +118,7 @@ export default class extends BaseService {
       this.dispatch(userRedux.actions.loginMetamask_update(false))
       this.dispatch(userRedux.actions.profile_reset())
       this.dispatch(tasksRedux.actions.all_tasks_reset())
-      sessionStorage.clear() // eslint-disable-line
+      // sessionStorage.clear() // eslint-disable-line
       resolve(true)
     })
   }
