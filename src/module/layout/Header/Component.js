@@ -44,6 +44,8 @@ export default class extends BaseComponent {
 
   renderHeader () {
     const isLogin = this.props.isLogin
+    let url = window.location.pathname
+
     if (isLogin) {
       return (
 
