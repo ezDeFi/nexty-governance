@@ -94,8 +94,8 @@ export default class extends BaseComponent {
           <Menu.Item key="dashboard">
             <Icon type="dashboard" /> {I18N.get('0003')}
           </Menu.Item>
-          <Menu.Item key="transfer">
-            <Icon type="credit-card" /> {I18N.get('0016')}
+          <Menu.Item key="manager">
+            <Icon type="setting" /> {I18N.get('0015')}
           </Menu.Item>
           <Menu.Item key="deposit">
             <Icon type="bank" /> {I18N.get('0013')}
@@ -103,8 +103,8 @@ export default class extends BaseComponent {
           <Menu.Item key="withdraw">
             <Icon type="export" /> {I18N.get('0014')}
           </Menu.Item>
-          <Menu.Item key="manager">
-            <Icon type="setting" /> {I18N.get('0015')}
+          <Menu.Item key="transfer">
+            <Icon type="credit-card" /> {I18N.get('0016')}
           </Menu.Item>
         </Menu>
       </Sider>
