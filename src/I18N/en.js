@@ -14,8 +14,8 @@ export default {
   '0012': 'Setting Packages',
   '0013': 'Deposit',
   '0014': 'Withdraw',
-  '0015': 'Management',
-  '0016': 'NTF Transfer',
+  '0015': 'Manage',
+  '0016': 'Transfer',
 
   '0100': 'Developer',
   '0101': 'Social',

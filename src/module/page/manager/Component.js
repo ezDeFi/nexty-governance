@@ -156,7 +156,7 @@ export default class extends LoggedInPage {
 
         </div>
         <div className="ebp-page">
-          <h3 className="text-center">Management</h3>
+          <h3 className="text-center">Manage Block Signer</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
             {this.state.txhash &&
                         <Row>
@@ -259,7 +259,7 @@ export default class extends LoggedInPage {
     return (
       <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
         <Breadcrumb.Item><Link to="/manager"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item>Management</Breadcrumb.Item>
+        <Breadcrumb.Item>Manage</Breadcrumb.Item>
       </Breadcrumb>
     )
   }
