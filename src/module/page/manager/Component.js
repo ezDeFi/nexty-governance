@@ -46,18 +46,12 @@ export default class extends LoggedInPage {
 
   getStatus (status) {
     switch (status) {
-      case 0:
-        return 'NOT JOINED'
-      case 1:
-        return 'JOINED'
-      case 2:
-        return 'NOT JOINED'
-      case 3:
-        return 'NOT JOINED'
-      case 127:
-        return 'BANNED'
-      default :
-        return 'UNKNOWN'
+      case 0: return 'Ready'
+      case 1: return 'Active'
+      case 2: return 'Inactive'
+      case 3: return 'Withdrawn'
+      case 127: return 'Penalized'
+      default: return 'Unknown'
     }
   }
 
