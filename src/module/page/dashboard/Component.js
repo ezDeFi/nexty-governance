@@ -23,9 +23,9 @@ export default class extends LoggedInPage {
 
   getStatus (status) {
     switch (status) {
-      case 0: return 'Pending Active'
+      case 0: return 'Ready'
       case 1: return 'Active'
-      case 2: return 'Pending Windraw'
+      case 2: return 'Inactive'
       case 3: return 'Withdrawn'
       case 127: return 'Penalized'
       default: return 'Unknown'
