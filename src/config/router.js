@@ -2,7 +2,7 @@ import HomePage from '@/module/page/home/Container'
 import DashboardPage from '@/module/page/dashboard/Container'
 import DepositPage from '@/module/page/deposit/Container'
 import WithdrawPage from '@/module/page/withdraw/Container'
-import ManagerPage from '@/module/page/manager/Container'
+import ManagePage from '@/module/page/manage/Container'
 import TransferPage from '@/module/page/transfer/Container'
 
 import LoginPage from '@/module/page/login/Container'
@@ -35,8 +35,8 @@ export default [
     page: WithdrawPage
   },
   {
-    path: '/manager',
-    page: ManagerPage
+    path: '/manage',
+    page: ManagePage
   },
   {
     path: '/transfer',

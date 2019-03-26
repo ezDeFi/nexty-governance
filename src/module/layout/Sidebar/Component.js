@@ -91,7 +91,7 @@ export default class extends BaseComponent {
         />
 
         <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
-          <Menu.Item key="manager">
+          <Menu.Item key="manage">
             <Icon type="setting" /> {I18N.get('0015')}
           </Menu.Item>
           <Menu.Item key="deposit">
@@ -116,7 +116,7 @@ export default class extends BaseComponent {
       'transfer',
       'deposit',
       'withdraw',
-      'manager'
+      'manage'
     ], key)) {
       this.props.history.push('/' + e.key)
     } else if (key === 'logout') {
@@ -139,16 +139,14 @@ export default class extends BaseComponent {
     let url = window.location.pathname
 
     let sidebar = [
-      'home',
-      'dashboard',
       'transfer',
       'deposit',
       'withdraw',
-      'manager'
+      'manage'
     ]
 
     if (!url) {
-      return ['dashboard']
+      return ['manage']
     }
 
     for (var menu in sidebar) {

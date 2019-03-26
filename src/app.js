@@ -75,7 +75,7 @@ function setupWeb3() {
                       await store.dispatch(userRedux.actions.loginMetamask_update(true))
                       await store.dispatch(userRedux.actions.contract_update(contract))
                       await userService.metaMaskLogin(accounts[0])
-                      userService.path.push('/manager')
+                      userService.path.push('/manage')
                     }
                     isLogined = true
                 } else if (!isLogined) {

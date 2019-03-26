@@ -21,7 +21,7 @@ export default createContainer(Component, (state) => {
 
         if (rs) {
           message.success('Login successfully')
-          userService.path.push('/manager')
+          userService.path.push('/manage')
         }
       } catch (err) {
         message.destroy()
