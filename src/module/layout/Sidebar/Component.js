@@ -91,9 +91,6 @@ export default class extends BaseComponent {
         />
 
         <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
-          <Menu.Item key="dashboard">
-            <Icon type="dashboard" /> {I18N.get('0003')}
-          </Menu.Item>
           <Menu.Item key="manager">
             <Icon type="setting" /> {I18N.get('0015')}
           </Menu.Item>
