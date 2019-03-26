@@ -12,11 +12,11 @@ import NotFound from '@/module/page/error/NotFound'
 export default [
   {
     path: '/',
-    page: HomePage
+    page: LoginPage
   },
   {
     path: '/home',
-    page: HomePage
+    page: LoginPage
   },
   {
     path: '/dashboard',
