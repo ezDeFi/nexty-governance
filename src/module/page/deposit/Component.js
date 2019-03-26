@@ -110,7 +110,7 @@ export default class extends LoggedInPage {
           <div className="ant-col-md-18 ant-col-md-offset-3" style={{ 'textAlign': 'left' }}>
             <Row>
               <Col span={6}>
-                            Your balance:
+                            Balance:
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
