@@ -22,7 +22,7 @@ const CONTRACT_ADDRESS_NextyManager = '0x000000000000000000000000000000000001234
 
 export const WEB3 = {
   // HTTP: 'http://108.61.148.72:8545', // testnet
-  HTTP: 'http://13.228.68.50:8545', // mainnet
+  HTTP: 'https://rpc.nexty.io', // mainnet
   // HTTP: 'http://localhost:8545', // localhost
   // NETWORK_ID: '111111', // testnet
   NETWORK_ID: '66666', // mainnet
