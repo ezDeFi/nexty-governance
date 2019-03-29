@@ -180,7 +180,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.props.tokenBalance)/1e18} NTF
+                {this.props.tokenBalance} NTF
               </Col>
             </Row>
 
@@ -190,7 +190,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18} style={{ color: ((this.props.depositedBalance < this.props.minNtfAmount) ? 'red' : 'blue') }}>
-                {parseFloat(this.props.depositedBalance)/1e18} NTF
+                {this.props.depositedBalance} NTF
               </Col>
             </Row>
 
@@ -200,7 +200,7 @@ export default class extends LoggedInPage {
               </Col>
               <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
               <Col span={18}>
-                {parseFloat(this.props.minNtfAmount)/1e18} NTF
+                {this.props.minNtfAmount} NTF
               </Col>
             </Row>
 
