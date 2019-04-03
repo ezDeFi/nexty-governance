@@ -71,7 +71,7 @@ export default class extends BaseService {
     }
 
     contract.NTFToken.balanceOf(address, (error, result) => {
-      this.dispatch(userRedux.actions.tokenBalance_update(result))
+      this.dispatch(userRedux.actions.tokenBalance_update(result.div(1e18).toNumber()))
     })
   }
 

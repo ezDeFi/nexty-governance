@@ -71,7 +71,7 @@ export default class extends BaseService {
     }
 
     contract.NextyManager.stakeRequire((err, result) => {
-        this.dispatch(userRedux.actions.minNtfAmount_update(Number(result)))
+      this.dispatch(userRedux.actions.minNtfAmount_update(result.div(1e18).toNumber()))
     })
   }
 
@@ -131,7 +131,7 @@ export default class extends BaseService {
     }
 
     contract.NextyManager.getBalance(storeUser.currentAddress, (err, result) => {
-        this.dispatch(userRedux.actions.depositedBalance_update(Number(result)))
+      this.dispatch(userRedux.actions.depositedBalance_update(result.div(1e18).toNumber()))
     })
   }
 
