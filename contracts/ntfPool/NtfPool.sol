@@ -1,17 +1,31 @@
 pragma solidity ^0.5.0;
 
 import "./../../node_modules/openzeppelin-eth/contracts/ownership/Ownable.sol";
-import "./tokens/CoinShare.sol";
+import "./CoinShare.sol";
 import "./Lockable.sol";
 
 import "./interfaces/GovI.sol";
 
 contract NtfPool is CoinShare, Ownable, Lockable {
     // nty per pool token
+    uint256 constant public MAX_LOCK_DURATION = 30 days;
+    uint256 constant public OWNER_ACTION_DELAY = 7 days;
+
+    uint256 lastActionTime;
     uint256 public npt;
 
     NtfTokenI public ntfToken;
     GovI public gov;
+
+    modifier delayPast() {
+        require(block.timestamp > lastActionTime + OWNER_ACTION_DELAY, "dont change to quick");
+        _;
+    }
+
+    modifier validLockDuration(uint256 _lockDuration) {
+        require(_lockDuration <= MAX_LOCK_DURATION, "dont lock too long");
+        _;
+    }
     
     constructor
     (
@@ -23,7 +37,7 @@ contract NtfPool is CoinShare, Ownable, Lockable {
         uint8 _decimals
     )
         public
-        PoolToken(_name, _symbol, _decimals)
+        CoinShare(_name, _symbol, _decimals)
     {
         ntfToken = NtfTokenI(_ntfAddress);
         gov = GovI(_govAddress);
@@ -55,22 +69,20 @@ contract NtfPool is CoinShare, Ownable, Lockable {
         gov.leave();
     }
 
-    function tokenWithdraw()
+    function tokenPoolWithdraw()
         public
         onlyOwner()
     {
         gov.withdraw();
     }
 
-    function _fundWithdraw(
+    function fundWithdraw(
         address payable _toAddress
     )
         public
         onlyOwner()
     {
-        uint256 _fund = fund;
-        fund = 0;
-        transfer(owner()).value(_fund);
+        _fundWithdraw(_toAddress);
     }
 
     function setLockDuration(
@@ -78,11 +90,14 @@ contract NtfPool is CoinShare, Ownable, Lockable {
     )
         public
         onlyOwner()
+        delayPast()
+        validLockDuration(_lockDuration)
     {
+        lastActionTime = block.timestamp;
         _setLockDuration(_lockDuration);
     }
 
-    // investers function
+    // members function
     function tokenDeposit(
         uint256 _amount
     )
@@ -96,7 +111,7 @@ contract NtfPool is CoinShare, Ownable, Lockable {
         _lock(_sender);
     }
 
-    function tokenWithdraw(
+    function tokenMemberWithdraw(
         uint256 _amount
     )
         public
@@ -112,7 +127,7 @@ contract NtfPool is CoinShare, Ownable, Lockable {
     function coinWithdraw()
         public
     {
-        address payable _sender;
+        address payable _sender = msg.sender;
         _coinWithdraw(_sender);
     }
 
@@ -125,11 +140,6 @@ contract NtfPool is CoinShare, Ownable, Lockable {
         return ntfToken.balanceOf(address(this));
     }
 
-    function getPoolNtyBalance()
-        public
-        view
-        returns(uint256)
-    {
-        return (address(this).balance).sub(fund);
-    }
+    // function getMembersBalance()
+    // getFund()
 }

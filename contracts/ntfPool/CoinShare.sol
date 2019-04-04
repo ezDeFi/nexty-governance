@@ -35,8 +35,8 @@ contract CoinShare is PoolToken{
         uint256 _addedFund = _addedBalance * TAX_PERCENT / 100;
         fund = fund.add(_addedFund);
         lastBalance = address(this).balance;
-        if (totalSupply() == 0) return cpt = 0;
-        cpt = (address(this.balance).sub(fund)).mul(CPT_ZOOM) / totalSupply();
+        if (totalSupply() == 0) cpt = 0;
+        cpt = ((address(this).balance).sub(fund)).mul(CPT_ZOOM) / totalSupply();
     }
 
     function _fundWithdraw(
@@ -46,19 +46,19 @@ contract CoinShare is PoolToken{
     {
         uint256 _fund = fund;
         fund = 0;
-        transfer(_toAddress).value(_fund);
+        _toAddress.transfer(_fund);
     }
 
     function _coinWithdraw(
-        address _member,
-        uint256 _amount
+        address payable _member
     )
         internal
     {
         _updateCpt();
+        uint256 _amount = coinOf(_member);
         credit[_member] = credit[_member].add(_amount);
         coinOf(_member);
-        transfer(_member).value(_amount);
+        _member.transfer(_amount);
     }
 
     function _updateCredit(
@@ -69,6 +69,14 @@ contract CoinShare is PoolToken{
     {
         // _memberBalance = balanceOf(_member) * cpt - credit
         credit[_member] = balanceOf(_member).mul(cpt).sub(_memberBalance);
+    }
+
+    function getCpt()
+        public
+        view
+        returns(uint256)
+    {
+        return cpt;
     }
 
     function getFund()
@@ -86,7 +94,7 @@ contract CoinShare is PoolToken{
         view
         returns(uint256)
     {
-        return (balanceOf(_member).mul(cpt) / CPT_ZOOM).sub(credit(_member));
+        return (balanceOf(_member).mul(cpt) / CPT_ZOOM).sub(credit[_member]);
     }
 
     function creditOf(
@@ -97,5 +105,13 @@ contract CoinShare is PoolToken{
         returns(uint256)
     {
         return credit[_member];
+    }
+
+    function getMembersBalance()
+        public
+        view
+        returns(uint256)
+    {
+        return (address(this).balance).sub(fund);
     }
 }

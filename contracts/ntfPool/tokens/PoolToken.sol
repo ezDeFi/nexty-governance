@@ -2,7 +2,8 @@ pragma solidity ^0.5.0;
 
 import "./../../../node_modules//openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "./ERC20Detailed.sol";
-import "./NtfTokenI.sol";
+
+import "./../interfaces/NtfTokenI.sol";
  
 contract PoolToken is ERC20, ERC20Detailed{
 

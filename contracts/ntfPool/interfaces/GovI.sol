@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-interface NextyGovernanceI {
+interface GovI {
   function deposit(uint256 _amount) external returns (bool);
   function join(address _signer) external returns (bool);
   function leave() external returns (bool);
