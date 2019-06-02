@@ -55,6 +55,17 @@ const userService = new UserService()
 let isRequest = false
 let isLogined = false
 
+function setupCallWeb3() {
+  let callweb3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
+  const NTFTokenContract = new callweb3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
+  const NextyManagerContract = new callweb3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
+  const readContract = {
+    NTFToken: NTFTokenContract,
+    NextyManager: NextyManagerContract
+  }
+  store.dispatch(userRedux.actions.readContract_update(readContract))
+}
+
 function setupWeb3() {
       window.web3.eth.getAccounts( async (err, accounts) => {
         if (accounts.length > 0) {
@@ -95,6 +106,8 @@ function setupWeb3() {
     })
 }
 
+setupCallWeb3()
+
 if (window.ethereum) {
     setupWeb3()
 
@@ -105,21 +118,23 @@ if (window.ethereum) {
   store.dispatch(userRedux.actions.loginMetamask_update(false))
 }
 
-if (sessionStorage.getItem('api-token')) { // eslint-disable-line
-  const userRedux = store.getRedux('user')
-  api_request({
-    path: '/user/current_user',
-    success: data => {
-      store.dispatch(userRedux.actions.is_login_update(true))
-      if ([USER_ROLE.ADMIN, USER_ROLE.COUNCIL].includes(data.role)) {
-        store.dispatch(userRedux.actions.is_admin_update(true))
-      }
-      store.dispatch(userRedux.actions.profile_update(data.profile))
-      store.dispatch(userRedux.actions.role_update(data.role))
+render()
 
-      render()
-    }
-  })
-} else {
-  render()
-}
+// if (sessionStorage.getItem('api-token')) { // eslint-disable-line
+//   const userRedux = store.getRedux('user')
+//   api_request({
+//     path: '/user/current_user',
+//     success: data => {
+//       store.dispatch(userRedux.actions.is_login_update(true))
+//       if ([USER_ROLE.ADMIN, USER_ROLE.COUNCIL].includes(data.role)) {
+//         store.dispatch(userRedux.actions.is_admin_update(true))
+//       }
+//       store.dispatch(userRedux.actions.profile_update(data.profile))
+//       store.dispatch(userRedux.actions.role_update(data.role))
+
+//       render()
+//     }
+//   })
+// } else {
+//   render()
+// }

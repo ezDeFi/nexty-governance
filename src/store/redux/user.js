@@ -30,12 +30,14 @@ class UserRedux extends BaseRedux {
       loginMetamask: true,
       currentAddress: null,
       contract: null,
+      readContract: null,
       stakeLockHeight: 0,
 
       profile: {
         web3: null,
         wallet: null,
-        contract: null
+        contract: null,
+        readWeb3: null
       }
     }
   }

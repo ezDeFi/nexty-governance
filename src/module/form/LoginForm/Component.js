@@ -26,7 +26,7 @@ class C extends BaseComponent {
     const privateKey_el = ( // eslint-disable-line
       <Input size="large"
         prefix={<Icon type="key" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-        type="password" autocomplete="off"
+        type="password" autoComplete="off"
         placeholder="Private key"/>
     )
 
