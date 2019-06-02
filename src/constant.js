@@ -1,5 +1,5 @@
-import NTFToken from './../build/contracts/NtfToken.json'
-import NextyManager from './../build/contracts/NextyGovernance.json'
+import NTFToken from './../deployed/NtfToken.json'
+import NextyManager from './../deployed/NextyGovernance.json'
 export const USER_ROLE = {
   MEMBER: 'MEMBER',
   LEADER: 'LEADER',
