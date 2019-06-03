@@ -51,6 +51,7 @@ const render = () => {
 }
 
 const userRedux = store.getRedux('user')
+const contractsRedux = store.getRedux('contracts')
 const userService = new UserService()
 let isRequest = false
 let isLogined = false
@@ -79,14 +80,22 @@ function setupWeb3() {
                     const totalSupply = await NTFTokenContract.methods.totalSupply().call()
                     const contract = {
                       NTFToken: NTFTokenContract,
-                      NextyManager: NextyManagerContract
+                      NextyManager: NextyManagerContract,
+                      NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+                      NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+                      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
                     }
 
                     if (!isLogined) {
                       await store.dispatch(userRedux.actions.loginMetamask_update(true))
                       await store.dispatch(userRedux.actions.contract_update(contract))
+                      await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
+                      await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
+                      await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
+                      await store.dispatch(userRedux.actions.web3_update(web3))
                       await userService.metaMaskLogin(accounts[0])
-                      userService.path.push('/manage')
+                      //userService.path.push('/manage')
+                      userService.path.push('/pool')
                     }
                     isLogined = true
                 } else if (!isLogined) {

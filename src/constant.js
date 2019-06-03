@@ -1,5 +1,8 @@
-import NTFToken from './../build/contracts/NtfToken.json'
-import NextyManager from './../build/contracts/NextyGovernance.json'
+import NTFToken from './../deployed/NtfToken.json'
+import NextyManager from './../deployed/NextyGovernance.json'
+import PoolMaker from './../deployed/pool/PoolMaker.json'
+import NtfPool from './../deployed/pool/NtfPool.json'
+
 export const USER_ROLE = {
   MEMBER: 'MEMBER',
   LEADER: 'LEADER',
@@ -20,6 +23,12 @@ const CONTRACT_ADDRESS_NTFToken = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda' /
 const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
 const CONTRACT_ADDRESS_NextyManager = '0x0000000000000000000000000000000000012345' // eslint-disable-line
 
+const CONTRACT_ABI_PoolMaker = PoolMaker.abi // eslint-disable-line
+const CONTRACT_ADDRESS_PoolMaker = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' // eslint-disable-line
+
+const CONTRACT_ABI_NtfPool = NtfPool.abi // eslint-disable-line
+const CONTRACT_ADDRESS_NtfPool = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' // eslint-disable-line
+
 export const WEB3 = {
   // HTTP: 'http://108.61.148.72:8545', // testnet
   HTTP: 'http://13.228.68.50:8545', // mainnet
@@ -34,6 +43,14 @@ export const WEB3 = {
     NextyManager: {
       ABI: CONTRACT_ABI_NextyManager,
       ADDRESS: CONTRACT_ADDRESS_NextyManager
+    },
+    PoolMaker: {
+      ABI: CONTRACT_ABI_PoolMaker,
+      ADDRESS: CONTRACT_ADDRESS_PoolMaker
+    },
+    NtfPool: {
+      ABI: CONTRACT_ABI_NtfPool,
+      ADDRESS: CONTRACT_ADDRESS_NtfPool
     }
   }
 }

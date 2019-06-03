@@ -103,6 +103,9 @@ export default class extends BaseComponent {
           <Menu.Item key="transfer">
             <Icon type="credit-card" /> {I18N.get('0016')}
           </Menu.Item>
+          <Menu.Item key="pool">
+            <Icon type="credit-card" /> {I18N.get('0017')}
+          </Menu.Item>
         </Menu>
       </Sider>
     )
@@ -116,7 +119,8 @@ export default class extends BaseComponent {
       'transfer',
       'deposit',
       'withdraw',
-      'manage'
+      'manage',
+      'pool'
     ], key)) {
       this.props.history.push('/' + e.key)
     } else if (key === 'logout') {
@@ -142,7 +146,8 @@ export default class extends BaseComponent {
       'transfer',
       'deposit',
       'withdraw',
-      'manage'
+      'manage',
+      'pool'
     ]
 
     if (!url) {

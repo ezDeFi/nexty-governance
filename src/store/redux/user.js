@@ -38,7 +38,16 @@ class UserRedux extends BaseRedux {
         wallet: null,
         contract: null,
         readWeb3: null
-      }
+      },
+
+      // pool-master
+      web3: null,
+      blockNumber: 0,
+      ntfBalance: 0,
+      ntfDeposited: 0,
+      rewardBalance: 0,
+      isLocking: false,
+      myPendingOutAmount: 0
     }
   }
 }

@@ -63,7 +63,7 @@ export default class extends BaseService {
     return true
   }
 
-  async metaMaskLogin(address) {
+  async metaMaskLogin (address) {
     const userRedux = this.store.getRedux('user')
     let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
 
@@ -81,6 +81,7 @@ export default class extends BaseService {
 
     await this.dispatch(userRedux.actions.is_login_update(true))
     await this.dispatch(userRedux.actions.currentAddress_update(address))
+    await this.dispatch(userRedux.actions.wallet_update(address))
     await this.dispatch(userRedux.actions.profile_update({
       web3,
       contract
@@ -94,9 +95,17 @@ export default class extends BaseService {
     const storeUser = this.store.getState().user
     let { web3, wallet } = storeUser.profile
     const walletAddress = storeUser.currentAddress
-    const balance = web3.eth.getBalance(walletAddress)
-
+    const balance = await web3.eth.getBalance(walletAddress)
     this.dispatch(userRedux.actions.balance_update(web3.fromWei(balance, 'ether')))
+  }
+
+  async getBalanceBeta () {
+    const userRedux = this.store.getRedux('user')
+    const storeUser = this.store.getState().user
+    let { web3, wallet } = storeUser
+    const balance = await web3.eth.getBalance(wallet)
+    console.log(wallet, 'xxx', balance)
+    this.dispatch(userRedux.actions.balance_update(balance))
   }
 
   async getWallet () {
@@ -106,6 +115,14 @@ export default class extends BaseService {
     const walletAddress = storeUser.currentAddress
 
     this.dispatch(userRedux.actions.wallet_update(walletAddress))
+  }
+
+  async loadBlockNumber () {
+    const userRedux = this.store.getRedux('user')
+    const storeUser = this.store.getState().user
+    let { web3 } = storeUser
+    const _blockNumber = await web3.eth.getBlockNumber()
+    await this.dispatch(userRedux.actions.blockNumber_update(_blockNumber))
   }
 
   async logout () {
