@@ -11,25 +11,27 @@ export default class extends BaseComponent {
       <div className="c_Footer">
         <div className="d_rowGrey">
           <Row className="d_rowFooter">
-            <Col xs={24} sm={24} md={12} span={12}>
+            <Col xs={24} sm={24} md={8}>
               <div className="d_footerSection">
-                <b>WHAT IS NEXTY GOVERNANCE?</b>
-                <p className="margin-left-15"></p>
-                <a href="/assets/howtouse.pdf" target="_blank"><b>HOW TO USE</b></a>
+                <p className="title">Email</p>
+                <p className="content">support@nexty.io</p>
               </div>
             </Col>
-            <Col xs={24} sm={24} md={12} span={12}>
+            <Col xs={24} sm={24} md={8}>
               <div className="d_footerSection">
-                <b>FOLLOW US ON</b><br />
-                <br />
-                <p>
+                <p className="title">Follow us on</p>
+                <p className="content">
                   <a href="https://bitcointalk.org/index.php?topic=2498919"><img src="/assets/images/btc.png" width="25px" /></a>&nbsp; &nbsp;
-                  <a href="https://www.facebook.com/nextycoin"><Icon type="facebook" style={{ fontSize: 22 }} /></a>&nbsp; &nbsp;
-                  <a href="https://twitter.com/nextyio"><Icon type="twitter" style={{ fontSize: 22 }} /></a>
+                  <a href="https://www.facebook.com/nextycoin"><Icon type="facebook" style={{ fontSize: 22, color: "#1976D2" }} /></a>&nbsp; &nbsp;
+                  <a href="https://twitter.com/nextyio"><Icon type="twitter" style={{ fontSize: 22, color: "#03A9F4" }} /></a>
                 </p>
-                <b>Email</b>
-                <p>
-                  <a>support@nexty.io</a>
+              </div>
+            </Col>
+            <Col xs={24} sm={24} md={8}>
+              <div className="d_footerSection">
+                <p className="title">What is Nexty Governance ?</p>
+                <p className="content">
+                  <a className="how-to-use" href="/assets/howtouse.pdf" target="_blank">How to use</a>
                 </p>
               </div>
             </Col>

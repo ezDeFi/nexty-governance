@@ -1,5 +1,10 @@
 .c_loginForm{
   text-align: left;
+
+  .action {
+    text-align: center;
+  }
+
   .d_item{
     .ant-form-item-children{
       display: flex;

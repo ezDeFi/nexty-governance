@@ -2,19 +2,30 @@
 @import "../../../style/variable";
 
 .d_rowFooter {
-
-  margin-left: auto;
-  margin-right: auto;
+  background: $bg_footer_color;
+  max-width: $main_width;
+  margin: 0 auto;
 
   .d_footerSection {
-    text-align: left;
-    max-width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    margin: 35px 0;
 
-  a {
-    color: #fff;
+    .title {
+      font-size: 18px;
+      color: #787E9E;
+      font-weight: 500;
+      padding-bottom: 8px;
+    }
+
+    .content {
+      font-size: 16px;
+      color: #1C7BFF;
+      padding-bottom: 0px;
+
+      .how-to-use {
+        color: #1C7BFF;
+        text-decoration: underline;
+      }
+    }
   }
 
   img {
@@ -23,11 +34,11 @@
 }
 
 .d_rowGrey {
-  background-color: rgb(229, 229, 229);
+  background: $bg_footer_color;
 }
 
 .d_rowFooterBottom {
-  background: #082b5f;
+  background: $bg_footer_color;
   color: #fff;
   height: 35px;
   text-align: center;
@@ -35,6 +46,8 @@
   p {
     padding-bottom: 0px;
     padding-top: 10px;
+    color: #999999;
+    font-size: 14px;
   }
 }
 

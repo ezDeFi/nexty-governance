@@ -13,13 +13,9 @@
 
   .xlogo {
     height: 64px;
-    background: #367fa9;
-    // margin: 16px;
     font-size: 1.2em;
     line-height: 65px;
     font-weight: 600;
-    cursor: pointer;
-    // text-align: center;
     color: #fff;
     font-family: Helvetica,Arial,sans-serif;
   }
@@ -27,11 +23,6 @@
   .xlogo img {
     height: 100%;
     padding: 3px 5px 7px 10px;
-  }
-
-  .xlogo:hover {
-    background: #2f6e92;
-    font-family: Helvetica,Arial,sans-serif;
   }
 
   .xavatar {
@@ -65,13 +56,6 @@
     font-size: 11px;
     margin-left: 16px;
     margin-right: 16px;
-  }
-
-  .d_rowFooter {
-    background: #0d47a1;
-    color: #fff;
-    padding-top: 20px;
-    padding-bottom: 10px;
   }
 
   .alert-dismissible .close {

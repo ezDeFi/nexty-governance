@@ -49,17 +49,9 @@ class C extends BaseComponent {
             <FormItem>
               {p.privateKey}
             </FormItem>
-            <FormItem>
-              <Col xs={24} sm={24} md={6} lg={6} xl={6} >
-                <Button loading={this.props.loading} type="ebp" htmlType="submit" style={{ width: '100%' }}>
-                            Login
-                </Button>
-              </Col>
-              {/* &nbsp;&nbsp;
-                        <Button loading={this.props.loading} type="blue" htmlType="button" className="">
-                            Connect to Metamask
-                        </Button> */}
-            </FormItem>
+            <div className="action">
+              <Button loading={this.props.loading} type="ebp" htmlType="submit">Login</Button>
+            </div>
           </Form>
         </Col>
       </Col>

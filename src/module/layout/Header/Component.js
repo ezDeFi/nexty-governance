@@ -54,9 +54,8 @@ export default class extends BaseComponent {
       )
     } else {
       return (
-        <div className="xlogo" style={{ background: '#0d47a1' }}>
-
-          <img src='/assets/images/Asset 1@20x-8.png' />
+        <div className="xlogo">
+          <img src='/assets/images/logo.png' />
           <link rel="shortcut icon" href="assets/images/btc.gif"/>
         </div>
 
@@ -67,10 +66,11 @@ export default class extends BaseComponent {
   ord_render () { // eslint-disable-line
 
     return (
-      <Header style={{ background: '#0d47a1', padding: 0 }}>
-        {this.renderHeader()}
-
-      </Header>
+        <Header>
+          <div className="Header">
+            {this.renderHeader()}
+          </div>
+        </Header>
     )
   }
 

@@ -1,8 +1,8 @@
 import { createContainer } from '@/util'
 import Component from './Component'
 // import NTFToken from '@/service/NTFToken'
-import NtfTokenService from '@/service/contracts/NtfTokenService'
-import NtfPoolService from '@/service/contracts/NtfPoolService'
+import NtfTokenService from '@/service/contracts/ntfTokenService'
+import NtfPoolService from '@/service/contracts/ntfPoolService'
 import UserService from '@/service/UserService'
 var curWallet = null
 export default createContainer(Component, (state) => {
