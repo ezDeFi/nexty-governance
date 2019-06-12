@@ -264,7 +264,7 @@ export default class extends BaseService {
     const store = this.store.getState()
     //let _address = CONTRACTS.NtfPool.address
     let _address = store.pool.selectedPool
-    let methods = store.user.profile.contract.ntfToken.methods
+    let methods = store.contracts.ntfToken.methods
     const poolRedux = this.store.getRedux('pool')
     let _poolNtfBalance = await methods.balanceOf(_address).call()
     await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))
