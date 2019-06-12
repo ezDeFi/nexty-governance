@@ -4,7 +4,7 @@ import _ from 'lodash' // eslint-disable-line
 
 import './style.scss'
 
-import { Col, Row, Breadcrumb, Icon } from 'antd' // eslint-disable-line
+import { Col, Row, Icon } from 'antd' // eslint-disable-line
 
 export default class extends LoggedInPage {
   componentDidMount () {
@@ -47,14 +47,6 @@ export default class extends LoggedInPage {
           </Col>
         </Row>
       </div>
-    )
-  }
-
-  ord_renderBreadcrumb () { // eslint-disable-line
-    return (
-      <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-        <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
-      </Breadcrumb>
     )
   }
 }

@@ -42,25 +42,48 @@ export default class extends BaseComponent {
     )
   }
 
+  getSelectedKeys() {
+      let keys = _.map(['manage', 'deposit', 'withdraw', 'transfer', 'pool'], (key) => {
+          return ((this.props.pathname || '').indexOf(`/${key}`) === 0) ? key : ''
+      })
+      return keys
+  }
+
+  gotoHomePage() {
+    this.props.history.push('/manage')
+  }
+
   renderHeader () {
     const isLogin = this.props.isLogin
-    if (isLogin) {
-      return (
 
-        <Button className="right-side" onClick={this.logout.bind(this)} ghost>
-          <Icon type="logout" />{I18N.get('0204')}
-        </Button>
-
-      )
-    } else {
-      return (
-        <div className="xlogo">
-          <img src='/assets/images/logo.png' />
-          <link rel="shortcut icon" href="assets/images/btc.gif"/>
+    return (
+      <div className="xlogo">
+        <span className="logo-icon" onClick={this.gotoHomePage.bind(this)}><img src='/assets/images/logo.png' /></span>
+        <div className="header-menu">
+          <Menu onClick={this.clickItem.bind(this)} mode="horizontal" selectedKeys={this.getSelectedKeys()}>
+            <Menu.Item key="manage">
+              <Icon type="setting" /> {I18N.get('0015')}
+            </Menu.Item>
+            <Menu.Item key="deposit">
+              <Icon type="bank" /> {I18N.get('0013')}
+            </Menu.Item>
+            <Menu.Item key="withdraw">
+              <Icon type="export" /> {I18N.get('0014')}
+            </Menu.Item>
+            <Menu.Item key="transfer">
+              <Icon type="credit-card" /> {I18N.get('0016')}
+            </Menu.Item>
+            <Menu.Item key="pool">
+              <Icon type="unordered-list" /> {I18N.get('0017')}
+            </Menu.Item>
+            {isLogin &&  <Menu.Item key="logout">
+              <Icon type="logout" style={{color: "#1C7BFF"}} /> {I18N.get('0204')}
+            </Menu.Item>}
+          </Menu>
         </div>
-
-      )
-    }
+        {/*{isLogin && <span onClick={this.logout.bind(this)} className="right-action"><a className="logout">{I18N.get('0204')}</a> <Icon type="logout" style={{color: "#1C7BFF"}} /></span>}*/}
+      </div>
+    )
   }
 
   ord_render () { // eslint-disable-line
@@ -73,6 +96,30 @@ export default class extends BaseComponent {
         </Header>
     )
   }
+
+  clickItem(e) {
+        const key = e.key
+        const { isLogin } = this.props
+
+        if (_.includes([
+            'home',
+            'dashboard',
+            'transfer',
+            'deposit',
+            'withdraw',
+            'manage',
+            'pool'
+        ], key)) {
+
+            if (key === 'landing') {
+                this.props.history.push('/')
+            } else {
+                this.props.history.push('/' + e.key)
+            }
+        } else if (key === 'logout') {
+            this.logout()
+        }
+    }
 
   logout (e) {
     Modal.confirm({

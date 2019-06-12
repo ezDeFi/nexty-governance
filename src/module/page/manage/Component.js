@@ -3,7 +3,7 @@ import LoggedInPage from '../LoggedInPage'
 import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
 
-import { Col, Row, Icon, Input, Button, Breadcrumb, Modal, Alert, Message, Notification } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, Input, Button, Modal, Alert, Message, Notification } from 'antd' // eslint-disable-line
 
 let SHA3 = require('crypto-js/sha3')
 let sha3 = (value) => {
@@ -152,9 +152,6 @@ export default class extends LoggedInPage {
     const coinbaseInput = sessionStorage.getItem('signerAddress')
     return (
       <div className="">
-        <div className="ebp-header-divider">
-
-        </div>
         <div className="ebp-page">
           <h3 className="text-center">Manage Block Signer</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
@@ -252,15 +249,6 @@ export default class extends LoggedInPage {
         </div>
       </div>
 
-    )
-  }
-
-  ord_renderBreadcrumb () { // eslint-disable-line
-    return (
-      <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-        <Breadcrumb.Item><Link to="/manage"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item>Manage</Breadcrumb.Item>
-      </Breadcrumb>
     )
   }
 

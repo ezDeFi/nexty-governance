@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Breadcrumb } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, Form } from 'antd' // eslint-disable-line
 
 export default class extends LoggedInPage {
   componentDidMount () {
@@ -35,9 +35,6 @@ export default class extends LoggedInPage {
   ord_renderContent () { // eslint-disable-line
     return (
       <div className="">
-        <div className="ebp-header-divider">
-        </div>
-
         <div className="ebp-page">
           <h3 className="text-center">Dashboard</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
@@ -73,15 +70,6 @@ export default class extends LoggedInPage {
           </div>
         </div>
       </div>
-    )
-  }
-
-  ord_renderBreadcrumb () { // eslint-disable-line
-    return (
-      <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-        <Breadcrumb.Item><Link to="/manage"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-      </Breadcrumb>
     )
   }
 }

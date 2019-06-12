@@ -17,7 +17,6 @@ export default class extends BasePage {
           <BackTop />
           <Layout>
             <Header />
-            {this.ord_renderBreadcrumb()}
             <Content style={{ margin: '16px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
               {this.ord_renderContent()}
             </Content>

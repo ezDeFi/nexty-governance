@@ -18,11 +18,14 @@
     font-weight: 600;
     color: #fff;
     font-family: Helvetica,Arial,sans-serif;
+
+    .logo-icon {
+      cursor: pointer;
+    }
   }
 
   .xlogo img {
-    height: 100%;
-    padding: 3px 5px 7px 10px;
+    height: 45px;
   }
 
   .xavatar {

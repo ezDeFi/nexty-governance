@@ -9,11 +9,34 @@
 .xlogo {
     height: 64px;
     width: 100%;
+    display: flex;
 }
 
 .Header {
     max-width: $main_width;
-    margin: 0 auto;
+    margin: 20px auto;
+
+    .right-action {
+        .logout {
+            color: #1C7BFF;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        float: right;
+    }
+
+    .header-menu {
+        width: 100%;
+
+        .ant-menu {
+            float: right;
+        }
+
+        .ant-menu-horizontal {
+            border-bottom: none;
+        }
+    }
 }
 
 .ant-layout-header {

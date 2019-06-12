@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
 import moment from 'moment/moment' // eslint-disable-line
 
-import { Col, Row, Icon, Form, Input, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, Form, Input, Button, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
 
 let SHA3 = require('crypto-js/sha3')
@@ -130,9 +130,6 @@ export default class extends LoggedInPage {
 
     return (
       <div className="">
-        <div className="ebp-header-divider">
-
-        </div>
         <div className="ebp-page">
           <h3 className="text-center">NTF Transfer</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
@@ -215,15 +212,6 @@ export default class extends LoggedInPage {
           </div>
         </div>
       </div>
-    )
-  }
-
-  ord_renderBreadcrumb () { // eslint-disable-line
-    return (
-      <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-        <Breadcrumb.Item><Link to="/manage"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item>Transfer</Breadcrumb.Item>
-      </Breadcrumb>
     )
   }
 

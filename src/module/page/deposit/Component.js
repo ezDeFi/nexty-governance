@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import './style.scss'
 import { WEB3 } from '@/constant'
 
-import { Col, Row, Icon, Form, Button, Breadcrumb, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, Form, Button, Modal, Alert, Message, InputNumber, notification } from 'antd' // eslint-disable-line
 const MIN_VALUE_DEPOSIT = 1
 
 Message.config({
@@ -83,9 +83,6 @@ export default class extends LoggedInPage {
 
     return (
       <div className="">
-        <div className="ebp-header-divider">
-
-        </div>
         <div className="ebp-page">
           <h3 className="text-center">NTF Deposit</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
@@ -152,15 +149,6 @@ export default class extends LoggedInPage {
           </div>
         </div>
       </div>
-    )
-  }
-
-  ord_renderBreadcrumb () { // eslint-disable-line
-    return (
-      <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-        <Breadcrumb.Item><Link to="/manage"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item>Deposit</Breadcrumb.Item>
-      </Breadcrumb>
     )
   }
 

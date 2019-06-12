@@ -8,7 +8,7 @@ import moment from 'moment'
 
 import './style.scss'
 
-import { Col, Row, Icon, InputNumber, Breadcrumb, Button, Select } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, InputNumber, Button, Select } from 'antd' // eslint-disable-line
 const Option = Select.Option
 
 const weiToEther = (wei) => {
@@ -72,9 +72,6 @@ export default class extends LoggedInPage {
   ord_renderContent () { // eslint-disable-line
     return (
       <div className="">
-        <div className="ebp-header-divider">
-
-        </div>
         <div className="ebp-page">
           <h3 className="text-center">NTF Pools</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3" style={{ 'textAlign': 'left' }}>
@@ -279,15 +276,6 @@ export default class extends LoggedInPage {
           </div>
         </div>
       </div>
-    )
-  }
-
-  ord_renderBreadcrumb () { // eslint-disable-line
-    return (
-      <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-        <Breadcrumb.Item><Link to="/userdata"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item>User's control</Breadcrumb.Item>
-      </Breadcrumb>
     )
   }
 
