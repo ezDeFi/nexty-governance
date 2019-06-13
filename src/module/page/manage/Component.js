@@ -151,104 +151,100 @@ export default class extends LoggedInPage {
 
     const coinbaseInput = sessionStorage.getItem('signerAddress')
     return (
-      <div className="">
-        <div className="ebp-page">
-          <h3 className="text-center">Manage Block Signer</h3>
-          <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
-            {this.state.txhash &&
-                        <Row>
-                          <Col span={6}>
-                              TxHash:
-                          </Col>
-                          <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                          <Col span={18}>
-                            <div>
-                              {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
-                                : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
-                            </div>
-                          </Col>
-                        </Row>
-            }
-          </div>
-          <div className="ant-col-md-18 ant-col-md-offset-3" style={{ 'textAlign': 'left' }}>
+        <div className="page-manage">
+          <Row>
+            <h3 className="title">Manage Block Signer</h3>
+          </Row>
+          {this.state.txhash && <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
+              <Row>
+                <Col span={6}>
+                    TxHash:
+                </Col>
+                <Col span={18}>
+                  <div>
+                    {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
+                      : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
+                  </div>
+                </Col>
+              </Row>
+          </div>}
+          <div>
             <Row>
-              <Col span={6}>
-                            Balance:
+              <Col md={8} xs={8}>
+                <span className="text-left">Balance:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {this.props.tokenBalance} NTF
-              </Col>
-            </Row>
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            Deposited:
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18} style={{ color: ((this.props.depositedBalance < this.props.minNtfAmount) ? 'red' : 'blue') }}>
-                {this.props.depositedBalance} NTF
+              <Col md={16} xs={16}>
+                <div className="text-right">{this.props.tokenBalance} NTF</div>
               </Col>
             </Row>
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            Minimum to join:
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left">Deposited:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {this.props.minNtfAmount} NTF
+              <Col md={16} xs={16}>
+                <div className="text-right"><span style={{ color: ((this.props.depositedBalance < this.props.minNtfAmount) ? 'red' : 'blue') }}>{this.props.depositedBalance} NTF</span></div>
               </Col>
             </Row>
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            Status:
+            <Row>
+              <Col md={8} xs={24}>
+                <span className="text-left">Minimum to join:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {this.getStatus(this.props.managerStatus)}
+              <Col md={16} xs={24}>
+                <div className="text-right">{this.props.minNtfAmount} NTF</div>
               </Col>
             </Row>
-
-            <hr />
-
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left">Status:</span>
+              </Col>
+              <Col md={16} xs={16}>
+                <div className="text-right">{this.props.managerStatus} NTF</div>
+              </Col>
+            </Row>
             {!this.isLeaveable() &&
-                    <div>
-                      <Row style={{ 'marginTop': '15px' }}>
-                        <Col span={6}>
-                            Signer address:
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                        <Col span={18}>
-                          <Input
-                            className= "defaultWidth"
-                            defaultValue={coinbaseInput}
-                            onChange= {this.onCoinbaseChange.bind(this)}
-                          />
-                        </Col>
-                      </Row>
-                      <Row style={{ 'marginTop': '15px' }}>
-                        <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
-                        <Col xs={24} sm={24} md={10} lg={8} xl={8} className="content-center">
-                          <Button disabled={!this.isJoinable()} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top submit-button">Join</Button>
-                        </Col>
-                      </Row>
+              <div>
+                <Row>
+                  <Col md={8} xs={24}>
+                    <span className="text-left">Signer address:</span>
+                  </Col>
+                  <Col md={16} xs={24}>
+                    <div className="input-right">
+                      <Input
+                        placeholder="Paste signer address here"
+                        className= "defaultWidth"
+                        defaultValue={coinbaseInput}
+                        onChange= {this.onCoinbaseChange.bind(this)}
+                      />
                     </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left"></span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="">
+                      <Button disabled={!this.isJoinable()} type="ebp" onClick={this.confirm.bind(this)} className={this.isJoinable() ? '' : 'btn-join-disable'}>Join</Button>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
             }
 
             {this.isLeaveable() &&
-                    <Row style={{ 'marginTop': '15px' }}>
-                      <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
-                      <Col xs={24} sm={24} md={10} lg={8} xl={8} className="content-center">
-                        <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top submit-button">Leave</Button>
-                      </Col>
-                    </Row>
+              <Row>
+                <Col md={8} xs={8}>
+                  <span className="text-left"></span>
+                </Col>
+                <Col md={16} xs={16}>
+                  <div className="">
+                    <Button onClick={this.confirm.bind(this)} type="ebp">Leave</Button>
+                  </div>
+                </Col>
+              </Row>
             }
           </div>
         </div>
-      </div>
-
     )
   }
 
