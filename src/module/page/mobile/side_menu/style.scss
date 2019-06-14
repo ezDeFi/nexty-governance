@@ -21,6 +21,8 @@
     padding: $gap_2;
     font-size: 150%;
     font-weight: 600;
+    margin-right: 15px;
+    margin-top: 10px;
   }
 
   .menuContainer {
@@ -28,7 +30,7 @@
     padding-left: $gap_3;
 
     .ant-menu-item {
-      border-bottom: 1px solid $cr_light_color;
+      border-bottom: 1px solid #fed;
     }
   }
 }

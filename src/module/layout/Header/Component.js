@@ -70,7 +70,7 @@ export default class extends BaseComponent {
     return (
       <div className="xlogo">
         <span className="logo-icon" onClick={this.gotoHomePage.bind(this)}><img src='/assets/images/logo.png' /></span>
-        <div className="header-menu">
+        <div className="header-menu menu-desktop">
           <Menu onClick={this.clickItem.bind(this)} mode="horizontal" selectedKeys={this.getSelectedKeys()}>
             <Menu.Item key="manage">
               <Icon type="setting" /> {I18N.get('0015')}
@@ -90,10 +90,12 @@ export default class extends BaseComponent {
             {isLogin &&  <Menu.Item key="logout">
               <Icon type="logout" style={{color: "#1C7BFF"}} /> {I18N.get('0204')}
             </Menu.Item>}
-            <Menu.Item className="c_MenuItem mobile" key="mobileMenu" onClick={this.toggleMobileMenu.bind(this)}>
-                <Icon type="menu-fold"/>
-            </Menu.Item>
           </Menu>
+        </div>
+        <div className="show-icon-toggle">
+          <span className="c_MenuItem mobile" key="mobileMenu" onClick={this.toggleMobileMenu.bind(this)}>
+              <Icon style={{color: "#47aaa7", fontSize: '22px'}} type="menu-fold"/>
+          </span>
         </div>
         {/*{isLogin && <span onClick={this.logout.bind(this)} className="right-action"><a className="logout">{I18N.get('0204')}</a> <Icon type="logout" style={{color: "#1C7BFF"}} /></span>}*/}
       </div>

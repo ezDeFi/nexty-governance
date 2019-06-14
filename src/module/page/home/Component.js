@@ -1,12 +1,12 @@
 import React from 'react' // eslint-disable-line
-import LoggedInPage from '../LoggedInPage'
+import StandardPage from '../StandardPage'
 import _ from 'lodash' // eslint-disable-line
 
 import './style.scss'
 
 import { Col, Row, Icon } from 'antd' // eslint-disable-line
 
-export default class extends LoggedInPage {
+export default class extends StandardPage {
   componentDidMount () {
   }
 

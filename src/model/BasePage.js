@@ -16,17 +16,7 @@ export default class extends BaseComponent {
   }
 
   ord_init () { // eslint-disable-line
-    const storeUser = store.getState().user
 
-    if (!storeUser) {
-      return
-    }
-    const is_login = storeUser.is_login // eslint-disable-line
-    const is_admin = storeUser.is_admin // eslint-disable-line
-
-    if (!is_login && !storeUser.loginMetamask) { // eslint-disable-line
-      this.ord_checkLogin(is_login, is_admin)
-    }
   }
 
   ord_animate () { // eslint-disable-line
@@ -48,13 +38,24 @@ export default class extends BaseComponent {
   }
 
   componentDidMount () { // eslint-disable-line
+    const storeUser = store.getState().user
+
+    if (!storeUser) {
+      return
+    }
+    const is_login = storeUser.is_login // eslint-disable-line
+    const is_admin = storeUser.is_admin // eslint-disable-line
+
+    if (!is_login && !storeUser.loginMetamask) { // eslint-disable-line
+      this.ord_checkLogin(is_login, is_admin)
+    }
   }
 
-  ord_checkLogin (isLogin, isAdmin) { // eslint-disable-line
-    let url = window.location.pathname
+  ord_checkLogin () { // eslint-disable-line
 
-    if (!isLogin && url !== '/user-guide') {
-      return this.props.history.replace('/login')
-    }
+  }
+
+  $getParam(key){
+      return key ? this.props.match.params[key] : this.props.match.params[key];
   }
 }

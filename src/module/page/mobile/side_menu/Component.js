@@ -23,9 +23,11 @@ export default class extends BaseComponent {
             'about',
             'faq',
             'contact',
-            'home',
-            'rankings',
-            'posts',
+            'manage',
+            'deposit',
+            'withdraw',
+            'transfer',
+            'pool',
         ], key)) {
             this.props.history.push('/' + ev.key)
         } else if (key === 'login' || key === 'register') {
@@ -38,6 +40,13 @@ export default class extends BaseComponent {
         } else if (key === 'landing') {
             this.props.history.push('/')
         }
+    }
+
+    getSelectedKeys() {
+      let keys = _.map(['manage', 'deposit', 'withdraw', 'transfer', 'pool'], (key) => {
+          return ((this.props.pathname || '').indexOf(`/${key}`) === 0) ? key : ''
+      })
+      return keys
     }
 
     ord_render () {
@@ -59,20 +68,27 @@ export default class extends BaseComponent {
                     <Menu
                         onClick={this.handleMenuClick.bind(this)}
                         mode="inline"
+                        selectedKeys={this.getSelectedKeys()}
                     >
                         { isLogin &&
                             <Menu.Item key="profile/info">
                                 <b>{username}</b>
                             </Menu.Item>
                         }
-                        <Menu.Item key="rankings">
-                            XẾP HẠNG PAGES
+                        <Menu.Item key="manage">
+                          <Icon type="setting" /> {I18N.get('0015')}
                         </Menu.Item>
-                        <Menu.Item key="groups">
-                            XẾP HẠNG GROUPS
+                        <Menu.Item key="deposit">
+                          <Icon type="bank" /> {I18N.get('0013')}
                         </Menu.Item>
-                        <Menu.Item key="posts">
-                            TOP BÀI VIẾT
+                        <Menu.Item key="withdraw">
+                          <Icon type="export" /> {I18N.get('0014')}
+                        </Menu.Item>
+                        <Menu.Item key="transfer">
+                          <Icon type="credit-card" /> {I18N.get('0016')}
+                        </Menu.Item>
+                        <Menu.Item key="pool">
+                          <Icon type="unordered-list" /> {I18N.get('0017')}
                         </Menu.Item>
                     </Menu>
                 </Col>
@@ -83,15 +99,9 @@ export default class extends BaseComponent {
                         onClick={this.handleMenuClick.bind(this)}
                         mode="inline"
                     >
-                        <Menu.Item key="create-page">
-                            THÊM PAGE
-                        </Menu.Item>
-                        <Menu.Item key="create-group">
-                            THÊM GROUP
-                        </Menu.Item>
                         {isLogin &&
                         <Menu.Item key="logout">
-                            THOÁT
+                            <Icon type="logout" style={{color: "#1C7BFF"}} /> {I18N.get('0204')}
                         </Menu.Item>
                         }
                     </Menu>

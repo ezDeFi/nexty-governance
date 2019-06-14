@@ -3,6 +3,8 @@ import BasePage from '@/model/BasePage'
 import { Layout } from 'antd'
 import Header from '../layout/Header/Container'
 import Footer from '../layout/Footer/Container'
+import MobileMenu from './mobile/side_menu/Container';
+import {spring, presets, Motion} from 'react-motion'
 
 export default class extends BasePage {
   constructor(props) {
@@ -14,7 +16,6 @@ export default class extends BasePage {
   }
 
   toggleMobileMenu() {
-      console.log('xxx', this.state.showMobile)
       this.setState({
           showMobile: !this.state.showMobile
       })
@@ -51,7 +52,22 @@ export default class extends BasePage {
     )
   }
 
+  ord_animate() {
+        // the width of the menu is 80vw
+        return {
+            style_fn: (val) => {
+                return {
+                    left: val.left + 'vw'
+                }
+            }
+        }
+    }
+
   ord_renderContent () {
     return null
+  }
+
+  ord_loading(f=false){
+      this.setState({loading : f});
   }
 }

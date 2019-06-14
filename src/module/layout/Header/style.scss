@@ -26,6 +26,26 @@
         float: right;
     }
 
+    .menu-desktop {
+        display: block;
+
+        @media only screen and (max-width: $mobile-width) {
+            display: none;
+        }
+    }
+
+    .show-icon-toggle {
+        display: none;
+
+        @media only screen and (max-width: $mobile-width) {
+            display: block;
+            position: absolute;
+            top: 25px;
+            right: 15px;
+            cursor: pointer;
+        }
+    }
+
     .header-menu {
         width: 100%;
 
@@ -36,10 +56,18 @@
         .ant-menu-horizontal {
             border-bottom: none;
         }
+
+        .icon-toggle-menu {
+            display: block;
+
+            @media only screen and (max-width: $mobile-width) {
+                display: block;
+            }
+        }
     }
 }
 
 .ant-layout-header {
     background: transparent;
-    padding: 0;
+    padding: 0 10px;
 }
