@@ -18,6 +18,8 @@ export default class extends React.Component {
     return this.ord_render(this.$p)
   }
 
+  componentDidMount(){}
+
   // could be override
   ord_init () {} // eslint-disable-line
   ord_render () { return null } // eslint-disable-line
@@ -29,5 +31,8 @@ export default class extends React.Component {
   }
   ord_methods () { // eslint-disable-line
     return {}
+  }
+  ord_loading(f=false){
+      this.setState({loading : f});
   }
 };

@@ -103,83 +103,86 @@ export default class extends LoggedInPage {
 
     return (
       <div className="">
-        <div className="ebp-page">
-          <h3 className="text-center">NTF Withdraw</h3>
-          <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
-            {this.state.txhash &&
-                        <Row>
-                          <Col span={6}>
-                              TxHash:
-                          </Col>
-                          <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                          <Col span={18}>
-                            <div>
-                              {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
-                                : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
-                            </div>
-                          </Col>
-                        </Row>
-            }
-          </div>
-          <div className="ant-col-md-18 ant-col-md-offset-3" style={{ 'textAlign': 'left' }}>
+        <div className="page-common">
+          <Row>
+            <h3 className="title">NTF Withdraw</h3>
+          </Row>
+          {this.state.txhash && <div>
+              <Row>
+                <Col md={8} xs={8}>
+                  <span className="text-left">TxHash:</span>
+                </Col>
+                <Col md={16} xs={16}>
+                  <div>
+                    {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
+                      : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
+                  </div>
+                </Col>
+              </Row>
+          </div>}
+          <div>
             <Row>
-              <Col span={6}>
-                            Balance:
+              <Col md={8} xs={8}>
+                <span className="text-left">Balance:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {this.props.tokenBalance} NTF
-              </Col>
-            </Row>
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            Deposited:
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18} style={{ color: 'red' }}>
-                {this.props.depositedBalance} NTF
+              <Col md={16} xs={16}>
+                <div className="text-right">{this.props.tokenBalance} NTF</div>
               </Col>
             </Row>
-
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left">Deposited:</span>
+              </Col>
+              <Col md={16} xs={16}>
+                <div className="text-right">{this.props.depositedBalance} NTF</div>
+              </Col>
+            </Row>
             {!this.props.isWithdrawable &&
-                    <div>
-                      <Row style={{ 'marginTop': '15px' }}>
-                        <Col span={6}>
-                            Status:
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                        <Col span={18}>
-                          {this.getStatus(this.props.managerStatus)}
-                        </Col>
-                      </Row>
-
-                      <Row style={{ 'marginTop': '15px', 'color': 'red' }}>
+              <div>
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left">Status:</span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="text-right">{this.getStatus(this.props.managerStatus)}</div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left"></span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="text-right"><span style={{ 'marginTop': '10px', 'color': 'red' }}>
                         Unwithdrawable
-                      </Row>
-                      {(this.props.managerStatus !== 1) &&
-                    <Row style={{ 'marginTop': '15px' }}>
-                      <Col span={6}>
-                            UnlockTime:
-                      </Col>
-                      <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                      <Col span={18}>
-                        {this.getUnlockTime(this.props.unlockTime)}
-                      </Col>
-                    </Row>
-                      }
-                    </div>
+                    </span></div>
+                  </Col>
+                </Row>
+                {(this.props.managerStatus !== 1) &&
+                  <Row>
+                    <Col md={8} xs={8}>
+                      <span className="text-left">UnlockTime:</span>
+                    </Col>
+                    <Col md={16} xs={16}>
+                      <div className="text-right">{this.getUnlockTime(this.props.unlockTime)}</div>
+                    </Col>
+                  </Row>
+                }
+              </div>
             }
 
             {Boolean(this.props.isWithdrawable) &&
-                    <div>
-                      <Row style={{ 'marginTop': '15px' }}>
-                        <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
-                        <Col xs={24} sm={24} md={10} lg={8} xl={8} className="content-center">
-                          <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top submit-button">Withdraw</Button>
-                        </Col>
-                      </Row>
+              <div>
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left"></span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="">
+                      <Button onClick={this.confirm.bind(this)} type="ebp">Withdraw</Button>
                     </div>
+                  </Col>
+                </Row>
+              </div>
             }
           </div>
         </div>
@@ -195,7 +198,7 @@ export default class extends LoggedInPage {
     const content = (
       <div>
         <div>
-                    Amount: {this.props.depositedBalance} NTF
+          Amount: {this.props.depositedBalance} NTF
         </div>
       </div>
     )

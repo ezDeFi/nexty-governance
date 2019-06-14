@@ -10,6 +10,13 @@ import { USER_ROLE } from '@/constant'
 const { Header } = Layout // eslint-disable-line
 
 export default class extends BaseComponent {
+    constructor() {
+        super()
+
+        this.state = {
+
+        }
+    }
   componentDidMount () {
     document.title = 'Nexty Governance'
   }
@@ -53,6 +60,10 @@ export default class extends BaseComponent {
     this.props.history.push('/manage')
   }
 
+  toggleMobileMenu() {
+    this.props.toggleMobileMenu()
+  }
+
   renderHeader () {
     const isLogin = this.props.isLogin
 
@@ -79,6 +90,9 @@ export default class extends BaseComponent {
             {isLogin &&  <Menu.Item key="logout">
               <Icon type="logout" style={{color: "#1C7BFF"}} /> {I18N.get('0204')}
             </Menu.Item>}
+            <Menu.Item className="c_MenuItem mobile" key="mobileMenu" onClick={this.toggleMobileMenu.bind(this)}>
+                <Icon type="menu-fold"/>
+            </Menu.Item>
           </Menu>
         </div>
         {/*{isLogin && <span onClick={this.logout.bind(this)} className="right-action"><a className="logout">{I18N.get('0204')}</a> <Icon type="logout" style={{color: "#1C7BFF"}} /></span>}*/}

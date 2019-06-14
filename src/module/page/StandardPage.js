@@ -1,14 +1,48 @@
-import React from 'react' // eslint-disable-line
+import React from 'react'
 import BasePage from '@/model/BasePage'
-import { Layout } from 'antd' // eslint-disable-line
-import Header from '../layout/Header/Container' // eslint-disable-line
-import Footer from '../layout/Footer/Container' // eslint-disable-line
+import { Layout } from 'antd'
+import Header from '../layout/Header/Container'
+import Footer from '../layout/Footer/Container'
 
 export default class extends BasePage {
-  ord_renderPage () { // eslint-disable-line
+  constructor(props) {
+      super(props)
+
+      this.state = {
+          showMobile: false
+      }
+  }
+
+  toggleMobileMenu() {
+      console.log('xxx', this.state.showMobile)
+      this.setState({
+          showMobile: !this.state.showMobile
+      })
+  }
+
+  ord_renderPage () {
+    const s = this.ord_animate()
+    const mp = {
+        defaultStyle: {
+            left: 100
+        },
+        style : {
+            left: spring(20, presets.noWobble)
+        }
+    }
+
     return (
       <Layout className="p_standardPage">
-        <Header/>
+        {this.state.showMobile &&
+        <Motion {...mp}>
+            {
+                (tar) => {
+                    return <MobileMenu animateStyle={s.style_fn(tar)} toggleMobileMenu={this.toggleMobileMenu.bind(this)}/>
+                }
+            }
+        </Motion>
+        }
+        <Header toggleMobileMenu={this.toggleMobileMenu.bind(this)} />
         <Layout.Content>
           {this.ord_renderContent()}
         </Layout.Content>
@@ -17,7 +51,7 @@ export default class extends BasePage {
     )
   }
 
-  ord_renderContent () { // eslint-disable-line
+  ord_renderContent () {
     return null
   }
 }

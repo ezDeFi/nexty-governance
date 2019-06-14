@@ -129,89 +129,85 @@ export default class extends LoggedInPage {
     // }
 
     return (
-      <div className="">
-        <div className="ebp-page">
-          <h3 className="text-center">NTF Transfer</h3>
-          <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
+        <div className="page-common">
+          <Row>
+            <h3 className="title">NTF Transfer</h3>
+          </Row>
+          {this.state.txhash && <div>
+              <Row>
+                {alerts}
+              </Row>
+              <Row>
+                <Col md={8} xs={8}>
+                  <span className="text-left">TxHash:</span>
+                </Col>
+                <Col md={16} xs={16}>
+                  <div>
+                    {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
+                      : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
+                  </div>
+                </Col>
+              </Row>
+          </div>}
+          <div>
             <Row>
-              {alerts}
+              <Col md={8} xs={8}>
+                <span className="text-left">Balance:</span>
+              </Col>
+              <Col md={16} xs={16}>
+                <div className="text-right">{this.props.tokenBalance} NTF</div>
+              </Col>
             </Row>
-            {this.state.txhash &&
-                        <Row>
-                          <Col span={6}>
-                              TxHash:
-                          </Col>
-                          <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-                          <Col span={18}>
-                            <div>
-                              {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
-                                : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
-                            </div>
-                          </Col>
-                        </Row>
-            }
-          </div>
-          <div className="ant-col-md-18 ant-col-md-offset-3" style={{ 'textAlign': 'left' }}>
             <Row>
-              <Col span={6}>
-                            Balance:
+              <Col md={8} xs={8}>
+                <span className="text-left">Deposited:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {this.props.tokenBalance} NTF
-              </Col>
-            </Row>
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            Deposited:
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {this.props.depositedBalance} NTF
+              <Col md={16} xs={16}>
+                <div className="text-right">{this.props.depositedBalance} NTF</div>
               </Col>
             </Row>
-            <hr />
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            To address:
+            <Row>
+              <Col md={8} xs={24}>
+                <span className="text-left">To address:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                <Input
-                  className= "defaultWidth"
-                  defaultValue= {''}
-                  value= {this.state.toAddress}
-                  onChange= {this.onToAddressChange.bind(this)}
-                />
-              </Col>
-            </Row>
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                            Amount:
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-
-                <InputNumber
-                  className="defaultWidth"
-                  defaultValue={0}
-                  value={this.state.amount}
-                  onChange={this.onAmountChange.bind(this)}
-                />
+              <Col md={16} xs={24}>
+                <div>
+                  <Input
+                    className= "defaultWidth"
+                    defaultValue= {''}
+                    value= {this.state.toAddress}
+                    onChange= {this.onToAddressChange.bind(this)}
+                  />
+                </div>
               </Col>
             </Row>
-
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col xs={0} sm={0} md={7} lg={8} xl={8}/>
-              <Col xs={24} sm={24} md={10} lg={8} xl={8} className="content-center">
-                <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top submit-button">Send</Button>
+            <Row>
+              <Col md={8} xs={24}>
+                <span className="text-left">Amount:</span>
+              </Col>
+              <Col md={16} xs={24}>
+                <div>
+                  <InputNumber
+                    className="defaultWidth"
+                    defaultValue={0}
+                    value={this.state.amount}
+                    onChange={this.onAmountChange.bind(this)}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left"></span>
+              </Col>
+              <Col md={16} xs={16}>
+                <div className="">
+                  <Button onClick={this.confirm.bind(this)} type="ebp">Send</Button>
+                </div>
               </Col>
             </Row>
           </div>
         </div>
-      </div>
     )
   }
 
@@ -236,10 +232,10 @@ export default class extends LoggedInPage {
     const content = (
       <div>
         <div>
-                    Amount: {this.state.amount} NTF
+          Amount: {this.state.amount} NTF
         </div>
         <div>
-                    To: {this.state.toAddress}
+          To: {this.state.toAddress}
         </div>
       </div>
     )

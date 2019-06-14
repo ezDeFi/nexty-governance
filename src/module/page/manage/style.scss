@@ -1,37 +1,6 @@
 
 @import "../../../style/variable";
 
-.page-manage {
-  max-width: $container_width;
-  margin: 0 auto;
-  text-align: left;
-  margin-top: 80px;
-  margin-bottom: 80px;
-
-  .title {
-    color: #1C7BFF;
-    float: left;
-    font-size: 22px;
-  }
-
-  .text-left {
-    color: $txt_color;
-  }
-
-  .text-right {
-    color: $txt_color;
-    border-bottom: 0.5px solid #787E9E;
-  }
-
-  .ant-row {
-    padding: 8px 0px;
-  }
-
-  .btn-join-disable {
-    background: gray !important;
-  }
-}
-
 .p_Profile {
 
   background: #ffffff;

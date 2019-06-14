@@ -151,16 +151,16 @@ export default class extends LoggedInPage {
 
     const coinbaseInput = sessionStorage.getItem('signerAddress')
     return (
-        <div className="page-manage">
+        <div className="page-common">
           <Row>
             <h3 className="title">Manage Block Signer</h3>
           </Row>
-          {this.state.txhash && <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
+          {this.state.txhash && <div>
               <Row>
-                <Col span={6}>
-                    TxHash:
+                <Col md={8} xs={8}>
+                  <span className="text-left">TxHash:</span>
                 </Col>
-                <Col span={18}>
+                <Col md={16} xs={16}>
                   <div>
                     {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{ 'width': '20px' }} />
                       : <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}

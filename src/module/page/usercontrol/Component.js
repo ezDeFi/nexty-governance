@@ -71,38 +71,44 @@ export default class extends LoggedInPage {
 
   ord_renderContent () { // eslint-disable-line
     return (
-      <div className="">
-        <div className="ebp-page">
-          <h3 className="text-center">NTF Pools</h3>
+        <div className="page-common">
+          <Row>
+            <h3 className="title">NTF Pools</h3>
+          </Row>
           <div className="ant-col-md-18 ant-col-md-offset-3" style={{ 'textAlign': 'left' }}>
             {this.props.selectedPool && this.poolsRender()}
             <Row>
-              <Col span={6}>
-                  Coin Balance:
+              <Col md={8} xs={8}>
+                <span className="text-left">Coin Balance:</span>
               </Col>
-              <Col span={6}>
-                {weiToEther(this.props.balance)} NTY
+              <Col md={16} xs={16}>
+                <div className="text-right">
+                  {weiToEther(this.props.balance)} NTY
+                </div>
               </Col>
             </Row>
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                Token Balance:
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left">Token Balance:</span>
               </Col>
-              <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-              <Col span={18}>
-                {weiToEther(this.props.myNtfBalance)} NTF
+              <Col md={16} xs={16}>
+                <div className="text-right">
+                  {weiToEther(this.props.myNtfBalance)} NTF
+                </div>
               </Col>
             </Row>
             <h3>Private Informations</h3>
             {this.props.selectedPool &&
-            <Row style={{ 'marginTop': '15px' }}>
-              <Col span={6}>
-                Deposited:
-              </Col>
-              <Col span={6}>
-                {weiToEther(this.props.myNtfDeposited)} NTF
-              </Col>
-            </Row>
+              <Row>
+                <Col md={8} xs={8}>
+                  <span className="text-left">Deposited:</span>
+                </Col>
+                <Col md={16} xs={16}>
+                  <div className="text-right">
+                    {weiToEther(this.props.myNtfDeposited)} NTF
+                  </div>
+                </Col>
+              </Row>
             }
             <hr />
             <Row style={{ 'marginTop': '15px' }}>
@@ -275,7 +281,6 @@ export default class extends LoggedInPage {
             }
           </div>
         </div>
-      </div>
     )
   }
 
