@@ -50,14 +50,14 @@ export default class extends BaseComponent {
   }
 
   getSelectedKeys() {
-      let keys = _.map(['manage', 'deposit', 'withdraw', 'transfer', 'pool'], (key) => {
+      let keys = _.map(['manage', 'deposit', 'withdraw', 'transfer', 'pool', 'portal'], (key) => {
           return ((this.props.pathname || '').indexOf(`/${key}`) === 0) ? key : ''
       })
       return keys
   }
 
   gotoHomePage() {
-    this.props.history.push('/manage')
+    this.props.history.push('/')
   }
 
   toggleMobileMenu() {
@@ -72,6 +72,9 @@ export default class extends BaseComponent {
         <span className="logo-icon" onClick={this.gotoHomePage.bind(this)}><img src='/assets/images/logo.png' /></span>
         <div className="header-menu menu-desktop">
           {this.props.isLogin && <Menu onClick={this.clickItem.bind(this)} mode="horizontal" selectedKeys={this.getSelectedKeys()}>
+            <Menu.Item key="portal">
+              <Icon type="unordered-list" /> {I18N.get('0017')}
+            </Menu.Item>
             <Menu.Item key="manage">
               <Icon type="setting" /> {I18N.get('0015')}
             </Menu.Item>
@@ -83,9 +86,6 @@ export default class extends BaseComponent {
             </Menu.Item>
             <Menu.Item key="transfer">
               <Icon type="credit-card" /> {I18N.get('0016')}
-            </Menu.Item>
-            <Menu.Item key="pool">
-              <Icon type="unordered-list" /> {I18N.get('0017')}
             </Menu.Item>
             {isLogin &&  <Menu.Item key="logout">
               <Icon type="logout" style={{color: "#1C7BFF"}} /> {I18N.get('0204')}
@@ -124,7 +124,8 @@ export default class extends BaseComponent {
             'deposit',
             'withdraw',
             'manage',
-            'pool'
+            'pool',
+            'portal'
         ], key)) {
 
             if (key === 'landing') {

@@ -40,6 +40,40 @@ export default class extends BaseService {
     await this.loadPoolInfo()
   }
 
+  async loadPoolPortal(pools) {
+    const store = this.store.getState()
+    let contractsRedux = this.store.getRedux('contracts')
+    let web3 = store.user.web3
+    const poolRedux = this.store.getRedux('pool')
+
+    const data = await Promise.all(pools.map(async item => {
+      let pool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, item)
+      return await this.loadPoolInfoPortal(pool, item)
+    }))
+
+    await this.dispatch(poolRedux.actions.poolsPortal_update(data))
+  }
+
+  async loadPoolInfoPortal(pool, address) {
+    const methods = pool.methods
+    if (!methods) {
+      return
+    }
+
+    let name = await methods.name().call()
+    let compRate = await methods.COMPRATE().call()
+    let logo = await methods.logo().call()
+    let poolNtfBalance = await methods.balanceOf(address).call()
+
+    return {
+      name,
+      compRate,
+      logo,
+      poolNtfBalance,
+      address
+    }
+  }
+
   getName (_address) {
     const store = this.store.getState()
     //let _name = store.pool.poolNames[_address]

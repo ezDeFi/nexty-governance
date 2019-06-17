@@ -28,6 +28,7 @@ export default class extends BaseComponent {
             'withdraw',
             'transfer',
             'pool',
+            'portal',
         ], key)) {
             this.props.history.push('/' + ev.key)
         } else if (key === 'login' || key === 'register') {
@@ -43,7 +44,7 @@ export default class extends BaseComponent {
     }
 
     getSelectedKeys() {
-      let keys = _.map(['manage', 'deposit', 'withdraw', 'transfer', 'pool'], (key) => {
+      let keys = _.map(['manage', 'deposit', 'withdraw', 'transfer', 'pool', 'portal'], (key) => {
           return ((this.props.pathname || '').indexOf(`/${key}`) === 0) ? key : ''
       })
       return keys
@@ -75,6 +76,9 @@ export default class extends BaseComponent {
                                 <b>{username}</b>
                             </Menu.Item>
                         }
+                        <Menu.Item key="portal">
+                          <Icon type="unordered-list" /> {I18N.get('0017')}
+                        </Menu.Item>
                         <Menu.Item key="manage">
                           <Icon type="setting" /> {I18N.get('0015')}
                         </Menu.Item>
@@ -86,9 +90,6 @@ export default class extends BaseComponent {
                         </Menu.Item>
                         <Menu.Item key="transfer">
                           <Icon type="credit-card" /> {I18N.get('0016')}
-                        </Menu.Item>
-                        <Menu.Item key="pool">
-                          <Icon type="unordered-list" /> {I18N.get('0017')}
                         </Menu.Item>
                     </Menu>
                 </Col>

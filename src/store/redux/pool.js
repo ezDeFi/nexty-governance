@@ -32,7 +32,9 @@ class PoolRedux extends BaseRedux {
       isWithdrawable: false,
       unlockHeight: 0,
       poolDeposited: 0,
-      stakeRequire: 500 * 1e18
+      stakeRequire: 500 * 1e18,
+      poolsPortal: [],
+      loadingPortal: false,
     }
   }
 }

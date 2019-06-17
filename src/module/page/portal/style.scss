@@ -1,0 +1,115 @@
+
+@import "../../../style/variable";
+.maxWidth {
+  width: 100% !important
+}
+.p_Profile {
+
+  background: #ffffff;
+  text-align: left;
+
+  .d_box {
+    padding: 0 $gap_3;
+
+    .btnContainer {
+      padding-top: $gap_2;
+      text-align: right;
+    }
+  }
+
+  .d_rightContainer {
+    border-left: 1px solid #e0e0e0;
+  }
+}
+
+.content-center {
+    text-align: center;
+}
+
+.content-center ul {
+    list-style-type: none;
+}
+
+.text-stat {
+    font-size: 1.4em;
+}
+
+.dashboard-rate-margin {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.defaultWidth{
+  width: 100%;
+  height: 40px;
+}
+
+.defaultPadding{
+  padding : 5px;
+}
+
+.spin-loading {
+  margin: 161px;
+}
+
+.page-portal {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+  margin-top: 80px;
+  margin-bottom: 80px;
+
+  .search-box {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .title {
+    color: #1C7BFF;
+    float: left;
+    font-size: 22px;
+  }
+
+  .ant-card {
+    border: 1px solid #e8e8e8;
+    margin: 10px;
+    border-radius: 20px;
+
+    .ant-card-cover img {
+        height: 150px;
+        width: unset;
+        padding: 10px 10px;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    .ant-card-body {
+      padding: 20px 10px;
+
+      .ant-card-meta {
+        margin-bottom: 6px;
+
+        .ant-card-meta-title {
+          color: #1C7BFF;
+        }
+      }
+
+      .column-flex {
+        padding: 3px 6px;
+        display: flex;
+        justify-content: space-between;
+        align-self: stretch;
+        font-size: 12px;
+
+        .text-number {
+          color: #6B6B6B;
+          font-weight: 500;
+        }
+      }
+
+      .column-flex:before {
+          content: attr(data-heading);
+      }
+    }
+  }
+}

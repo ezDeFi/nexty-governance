@@ -95,7 +95,7 @@ function setupWeb3() {
                       await store.dispatch(userRedux.actions.web3_update(web3))
                       await userService.metaMaskLogin(accounts[0])
                       //userService.path.push('/manage')
-                      userService.path.push('/pool')
+                      userService.path.push('/portal')
                     }
                     isLogined = true
                 } else if (!isLogined) {

@@ -1,5 +1,6 @@
 import HomePage from '@/module/page/home/Container'
 import DashboardPage from '@/module/page/dashboard/Container'
+import PortalPage from '@/module/page/portal/Container'
 import DepositPage from '@/module/page/deposit/Container'
 import WithdrawPage from '@/module/page/withdraw/Container'
 import ManagePage from '@/module/page/manage/Container'
@@ -13,7 +14,7 @@ import NotFound from '@/module/page/error/NotFound'
 export default [
   {
     path: '/',
-    page: LoginPage
+    page: PortalPage
   },
   {
     path: '/home',
@@ -44,8 +45,12 @@ export default [
     page: TransferPage
   },
   {
-    path: '/pool',
+    path: '/pool/:id',
     page: UserControlPage
+  },
+  {
+    path: '/portal',
+    page: PortalPage
   },
   {
     page: NotFound

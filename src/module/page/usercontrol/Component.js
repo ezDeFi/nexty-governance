@@ -23,6 +23,7 @@ const toTime = (value) => {
 export default class extends StandardPage {
   componentDidMount () {
     this.loadData()
+    this.props.selectPool(this.props.match.params.id)
   }
 
   loadData () {
@@ -77,7 +78,7 @@ export default class extends StandardPage {
             <h3 className="title">NTF Pools</h3>
           </Row>
           <div style={{ 'textAlign': 'left' }}>
-            {this.props.selectedPool && this.poolsRender()}
+            {/*{this.props.selectedPool && this.poolsRender()}*/}
             <Row>
               <Col md={8} xs={8}>
                 <span className="text-left">Coin Balance:</span>
@@ -322,16 +323,6 @@ export default class extends StandardPage {
                   <Col md={16} xs={24}>
                     <div className="">
                       <Button onClick={this.requestOut.bind(this)} type="ebp">Withdraw Request</Button>
-                    </div>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col md={8} xs={24}>
-                    <span className="text-left"></span>
-                  </Col>
-                  <Col md={16} xs={24}>
-                    <div className="">
                       <Button onClick={this.virtuellMining.bind(this)} type="ebp">Mining(virtuell) 3ETH</Button>
                     </div>
                   </Col>
