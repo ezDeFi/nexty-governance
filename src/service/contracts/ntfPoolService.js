@@ -7,14 +7,14 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.poolMaker.methods
     let wallet = store.user.wallet
-    console.log(owner, compRate, maxLock, delay, name, website, location, logo)
+    //console.log(owner, compRate, maxLock, delay, name, website, location, logo)
     let res = await methods.createPool(owner, compRate.toString(), maxLock.toString(), delay.toString(), name, website, location, logo).send({from: wallet, gasPrice: '0' })
     await console.log(res)
   }
 
   async loadMyCurrentPool () {
     const store = this.store.getState()
-    console.log('my current Pool', store.pool.mySelectedPool)
+    //console.log('my current Pool', store.pool.mySelectedPool)
     await this.selectPool(store.pool.mySelectedPool)
   }
 
@@ -89,9 +89,9 @@ export default class extends BaseService {
     let poolRedux = this.store.getRedux('pool')
 
     let poolCount = await methods.getPoolCount().call()
-    console.log('loading Pools')
+    //console.log('loading Pools')
     await this.dispatch(poolRedux.actions.poolCount_update(Number(poolCount)))
-    console.log('poolCount', poolCount)
+    //console.log('poolCount', poolCount)
     let pools = []
     let myPools = []
     for (let i = 0; i < poolCount; i++) {
@@ -104,8 +104,8 @@ export default class extends BaseService {
       if (((Number(poolNtfBalance) + Number(poolNtfBalance) < MIN_POOL_NTF * 1e18) && (wallet.toLowerCase() !== await poolOwner.toLowerCase()))) {
         continue
       }
-      await console.log('poolGovBalance', poolGovBalance)
-      console.log('poolName', poolName)
+      //await console.log('poolGovBalance', poolGovBalance)
+      //console.log('poolName', poolName)
       if (!store.pool.poolNames[poolAddress]) {
         let _poolNames = store.pool.poolNames
         _poolNames[poolAddress] = poolName
@@ -117,14 +117,14 @@ export default class extends BaseService {
       await pools.push(poolAddress)
     }
     if (!myPoolsOnly) {
-      console.log('loading all pools')
+      //console.log('loading all pools')
       if (store.pool.selectedPool === null && pools.length > 0) {
         let firstPoolAddress = await pools[0]
-        console.log('selectedPool = ', firstPoolAddress)
+        //console.log('selectedPool = ', firstPoolAddress)
         await this.selectPool(firstPoolAddress)
       }
     } else {
-      console.log('loading my pools only')
+      //console.log('loading my pools only')
       if (store.pool.mySelectedPool === null && myPools.length > 0) {
         let firstPoolAddress = await myPools[0]
         //console.log('selectedPool = ', firstPoolAddress)
@@ -178,7 +178,7 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    console.log('deposit', _amount)
+    //console.log('deposit', _amount)
     return await methods.tokenDeposit(_amount.toString()).send({from: wallet})
   }
 
@@ -296,13 +296,14 @@ export default class extends BaseService {
 
   async loadPoolNtfBalance () {
     const store = this.store.getState()
-    //let _address = CONTRACTS.NtfPool.address
     let _address = store.pool.selectedPool
     let methods = store.contracts.ntfToken.methods
     const poolRedux = this.store.getRedux('pool')
     let _poolNtfBalance = await methods.balanceOf(_address).call()
-    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))
-    return await _poolNtfBalance
+    //WTF
+    //console.log('aaa',_poolNtfBalance.balance)
+    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance.balance))  
+    return await _poolNtfBalance.balance
   }
 
   async loadPoolNtyBalance () {

@@ -262,7 +262,7 @@ export default class extends StandardPage {
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="text-right">
-                      {weiToEther(this.props.poolNtfBalance)} NTF
+                      {this.props.poolNtfBalance} NTF
                     </div>
                   </Col>
                 </Row>
