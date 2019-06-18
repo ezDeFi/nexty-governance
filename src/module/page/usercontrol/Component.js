@@ -9,6 +9,8 @@ import moment from 'moment'
 import './style.scss'
 
 import { Col, Row, Icon, InputNumber, Button, Select } from 'antd' // eslint-disable-line
+var BigNumber = require('bignumber.js')
+BigNumber.config({ ERRORS: false });
 const Option = Select.Option
 
 const weiToEther = (wei) => {
@@ -352,8 +354,9 @@ export default class extends StandardPage {
   }
 
   async deposit () {
-    await this.props.approve(this.state.depositAmount * 1e18)
-    await this.props.deposit(this.state.depositAmount * 1e18)
+    let amount = BigNumber(this.state.depositAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
+    await this.props.approve(amount.toString())
+    await this.props.deposit(amount.toString())
   }
 
   async withdraw () {
@@ -361,7 +364,8 @@ export default class extends StandardPage {
   }
 
   async requestOut () {
-    await this.props.requestOut(this.state.requestOutAmount * 1e18)
+    let amount = BigNumber(this.state.requestOutAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
+    await this.props.requestOut(amount)
   }
 
   async claim () {
