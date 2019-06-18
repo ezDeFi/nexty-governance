@@ -328,7 +328,7 @@ export default class extends StandardPage {
                   <Col md={16} xs={24}>
                     <div className="">
                       <Button onClick={this.requestOut.bind(this)} type="ebp">Withdraw Request</Button>&nbsp;
-                      <Button onClick={this.virtuellMining.bind(this)} type="ebp">Mining(virtuell) 3ETH</Button>
+                      {/* <Button onClick={this.virtuellMining.bind(this)} type="ebp">Mining(virtuell) 3ETH</Button> */}
                     </div>
                   </Col>
                 </Row>
