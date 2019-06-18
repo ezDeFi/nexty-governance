@@ -10,9 +10,14 @@
     height: 64px;
     width: 100%;
     display: flex;
+    margin-top: -12px;
 
     .logo-icon {
         cursor: pointer;
+
+        img {
+            height: 50px;
+        }
     }
 }
 
