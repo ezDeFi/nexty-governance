@@ -23,7 +23,12 @@ const toTime = (value) => {
 export default class extends StandardPage {
   componentDidMount () {
     this.loadData()
+    sessionStorage.setItem('pool_id', this.props.match.params.id)
     this.props.selectPool(this.props.match.params.id)
+  }
+
+  componentWillUnmount() {
+    sessionStorage.removeItem('pool_id')
   }
 
   loadData () {

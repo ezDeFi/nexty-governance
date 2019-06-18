@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import { cutString } from '@/service/Help'
 import moment from 'moment'
 import _ from 'lodash'
+import { validURL } from '@/util'
 
 import './style.scss'
 
@@ -49,7 +50,7 @@ export default class extends StandardPage {
         <Card
           hoverable
           onClick={this.gotoPoolDetail.bind(this, pool.address)}
-          cover={<img alt={pool.name} src={pool.logo ? pool.logo : '/assets/images/default-logo.png'} />}
+          cover={<img alt={pool.name} src={validURL(pool.logo) ? pool.logo : '/assets/images/default-logo.png'} />}
         >
           <Meta title={pool.name}/>
             <div class="column-flex" data-heading="Holding NTF Balance:">
