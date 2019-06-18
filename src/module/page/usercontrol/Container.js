@@ -6,10 +6,13 @@ import NtfPoolService from '@/service/contracts/ntfPoolService'
 import UserService from '@/service/UserService'
 var curWallet = null
 export default createContainer(Component, (state) => {
+  //console.log('contract pool', state.contracts.ntfPool)
   const userService = new UserService()
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
+
   async function load () {
+    await ntfPoolService.loadPool(state.pool.selectedPool)
     ntfPoolService.getPools(false)
     userService.getBalanceBeta()
 
