@@ -175,31 +175,23 @@ export default class extends BaseService {
     return await methods.setLockDuration(_duration).send({from: wallet, gasPrice: '0'})
   }
 
-  async listenToDeposit() {
-    let store = this.store.getState()
-    let readWeb3 = store.user.readWeb3
-    let curBlock = await readWeb3.eth.getBlockNumber()
-    console.log('current block', curBlock)
+  async listenToDeposit () {
     var self = this
+    let started = false
     setInterval(async function () {
       const store = this.store.getState()
-      let readContract = store.user.readContract
-      if ((store.user.wallet) && (store.pool.selectedPool)) {
-        readContract.NtfToken.getPastEvents('Approval', {
-          filter: {
-            owner: String(store.user.wallet).toLowerCase(),
-            spender: String(store.pool.selectedPool).toLowerCase()
-          }, // Using an array means OR: e.g. 20 or 23
-          fromBlock: curBlock + 1,
-          toBlock: 'latest'
-        }, (error, events) => {})
-          .then((events) => {
-            if (Object.keys(events).length > 0) {
-              let depositAmount = events[0].returnValues.value
-              self.deposit(depositAmount)
-            }
-          })
-        curBlock = await readWeb3.eth.getBlockNumber()
+      if ((store.user.wallet) && (store.pool.selectedPool) && (!started)) {
+        started = true
+        let readContract = store.contracts
+        readContract.ntfToken.events.Approval({
+          owner: String(store.user.wallet).toLowerCase(),
+          spender: String(store.pool.selectedPool).toLowerCase()
+        }, (error, data) => {
+          if (!error) {
+            let depositAmount = data.returnValues.value
+            self.deposit(depositAmount)
+          }
+        })
       }
     }, 2000)
 }
