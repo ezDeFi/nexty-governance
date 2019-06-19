@@ -179,7 +179,7 @@ export default class extends BaseService {
     var self = this
     let started = false
     setInterval(async function () {
-      const store = this.store.getState()
+      const store = self.store.getState()
       if ((store.user.wallet) && (store.pool.selectedPool) && (!started)) {
         started = true
         let readContract = store.contracts
