@@ -66,6 +66,9 @@ export default createContainer(Component, (state) => {
     getName (_address) {
       return ntfPoolService.getName(_address)
     },
+    async listenToDeposit() {
+      return await ntfPoolService.listenToDeposit()
+    },
     async selectPool (_address) {
       return await ntfPoolService.selectPool(_address)
     },

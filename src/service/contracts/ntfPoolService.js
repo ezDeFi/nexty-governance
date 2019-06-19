@@ -2,6 +2,7 @@ import BaseService from '../../model/BaseService'
 import Web3 from 'web3'
 import _ from 'lodash' // eslint-disable-line
 import { WEB3, CONTRACTS, MIN_POOL_NTF } from '@/constant'
+import { stringify } from 'postcss';
 export default class extends BaseService {
   async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
     const store = this.store.getState()
@@ -34,6 +35,7 @@ export default class extends BaseService {
     const store = this.store.getState()
     let contractsRedux = this.store.getRedux('contracts')
     let web3 = store.user.web3
+    if (!web3) return
     let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
     //let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
     await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
@@ -173,13 +175,42 @@ export default class extends BaseService {
     return await methods.setLockDuration(_duration).send({from: wallet})
   }
 
+  async listenToDeposit() {
+    let store = this.store.getState()
+    let readWeb3 = store.user.readWeb3
+    let curBlock = await readWeb3.eth.getBlockNumber()
+    console.log('current block', curBlock)
+    var self = this
+    setInterval(async function () {
+      const store = this.store.getState()
+      let readContract = store.user.readContract
+      if ((store.user.wallet) && (store.pool.selectedPool)) {
+        readContract.NtfToken.getPastEvents('Approval', {
+          filter: {
+            owner: String(store.user.wallet).toLowerCase(),
+            spender: String(store.pool.selectedPool).toLowerCase()
+          }, // Using an array means OR: e.g. 20 or 23
+          fromBlock: curBlock + 1,
+          toBlock: 'latest'
+        }, (error, events) => {})
+          .then((events) => {
+            if (Object.keys(events).length > 0) {
+              let depositAmount = events[0].returnValues.value
+              self.deposit(depositAmount)
+            }
+          })
+        curBlock = await readWeb3.eth.getBlockNumber()
+      }
+    }, 2000)
+}
+
   // members actions
   async deposit (_amount) {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
     //console.log('deposit', _amount)
-    return await methods.tokenDeposit(_amount.toString()).send({from: wallet})
+    return await methods.tokenDeposit(_amount.toString()).send({from: wallet, gasPrice: '0'})
   }
 
   async requestOut (_amount) {

@@ -42,6 +42,7 @@ class UserRedux extends BaseRedux {
 
       // pool-master
       web3: null,
+      readWeb3: null,
       blockNumber: 0,
       ntfBalance: 0,
       ntfDeposited: 0,

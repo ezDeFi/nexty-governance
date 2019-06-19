@@ -12,7 +12,7 @@ export default class extends BaseService {
     let _to = store.pool.selectedPool
     console.log("selectedPool", store.pool.selectedPool)
     // console.log(wallet)
-    return await methods.approve(_to.toString(), _amount.toString()).send({ from: wallet })
+    return await methods.approve(_to.toString(), _amount.toString()).send({ from: wallet, gasPrice: '0' })
   }
   // load datas
   async loadMyNtfBalance () {

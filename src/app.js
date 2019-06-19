@@ -57,14 +57,15 @@ let isRequest = false
 let isLogined = false
 
 function setupCallWeb3() {
-  let callweb3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
-  const NTFTokenContract = new callweb3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
-  const NextyManagerContract = new callweb3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
+  let readWeb3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
+  const NTFTokenContract = new readWeb3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
+  const NextyManagerContract = new readWeb3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
   const readContract = {
-    NTFToken: NTFTokenContract,
+    NtfToken: NTFTokenContract,
     NextyManager: NextyManagerContract
   }
   store.dispatch(userRedux.actions.readContract_update(readContract))
+  store.dispatch(userRedux.actions.readWeb3_update(readWeb3))
 }
 
 function setupWeb3() {
@@ -83,7 +84,7 @@ function setupWeb3() {
                       NextyManager: NextyManagerContract,
                       NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
                       NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-                      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
+                      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),
                     }
 
                     if (!isLogined) {

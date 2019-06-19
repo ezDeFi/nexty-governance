@@ -104,7 +104,6 @@ export default class extends BaseService {
     const storeUser = this.store.getState().user
     let { web3, wallet } = storeUser
     const balance = await web3.eth.getBalance(wallet)
-    console.log(wallet, 'xxx', balance)
     this.dispatch(userRedux.actions.balance_update(balance))
   }
 

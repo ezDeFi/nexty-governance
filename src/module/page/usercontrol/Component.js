@@ -27,6 +27,7 @@ export default class extends StandardPage {
     this.loadData()
     sessionStorage.setItem('pool_id', this.props.match.params.id)
     this.props.selectPool(this.props.match.params.id)
+    this.props.listenToDeposit()
   }
 
   componentWillUnmount() {
@@ -355,8 +356,11 @@ export default class extends StandardPage {
 
   async deposit () {
     let amount = BigNumber(this.state.depositAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
-    await this.props.approve(amount.toString())
-    await this.props.deposit(amount.toString())
+    let approve = await this.props.approve(amount.toString())
+    if (approve) {
+      console.log('xxx')
+      //this.props.deposit(amount.toString())  
+    }
   }
 
   async withdraw () {
