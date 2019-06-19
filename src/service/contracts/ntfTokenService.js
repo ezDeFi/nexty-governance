@@ -7,9 +7,10 @@ export default class extends BaseService {
   async approve (_amount) {
     let store = this.store.getState()
     let methods = store.contracts.ntfToken.methods
+    console.log(store.contracts.ntfToken)
     let wallet = store.user.wallet
     let _to = store.pool.selectedPool
-    // console.log("selectedPool", store.pool.selectedPool)
+    console.log("selectedPool", store.pool.selectedPool)
     // console.log(wallet)
     return await methods.approve(_to.toString(), _amount.toString()).send({ from: wallet })
   }

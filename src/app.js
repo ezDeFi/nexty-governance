@@ -77,7 +77,7 @@ function setupWeb3() {
                     const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
                     const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
 
-                    const totalSupply = await NTFTokenContract.methods.totalSupply().call()
+                    //const totalSupply = await NTFTokenContract.methods.totalSupply().call()
                     const contract = {
                       NTFToken: NTFTokenContract,
                       NextyManager: NextyManagerContract,

@@ -1,7 +1,8 @@
-import NTFToken from './../deployed/NtfToken.json'
+import NTFToken from './../deployed/NtfTokenABI.json'
 import NextyManager from './../deployed/NextyGovernance.json'
 import PoolMaker from './../deployed/pool/PoolMaker.json'
 import NtfPool from './../deployed/pool/NtfPool.json'
+import NtfPoolABI from './../deployed/NtfPoolABI.json'
 
 export const USER_ROLE = {
   MEMBER: 'MEMBER',
@@ -16,7 +17,7 @@ export const USER_ROLE = {
 // const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
 // const CONTRACT_ADDRESS_NextyManager = NextyManager.networks['66666'].address // eslint-disable-line
 
-const CONTRACT_ABI_NTFToken = NTFToken.abi // eslint-disable-line
+const CONTRACT_ABI_NTFToken = NTFToken // eslint-disable-line
 
 const CONTRACT_ADDRESS_NTFToken = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda' // eslint-disable-line
 
@@ -26,7 +27,7 @@ const CONTRACT_ADDRESS_NextyManager = '0x000000000000000000000000000000000001234
 const CONTRACT_ABI_PoolMaker = PoolMaker.abi // eslint-disable-line
 const CONTRACT_ADDRESS_PoolMaker = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' // eslint-disable-line
 
-const CONTRACT_ABI_NtfPool = NtfPool.abi // eslint-disable-line
+const CONTRACT_ABI_NtfPool = NtfPoolABI // eslint-disable-line
 const CONTRACT_ADDRESS_NtfPool = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' // eslint-disable-line
 
 export const WEB3 = {
