@@ -48,7 +48,8 @@ class UserRedux extends BaseRedux {
       ntfDeposited: 0,
       rewardBalance: 0,
       isLocking: false,
-      myPendingOutAmount: 0
+      myPendingOutAmount: 0,
+      depositing: false
     }
   }
 }

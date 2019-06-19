@@ -303,7 +303,7 @@ export default class extends StandardPage {
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="">
-                      <Button onClick={this.deposit.bind(this)} type="ebp">Deposit</Button>
+                      <Button className= {this.props.depositing ? "alertButton" : ""} disabled={this.props.depositing} onClick={this.deposit.bind(this)} type="ebp">Deposit</Button>
                     </div>
                   </Col>
                 </Row>
@@ -355,12 +355,18 @@ export default class extends StandardPage {
   }
 
   async deposit () {
+    this.props.depositProcess()
     let amount = BigNumber(this.state.depositAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
-    let approve = await this.props.approve(amount.toString())
-    if (approve) {
-      console.log('xxx')
-      //this.props.deposit(amount.toString())  
+    try {
+      await this.props.approve(amount.toString())
+    } catch (e) {
+      console.log('canceled')
+      this.props.depositStop()
     }
+    // let approve = await this.props.approve(amount.toString())
+    // if (approve === false) {
+    //   console.log('canceled')
+    // }
   }
 
   async withdraw () {

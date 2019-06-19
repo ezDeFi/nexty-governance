@@ -90,6 +90,16 @@ export default class extends BaseService {
     return true
   }
 
+  async depositProcess () {
+    const userRedux = this.store.getRedux('user')
+    this.dispatch(userRedux.actions.depositing_update(true))
+  }
+
+  async depositStop () {
+    const userRedux = this.store.getRedux('user')
+    this.dispatch(userRedux.actions.depositing_update(false))
+  }
+
   async getBalance () {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user

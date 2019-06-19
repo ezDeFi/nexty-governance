@@ -37,6 +37,7 @@ export default createContainer(Component, (state) => {
   }
 
   return {
+    depositing: state.user.depositing,
     pools: state.pool.pools,
     selectedPool: state.pool.selectedPool,
     wallet: state.user.wallet,
@@ -66,7 +67,13 @@ export default createContainer(Component, (state) => {
     getName (_address) {
       return ntfPoolService.getName(_address)
     },
-    async listenToDeposit() {
+    async depositProcess () {
+      return await userService.depositProcess()
+    },
+    async depositStop () {
+      return await userService.depositStop()
+    },
+    async listenToDeposit () {
       return await ntfPoolService.listenToDeposit()
     },
     async selectPool (_address) {

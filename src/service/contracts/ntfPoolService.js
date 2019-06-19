@@ -143,7 +143,7 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.fundWithdraw(wallet).send({from: wallet})
+    return await methods.fundWithdraw(wallet).send({from: wallet, gasPrice: '0'})
   }
 
   async joinGov (_signer) {
@@ -151,7 +151,7 @@ export default class extends BaseService {
     let methods = store.contracts.ntfPool.methods
     let stakeRequire = 500 * 1e18
     let wallet = store.user.wallet
-    return await methods.join(stakeRequire.toString(), _signer).send({from: wallet})
+    return await methods.join(stakeRequire.toString(), _signer).send({from: wallet, gasPrice: '0'})
   }
 
   async leaveGov () {
@@ -165,14 +165,14 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.tokenPoolWithdraw().send({from: wallet})
+    return await methods.tokenPoolWithdraw().send({from: wallet, gasPrice: '0'})
   }
 
   async setLockDuration (_duration) {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.setLockDuration(_duration).send({from: wallet})
+    return await methods.setLockDuration(_duration).send({from: wallet, gasPrice: '0'})
   }
 
   async listenToDeposit() {
@@ -209,7 +209,8 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    //console.log('deposit', _amount)
+    const userRedux = this.store.getRedux('user')
+    this.dispatch(userRedux.actions.depositing_update(false))
     return await methods.tokenDeposit(_amount.toString()).send({from: wallet, gasPrice: '0'})
   }
 
@@ -217,21 +218,21 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.requestOut(_amount.toString()).send({from: wallet})
+    return await methods.requestOut(_amount.toString()).send({from: wallet, gasPrice: '0'})
   }
 
   async withdraw () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.tokenMemberWithdraw().send({from: wallet})
+    return await methods.tokenMemberWithdraw().send({from: wallet, gasPrice: '0'})
   }
 
   async claim () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.coinWithdraw().send({from: wallet})
+    return await methods.coinWithdraw().send({from: wallet, gasPrice: '0'})
   }
 
   async virtuellMining () {
