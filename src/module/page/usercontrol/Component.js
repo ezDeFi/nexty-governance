@@ -26,6 +26,7 @@ export default class extends StandardPage {
   componentDidMount () {
     this.loadData()
     sessionStorage.setItem('pool_id', this.props.match.params.id)
+    console.log(this.props.match.params.id)
     this.props.selectPool(this.props.match.params.id)
     this.props.listenToDeposit()
   }
@@ -83,11 +84,11 @@ export default class extends StandardPage {
     return (
         <div className="page-common">
           <Row>
-            <h3 className="title">NTF Pools</h3>
+            <h3 className="title">Private Informations</h3>
           </Row>
           <div style={{ 'textAlign': 'left' }}>
             {/*{this.props.selectedPool && this.poolsRender()}*/}
-            <Row>
+           {/*  <Row>
               <Col md={8} xs={8}>
                 <span className="text-left">Coin Balance:</span>
               </Col>
@@ -96,10 +97,10 @@ export default class extends StandardPage {
                   {weiToEther(this.props.balance)} NTY
                 </div>
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col md={8} xs={8}>
-                <span className="text-left">Token Balance:</span>
+                <span className="text-left">Balance:</span>
               </Col>
               <Col md={16} xs={16}>
                 <div className="text-right">
@@ -107,7 +108,7 @@ export default class extends StandardPage {
                 </div>
               </Col>
             </Row>
-            <h3 className="title-section">Private Informations</h3>
+            {/* <h3 className="title-section">Private Informations</h3> */}
             {this.props.selectedPool &&
               <Row>
                 <Col md={8} xs={8}>
@@ -120,6 +121,9 @@ export default class extends StandardPage {
                 </Col>
               </Row>
             }
+
+          {Number(this.props.myPendingOutAmount) > 0 &&
+          <div>
             <Row>
               <Col md={8} xs={8}>
                 <span className="text-left">Pending out:</span>
@@ -138,7 +142,41 @@ export default class extends StandardPage {
                 {!this.props.isLocking && <Button onClick={this.withdraw.bind(this)} type="ebp">Withdraw</Button>}
               </Col>
             </Row>
-            {this.props.selectedPool &&
+          </div>
+          }
+
+          {Number(this.props.myPendingOutAmount) === 0 && (Number(this.props.myNtfDeposited) !== 0) &&
+          <div>
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left">Amount(NTF):</span>
+              </Col>
+              <Col md={16} xs={16}>
+                <div className="">
+                  <InputNumber
+                    className = "maxWidth"
+                    defaultValue={0}
+                    value={this.state.requestOutAmount}
+                    onChange={this.onRequestOutAmountChange.bind(this)}
+                  />
+                </div>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={8} xs={8}>
+                <span className="text-left"></span>
+              </Col>
+              <Col md={16} xs={16}>
+                <div className="">
+                  <Button onClick={this.requestOut.bind(this)} type="ebp">Withdraw Request</Button>
+                </div>
+              </Col>
+            </Row>
+          </div>
+          }
+
+            {this.props.selectedPool && Number(this.props.myNtfDeposited) > 0 &&
               <Row>
                 <Col md={8} xs={8}>
                   <span className="text-left">Status:</span>
@@ -174,25 +212,29 @@ export default class extends StandardPage {
             }
             {this.props.selectedPool &&
               <div>
-                <Row>
-                  <Col md={8} xs={8}>
-                    <span className="text-left">Reward Balance:</span>
-                  </Col>
-                  <Col md={16} xs={16}>
-                    <div className="text-right">
-                      {weiToEther(this.props.myRewardBalance)} NTY
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={8} xs={8}>
-                  </Col>
-                  <Col md={16} xs={16}>
-                    <div className="">
-                      <Button onClick={this.claim.bind(this)} type="ebp">Claim reward</Button>
-                    </div>
-                  </Col>
-                </Row>
+                {Number(this.props.myRewardBalance) > 0 &&
+                <div>
+                  <Row>
+                    <Col md={8} xs={8}>
+                      <span className="text-left">Reward Balance:</span>
+                    </Col>
+                    <Col md={16} xs={16}>
+                      <div className="text-right">
+                        {weiToEther(this.props.myRewardBalance)} NTY
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={8} xs={8}>
+                    </Col>
+                    <Col md={16} xs={16}>
+                      <div className="">
+                        <Button onClick={this.claim.bind(this)} type="ebp">Claim reward</Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+                }
 
                 <h3 className="title-section">Current Pool's Informations</h3>
                 <Row>
@@ -308,7 +350,7 @@ export default class extends StandardPage {
                   </Col>
                 </Row>
 
-                <Row>
+                {/* <Row>
                   <Col md={8} xs={8}>
                     <span className="text-left">Amount(NTF):</span>
                   </Col>
@@ -331,10 +373,9 @@ export default class extends StandardPage {
                   <Col md={16} xs={24}>
                     <div className="">
                       <Button onClick={this.requestOut.bind(this)} type="ebp">Withdraw Request</Button>&nbsp;
-                      {/* <Button onClick={this.virtuellMining.bind(this)} type="ebp">Mining(virtuell) 3ETH</Button> */}
                     </div>
                   </Col>
-                </Row>
+                </Row> */}
               </div>
             }
           </div>

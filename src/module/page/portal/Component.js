@@ -44,9 +44,9 @@ export default class extends StandardPage {
     this.props.history.push(`/pool/${address}`)
   }
 
-  renderCard(pool) {
+  renderCard (pool, key) {
     return (
-      <Col md={6} xs={24}>
+      <Col md={6} xs={24} key={key}>
         <Card
           hoverable
           onClick={this.gotoPoolDetail.bind(this, pool.address)}
@@ -108,7 +108,7 @@ export default class extends StandardPage {
           </Row>
           <Row>
             {Object.keys(poolsPortal).length > 0 && Object.values(poolsPortal).map((d, key) => {
-              return this.renderCard(d)
+              return this.renderCard(d, key)
             })}
           </Row>
         </div>

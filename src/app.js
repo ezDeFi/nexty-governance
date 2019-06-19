@@ -57,15 +57,17 @@ let isRequest = false
 let isLogined = false
 
 function setupCallWeb3() {
-  let readWeb3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
-  const NTFTokenContract = new readWeb3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
-  const NextyManagerContract = new readWeb3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
-  const readContract = {
-    NtfToken: NTFTokenContract,
-    NextyManager: NextyManagerContract
-  }
-  store.dispatch(userRedux.actions.readContract_update(readContract))
-  store.dispatch(userRedux.actions.readWeb3_update(readWeb3))
+  let web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
+  // const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
+  // const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
+  // const contracts = {
+  //   NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
+  //   NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+  //   NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+  //   PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),
+  // }
+  // store.dispatch(userRedux.actions.readContract_update(contracts))
+  // store.dispatch(userRedux.actions.readWeb3_update(readWeb3))
 }
 
 function setupWeb3() {
@@ -75,13 +77,13 @@ function setupWeb3() {
                 if (networkId === WEB3.NETWORK_ID) {
                     let web3 = new Web3(window.ethereum)
 
-                    const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
-                    const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
+                    // const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
+                    // const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
 
                     //const totalSupply = await NTFTokenContract.methods.totalSupply().call()
                     const contract = {
-                      NTFToken: NTFTokenContract,
-                      NextyManager: NextyManagerContract,
+                      // NTFToken: NTFTokenContract,
+                      NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
                       NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
                       NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
                       PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),

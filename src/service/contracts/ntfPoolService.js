@@ -26,13 +26,29 @@ export default class extends BaseService {
   }
 
   async selectPool (_address) {
+    console.log('selectPool', _address)
+
     let poolRedux = this.store.getRedux('pool')
     await this.dispatch(poolRedux.actions.selectedPool_update(_address))
-    this.loadPool(_address)
+    const store = this.store.getState()
+    console.log('store', store.pool.selectedPool)
+    //this.loadPool(_address)
   }
 
   async loadPool (_address) {
     const store = this.store.getState()
+    let contractsRedux = this.store.getRedux('contracts')
+    let web3 = store.user.web3
+    if (!web3) return
+    let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
+    //let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
+    await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
+    await this.loadPoolInfo()
+  }
+
+  async loadCurrentPool () {
+    const store = this.store.getState()
+    let _address = store.pool.selectedPool
     let contractsRedux = this.store.getRedux('contracts')
     let web3 = store.user.web3
     if (!web3) return
@@ -65,7 +81,8 @@ export default class extends BaseService {
     let name = await methods.name().call()
     let compRate = await methods.COMPRATE().call()
     let logo = await methods.logo().call()
-    let poolNtfBalance = await methods.balanceOf(address).call()
+    let poolNtfBalance = await methods.getPoolNtfBalance().call()
+    //console.log(address, poolNtfBalance)
 
     return {
       name,
@@ -118,21 +135,21 @@ export default class extends BaseService {
       }
       await pools.push(poolAddress)
     }
-    if (!myPoolsOnly) {
-      //console.log('loading all pools')
-      if (store.pool.selectedPool === null && pools.length > 0) {
-        let firstPoolAddress = await pools[0]
-        //console.log('selectedPool = ', firstPoolAddress)
-        await this.selectPool(firstPoolAddress)
-      }
-    } else {
-      //console.log('loading my pools only')
-      if (store.pool.mySelectedPool === null && myPools.length > 0) {
-        let firstPoolAddress = await myPools[0]
-        //console.log('selectedPool = ', firstPoolAddress)
-        await this.selectMyPool(firstPoolAddress)
-      }
-    }
+    // if (!myPoolsOnly) {
+    //   //console.log('loading all pools')
+    //   if (store.pool.selectedPool === null && pools.length > 0) {
+    //     let firstPoolAddress = await pools[0]
+    //     //console.log('selectedPool = ', firstPoolAddress)
+    //     //await this.selectPool(firstPoolAddress)
+    //   }
+    // } else {
+    //   //console.log('loading my pools only')
+    //   if (store.pool.mySelectedPool === null && myPools.length > 0) {
+    //     let firstPoolAddress = await myPools[0]
+    //     //console.log('selectedPool = ', firstPoolAddress)
+    //     //await this.selectMyPool(firstPoolAddress)
+    //   }
+    // }
 
     await this.dispatch(poolRedux.actions.pools_update(pools))
     await this.dispatch(poolRedux.actions.myPools_update(myPools))

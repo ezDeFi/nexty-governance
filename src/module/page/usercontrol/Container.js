@@ -12,12 +12,12 @@ export default createContainer(Component, (state) => {
   const ntfPoolService = new NtfPoolService()
 
   async function load () {
-    await ntfPoolService.loadPool(state.pool.selectedPool)
+    await ntfPoolService.loadCurrentPool()
     ntfPoolService.getPools(false)
     userService.getBalanceBeta()
 
     ntfTokenService.loadMyNtfBalance()
-
+    
     ntfPoolService.loadPoolOwner()
     ntfPoolService.loadMyRewardBalance()
     ntfPoolService.loadMyDepositedNtf()
@@ -75,6 +75,9 @@ export default createContainer(Component, (state) => {
     },
     async listenToDeposit () {
       return await ntfPoolService.listenToDeposit()
+    },
+    async loadPool (_address) {
+      return await ntfPoolService.loadPool(_address)
     },
     async selectPool (_address) {
       return await ntfPoolService.selectPool(_address)
