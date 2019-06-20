@@ -5,6 +5,7 @@ import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
 import { cutString } from '@/service/Help'
 import moment from 'moment'
+import URI from 'urijs'
 
 import './style.scss'
 
@@ -23,11 +24,16 @@ const toTime = (value) => {
 }
 
 export default class extends StandardPage {
+  constructor (props) {
+      super(props)
+      const params = new URI(window.location.href || '').search(true)
+      sessionStorage.setItem('pool_id', params.id)
+
+      props.selectPool(params.id)
+  }
+
   componentDidMount () {
     this.loadData()
-    sessionStorage.setItem('pool_id', this.props.match.params.id)
-    console.log(this.props.match.params.id)
-    this.props.selectPool(this.props.match.params.id)
     this.props.listenToDeposit()
   }
 

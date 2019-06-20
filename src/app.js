@@ -58,16 +58,6 @@ let isLogined = false
 
 function setupCallWeb3() {
   let web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
-  // const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
-  // const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
-  // const contracts = {
-  //   NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
-  //   NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-  //   NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-  //   PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),
-  // }
-  // store.dispatch(userRedux.actions.readContract_update(contracts))
-  // store.dispatch(userRedux.actions.readWeb3_update(readWeb3))
 }
 
 function setupWeb3() {
@@ -77,12 +67,7 @@ function setupWeb3() {
                 if (networkId === WEB3.NETWORK_ID) {
                     let web3 = new Web3(window.ethereum)
 
-                    // const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
-                    // const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
-
-                    //const totalSupply = await NTFTokenContract.methods.totalSupply().call()
                     const contract = {
-                      // NTFToken: NTFTokenContract,
                       NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
                       NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
                       NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
@@ -100,7 +85,7 @@ function setupWeb3() {
 
                       const pool_id = sessionStorage.getItem('pool_id')
                       if (pool_id) {
-                        userService.path.push(`/pool/${pool_id}`)
+                        userService.path.push(`/pool?id=${pool_id}`)
                       } else {
                         userService.path.push('/portal')
                       }
@@ -136,22 +121,3 @@ if (window.ethereum) {
 }
 
 render()
-
-// if (sessionStorage.getItem('api-token')) { // eslint-disable-line
-//   const userRedux = store.getRedux('user')
-//   api_request({
-//     path: '/user/current_user',
-//     success: data => {
-//       store.dispatch(userRedux.actions.is_login_update(true))
-//       if ([USER_ROLE.ADMIN, USER_ROLE.COUNCIL].includes(data.role)) {
-//         store.dispatch(userRedux.actions.is_admin_update(true))
-//       }
-//       store.dispatch(userRedux.actions.profile_update(data.profile))
-//       store.dispatch(userRedux.actions.role_update(data.role))
-
-//       render()
-//     }
-//   })
-// } else {
-//   render()
-// }

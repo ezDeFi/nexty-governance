@@ -45,7 +45,7 @@ export default [
     page: TransferPage
   },
   {
-    path: '/pool/:id',
+    path: '/pool',
     page: UserControlPage
   },
   {

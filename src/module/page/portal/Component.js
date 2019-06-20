@@ -41,7 +41,7 @@ export default class extends StandardPage {
   }
 
   gotoPoolDetail(address) {
-    this.props.history.push(`/pool/${address}`)
+    this.props.history.push(`/pool?id=${address}`)
   }
 
   renderCard (pool, key) {
