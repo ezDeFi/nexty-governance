@@ -58,8 +58,28 @@ const ntfPoolService = new NtfPoolService()
 let isRequest = false
 let isLogined = false
 
-function setupCallWeb3() {
+async function setupCallWeb3 () {
   let web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
+  const contract = {
+    NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
+    NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+    NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+    PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),
+  }
+
+  await store.dispatch(userRedux.actions.loginMetamask_update(true))
+  await store.dispatch(userRedux.actions.contract_update(contract))
+  await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
+  await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
+  await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
+  await store.dispatch(userRedux.actions.web3_update(web3))
+  await userService.metaMaskLogin('0x0000000000000000000000000000000000000000')
+  const pool_id = sessionStorage.getItem('pool_id')
+  if (pool_id) {
+    userService.path.push(`/pool?id=${pool_id}`)
+  } else {
+    userService.path.push('/portal')
+  }
 }
 
 function setupWeb3() {
@@ -119,7 +139,8 @@ if (window.ethereum) {
       setupWeb3()
     })
 } else {
-  store.dispatch(userRedux.actions.loginMetamask_update(false))
+  setupCallWeb3()
+  /* store.dispatch(userRedux.actions.loginMetamask_update(false)) */
 }
 
 render()
