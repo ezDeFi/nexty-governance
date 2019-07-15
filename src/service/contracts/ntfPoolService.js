@@ -123,20 +123,18 @@ export default class extends BaseService {
     console.log('loading Pools', poolCount)
     await this.dispatch(poolRedux.actions.poolCount_update(Number(poolCount)))
     //console.log('poolCount', poolCount)
-    let pools = []
+    let pools = JSON_POOLS
     let myPools = []
-    let poolDetails = []
-    for (let j = 0; j < 146; j++) {
-      pools.push(JSON_POOLS[j])
-      poolDetails.push(JSON_POOLDETAILS[j])
-    }
-    console.log(pools)
-    await this.dispatch(poolRedux.actions.pools_update(pools))
-    await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
-    console.log(poolDetails)
-    return
-    let from = 0
-    for (let i = from; i < 40; i++) {
+    let poolDetails = JSON_POOLDETAILS
+    // for (let j = 0; j < 146; j++) {
+    //   pools.push(JSON_POOLS[j])
+    //   poolDetails.push(JSON_POOLDETAILS[j])
+    // }
+    // console.log(pools)
+    // await this.dispatch(poolRedux.actions.pools_update(pools))
+    // await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
+    let i = 146
+    while (i < poolCount) {
       console.log('loading pool', i)
       let pool = await methods.getPool(i).call()
       let poolAddress = pool[0]
@@ -147,18 +145,16 @@ export default class extends BaseService {
       if (((Number(poolNtfBalance) + Number(poolNtfBalance) < MIN_POOL_NTF * 1e18) && (wallet.toLowerCase() !== await poolOwner.toLowerCase()))) {
         continue
       }
-      //await console.log('poolGovBalance', poolGovBalance)
-      //console.log('poolName', poolName)
       if (!store.pool.poolNames[poolAddress]) {
         let _poolNames = store.pool.poolNames
         _poolNames[poolAddress] = poolName
         await this.dispatch(poolRedux.actions.poolNames_update({ _poolNames }))
       }
       if (wallet.toLowerCase() === await poolOwner.toLowerCase()) {
-        // await myPools.push(poolAddress)
-        // let currentMyPools = store.pool.myPools
-        // currentMyPools.push(poolAddress)
-        // await this.dispatch(poolRedux.actions.myPools_update(myPools))
+        await myPools.push(poolAddress)
+        let currentMyPools = store.pool.myPools
+        currentMyPools.push(poolAddress)
+        await this.dispatch(poolRedux.actions.myPools_update(myPools))
       }
       await this.dispatch(poolRedux.actions.pools_update({ poolAddress }))
       await pools.push(poolAddress)
@@ -175,6 +171,7 @@ export default class extends BaseService {
       if (i === 10) {
         await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
       }
+      i++
     // await this.dispatch(poolRedux.actions.myPools_update(myPools))
     }
     // if (!myPoolsOnly) {
@@ -193,12 +190,9 @@ export default class extends BaseService {
     //   }
     // }
 
-    // await this.dispatch(poolRedux.actions.pools_update(pools))
-    // await this.dispatch(poolRedux.actions.myPools_update(myPools))
-    await this.dispatch(poolRedux.actions.poolsPortal_reset())
+    await this.dispatch(poolRedux.actions.pools_update(pools))
     await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
     await this.dispatch(poolRedux.actions.loadingPortal_update(false))
-    console.log('loaded full')
     return await store.pool.selectedPool
   }
 
