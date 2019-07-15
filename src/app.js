@@ -9,6 +9,7 @@ import config from '@/config'
 import { USER_ROLE } from '@/constant'
 import { api_request } from './util' // eslint-disable-line
 import UserService from '@/service/UserService'
+import NtfPoolService from '@/service/contracts/ntfPoolService'
 import {Helmet} from "react-helmet"
 import Web3 from '@/assets/js/web3'
 import { WEB3 } from '@/constant'
@@ -53,6 +54,7 @@ const render = () => {
 const userRedux = store.getRedux('user')
 const contractsRedux = store.getRedux('contracts')
 const userService = new UserService()
+const ntfPoolService = new NtfPoolService()
 let isRequest = false
 let isLogined = false
 

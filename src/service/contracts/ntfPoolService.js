@@ -1,8 +1,9 @@
 import BaseService from '../../model/BaseService'
 import Web3 from 'web3'
 import _ from 'lodash' // eslint-disable-line
-import { WEB3, CONTRACTS, MIN_POOL_NTF } from '@/constant'
+import { WEB3, CONTRACTS, MIN_POOL_NTF, JSON_POOLS, JSON_POOLDETAILS } from '@/constant'
 import { stringify } from 'postcss';
+
 export default class extends BaseService {
   async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
     const store = this.store.getState()
@@ -52,6 +53,7 @@ export default class extends BaseService {
     let contractsRedux = this.store.getRedux('contracts')
     let web3 = store.user.web3
     if (!web3) return
+    console.log('xxx')
     let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
     //let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
     await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
@@ -64,10 +66,11 @@ export default class extends BaseService {
     let web3 = store.user.web3
     const poolRedux = this.store.getRedux('pool')
 
-    const data = await Promise.all(pools.map(async item => {
-      let pool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, item)
-      return await this.loadPoolInfoPortal(pool, item)
-    }))
+    // const data = await Promise.all(pools.map(async item => {
+    //   let pool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, item)
+    //   return await this.loadPoolInfoPortal(pool, item)
+    // }))
+    const data = jsonPoolDetails
 
     await this.dispatch(poolRedux.actions.poolsPortal_update(data))
   }
@@ -103,22 +106,43 @@ export default class extends BaseService {
 
   async getPools (myPoolsOnly) {
     const store = this.store.getState()
-    let wallet = store.user.wallet
-    let methods = store.contracts.poolMaker.methods
+    let web3 = store.user.web3
+    if (store.pool.loadingPortal) {
+      return
+    }
+    if (store.pool.poolCount > 0) {
+      return
+    }
     let poolRedux = this.store.getRedux('pool')
 
+    await this.dispatch(poolRedux.actions.loadingPortal_update(true))
+    let wallet = store.user.wallet
+    let methods = store.contracts.poolMaker.methods
+
     let poolCount = await methods.getPoolCount().call()
-    //console.log('loading Pools')
+    console.log('loading Pools', poolCount)
     await this.dispatch(poolRedux.actions.poolCount_update(Number(poolCount)))
     //console.log('poolCount', poolCount)
     let pools = []
     let myPools = []
-    for (let i = 0; i < poolCount; i++) {
+    let poolDetails = []
+    for (let j = 0; j < 146; j++) {
+      pools.push(JSON_POOLS[j])
+      poolDetails.push(JSON_POOLDETAILS[j])
+    }
+    console.log(pools)
+    await this.dispatch(poolRedux.actions.pools_update(pools))
+    await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
+    console.log(poolDetails)
+    return
+    let from = 0
+    for (let i = from; i < 40; i++) {
+      console.log('loading pool', i)
       let pool = await methods.getPool(i).call()
-      let poolAddress = await pool[0]
-      let poolOwner = await pool[1]
-      let poolName = await pool[2]
-      let poolNtfBalance = await pool[3]
+      let poolAddress = pool[0]
+      let poolOwner = pool[1]
+      let poolName = pool[2]
+      let poolNtfBalance = pool[3]
       let poolGovBalance = await pool[4]
       if (((Number(poolNtfBalance) + Number(poolNtfBalance) < MIN_POOL_NTF * 1e18) && (wallet.toLowerCase() !== await poolOwner.toLowerCase()))) {
         continue
@@ -131,9 +155,27 @@ export default class extends BaseService {
         await this.dispatch(poolRedux.actions.poolNames_update({ _poolNames }))
       }
       if (wallet.toLowerCase() === await poolOwner.toLowerCase()) {
-        await myPools.push(poolAddress)
+        // await myPools.push(poolAddress)
+        // let currentMyPools = store.pool.myPools
+        // currentMyPools.push(poolAddress)
+        // await this.dispatch(poolRedux.actions.myPools_update(myPools))
       }
+      await this.dispatch(poolRedux.actions.pools_update({ poolAddress }))
       await pools.push(poolAddress)
+      let poolContract = await new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, poolAddress)
+      // let poolDetail = {
+      //   name: poolName,
+      //   compRate: poolCompRate,
+      //   logo: poolLogo,
+      //   poolNtfBalance: poolNtfBalance,
+      //   address: poolAddress
+      // }
+      let poolDetail = await this.loadPoolInfoPortal(poolContract, poolAddress)
+      poolDetails.push(poolDetail)
+      if (i === 10) {
+        await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
+      }
+    // await this.dispatch(poolRedux.actions.myPools_update(myPools))
     }
     // if (!myPoolsOnly) {
     //   //console.log('loading all pools')
@@ -151,9 +193,18 @@ export default class extends BaseService {
     //   }
     // }
 
-    await this.dispatch(poolRedux.actions.pools_update(pools))
-    await this.dispatch(poolRedux.actions.myPools_update(myPools))
+    // await this.dispatch(poolRedux.actions.pools_update(pools))
+    // await this.dispatch(poolRedux.actions.myPools_update(myPools))
+    await this.dispatch(poolRedux.actions.poolsPortal_reset())
+    await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
+    await this.dispatch(poolRedux.actions.loadingPortal_update(false))
+    console.log('loaded full')
     return await store.pool.selectedPool
+  }
+
+  getPoolCount () {
+    const store = this.store.getState()
+    console.log(store.pool.poolCount)
   }
   // pool's owner acctions
   async claimFund () {

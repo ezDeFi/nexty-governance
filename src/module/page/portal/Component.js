@@ -37,7 +37,7 @@ export default class extends StandardPage {
     this.loadData()
   }
 
-  loadData () {
+  async loadData () {
   }
 
   gotoPoolDetail(address) {
@@ -50,7 +50,8 @@ export default class extends StandardPage {
         <Card
           hoverable
           onClick={this.gotoPoolDetail.bind(this, pool.address)}
-          cover={<img alt={pool.name} src={validURL(pool.logo) ? pool.logo : '/assets/images/default-logo.png'} />}
+          cover={<img alt={pool.name} src={'/assets/images/default-logo.png'} />}
+          /* cover={<img alt={pool.name} src={validURL(pool.logo) ? pool.logo : '/assets/images/default-logo.png'} />} */
         >
           <Meta title={pool.name}/>
             <div class="column-flex" data-heading="Holding NTF Balance:">

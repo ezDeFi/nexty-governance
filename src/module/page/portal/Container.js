@@ -10,14 +10,15 @@ export default createContainer(Component, (state) => {
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
   async function load () {
+    console.log('xxx')
     ntfPoolService.getPools(false)
   }
   if (state.user.wallet !== curWallet && !curWallet) {
     curWallet = state.user.wallet
     load()
-    setInterval(() => {
-      load()
-    }, 5000)
+    // setInterval(() => {
+    //   load()
+    // }, 5000)
   }
 
   return {
@@ -36,7 +37,7 @@ export default createContainer(Component, (state) => {
       return ntfPoolService.getName(_address)
     },
     async loadPoolPortal (pools) {
-      return await ntfPoolService.loadPoolPortal(pools)
+      // return await ntfPoolService.loadPoolPortal(pools)
     }
   }
 })

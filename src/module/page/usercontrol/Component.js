@@ -42,6 +42,7 @@ export default class extends StandardPage {
   }
 
   loadData () {
+    this.props.reload()
     // this.props.getBalance()
     // this.props.getTokenBalance(this.props.currentAddress)
     // this.props.getDepositedBalance()

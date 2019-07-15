@@ -3,6 +3,8 @@ import NextyManager from './../deployed/NextyGovernance.json'
 import PoolMaker from './../deployed/pool/PoolMaker.json'
 import NtfPool from './../deployed/pool/NtfPool.json'
 import NtfPoolABI from './../deployed/NtfPoolABI.json'
+export const JSON_POOLS = require('./config/pools.json')
+export const JSON_POOLDETAILS = require('./config/poolDetails.json')
 
 export const USER_ROLE = {
   MEMBER: 'MEMBER',
