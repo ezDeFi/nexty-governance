@@ -246,6 +246,17 @@ export default class extends StandardPage {
                 <h3 className="title-section">Current Pool's Informations</h3>
                 <Row>
                   <Col md={8} xs={24}>
+                    <span className="text-left">Pool's Name:</span>
+                  </Col>
+                  <Col md={16} xs={24}>
+                    <div className="text-right">
+                      {this.props.name}
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={8} xs={24}>
                     <span className="text-left">Pool's Owner:</span>
                   </Col>
                   <Col md={16} xs={24}>

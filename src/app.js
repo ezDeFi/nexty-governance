@@ -74,12 +74,12 @@ async function setupCallWeb3 () {
   await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
   await store.dispatch(userRedux.actions.web3_update(web3))
   await userService.metaMaskLogin('0x0000000000000000000000000000000000000000')
-  const pool_id = sessionStorage.getItem('pool_id')
-  if (pool_id) {
-    userService.path.push(`/pool?id=${pool_id}`)
-  } else {
+  // const pool_id = sessionStorage.getItem('pool_id')
+  // if (pool_id) {
+  //   userService.path.push(`/pool?id=${pool_id}`)
+  // } else {
     userService.path.push('/portal')
-  }
+  // }
 }
 
 function setupWeb3() {
@@ -105,12 +105,12 @@ function setupWeb3() {
                       await store.dispatch(userRedux.actions.web3_update(web3))
                       await userService.metaMaskLogin(accounts[0])
 
-                      const pool_id = sessionStorage.getItem('pool_id')
-                      if (pool_id) {
-                        userService.path.push(`/pool?id=${pool_id}`)
-                      } else {
+                      // const pool_id = sessionStorage.getItem('pool_id')
+                      // if (pool_id) {
+                      //   userService.path.push(`/pool?id=${pool_id}`)
+                      // } else {
                         userService.path.push('/portal')
-                      }
+                      // }
                     }
                     isLogined = true
                 } else if (!isLogined) {
@@ -130,7 +130,7 @@ function setupWeb3() {
     })
 }
 
-setupCallWeb3()
+// setupCallWeb3()
 
 if (window.ethereum) {
     setupWeb3()

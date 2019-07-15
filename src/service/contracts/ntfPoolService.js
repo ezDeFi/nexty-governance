@@ -151,10 +151,10 @@ export default class extends BaseService {
         await this.dispatch(poolRedux.actions.poolNames_update({ _poolNames }))
       }
       if (wallet.toLowerCase() === await poolOwner.toLowerCase()) {
-        await myPools.push(poolAddress)
-        let currentMyPools = store.pool.myPools
-        currentMyPools.push(poolAddress)
-        await this.dispatch(poolRedux.actions.myPools_update(myPools))
+        // await myPools.push(poolAddress)
+        // let currentMyPools = store.pool.myPools
+        // currentMyPools.push(poolAddress)
+        // await this.dispatch(poolRedux.actions.myPools_update(myPools))
       }
       await this.dispatch(poolRedux.actions.pools_update({ poolAddress }))
       await pools.push(poolAddress)

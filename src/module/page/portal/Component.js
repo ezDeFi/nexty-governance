@@ -54,7 +54,7 @@ export default class extends StandardPage {
           /* cover={<img alt={pool.name} src={validURL(pool.logo) ? pool.logo : '/assets/images/default-logo.png'} />} */
         >
           <Meta title={pool.name}/>
-            <div class="column-flex" data-heading="Holding NTF Balance:">
+            <div class="column-flex" data-heading="Holding NTF:">
               <div>
                 <span className="text-number">{weiToEther(pool.poolNtfBalance)} NTF</span>
               </div>
