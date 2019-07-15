@@ -48,12 +48,12 @@ export default class extends BaseService {
   }
 
   async loadCurrentPool () {
+    await this.resetPool()
     const store = this.store.getState()
     let _address = store.pool.selectedPool
     let contractsRedux = this.store.getRedux('contracts')
     let web3 = store.user.web3
     if (!web3) return
-    console.log('xxx')
     let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
     //let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
     await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
@@ -490,6 +490,65 @@ export default class extends BaseService {
     let wallet = store.user.wallet
     let deposited = await methods.balanceOf(wallet).call()
     await this.dispatch(userRedux.actions.ntfDeposited_update(deposited))
+  }
+
+  async resetPool() {
+    let pool = {name: null,
+    compRate: null,
+    website: null,
+    location: null,
+    logo: null,
+    poolNames: [],
+    myPools: [],
+    pools: [],
+    poolCount: 0,
+    selectedPool: null,
+    mySelectedPool: null,
+    poolNtyBalance: 0,
+    poolNtfBalance: 0,
+    poolGovBalance: 0,
+    lockDuration: 0,
+    maxLockDuration: 0,
+    ownerDelay: 0,
+    fund: 0,
+    owner: null,
+    ownerBalance: 0,
+    signer: null,
+    status: null,
+    isWithdrawable: false,
+    unlockHeight: 0,
+    poolDeposited: 0,
+    stakeRequire: 500 * 1e18,
+    poolsPortal: [],
+    loadingPortal: false,
+    }
+    let poolRedux = this.store.getRedux('pool')
+    await this.dispatch(poolRedux.actions.name_update(pool.name))
+    await this.dispatch(poolRedux.actions.compRate_update(pool.compRate))
+    await this.dispatch(poolRedux.actions.website_update(pool.website))
+    await this.dispatch(poolRedux.actions.location_update(pool.location))
+    await this.dispatch(poolRedux.actions.logo_update(pool.logo))
+
+    await this.dispatch(poolRedux.actions.poolNtyBalance_update(pool.poolNtyBalance))
+    await this.dispatch(poolRedux.actions.poolNtfBalance_update(pool.poolNtfBalance))
+    await this.dispatch(poolRedux.actions.poolGovBalance_update(pool.poolGovBalance))
+    await this.dispatch(poolRedux.actions.lockDuration_update(pool.lockDuration))
+
+    await this.dispatch(poolRedux.actions.maxLockDuration_update(pool.maxLockDuration))
+    await this.dispatch(poolRedux.actions.ownerDelay_update(pool.ownerDelay))
+    await this.dispatch(poolRedux.actions.fund_update(pool.fund))
+    await this.dispatch(poolRedux.actions.owner_update(pool.owner))
+
+    await this.dispatch(poolRedux.actions.ownerBalance_update(pool.ownerBalance))
+    await this.dispatch(poolRedux.actions.signer_update(pool.signer))
+    await this.dispatch(poolRedux.actions.isWithdrawable_update(pool.isWithdrawable))
+    await this.dispatch(poolRedux.actions.unlockHeight_update(pool.unlockHeight))
+
+    
+    await this.dispatch(poolRedux.actions.poolDeposited_update(pool.poolDeposited))
+    await this.dispatch(poolRedux.actions.stakeRequire_update(pool.stakeRequire))
+    await this.dispatch(poolRedux.actions.isWithdrawable_update(pool.isWithdrawable))
+    await this.dispatch(poolRedux.actions.unlockHeight_update(pool.unlockHeight))
   }
 
   // read functions
