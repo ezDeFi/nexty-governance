@@ -14,6 +14,7 @@ class PoolRedux extends BaseRedux {
       logo: null,
       poolNames: [],
       myPools: [],
+      loadedTo: 0,
       pools: [],
       poolCount: 0,
       selectedPool: null,

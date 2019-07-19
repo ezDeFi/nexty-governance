@@ -56,12 +56,12 @@ export default class extends StandardPage {
           <Meta title={pool.name}/>
             <div class="column-flex" data-heading="Holding NTF:">
               <div>
-                <span className="text-number">{weiToEther(pool.poolNtfBalance)} NTF</span>
+                <span className="text-number">{this.props.loadedTo > key ? weiToEther(pool.poolNtfBalance) + ' NTF' : 'loading'} </span>
               </div>
             </div>
             <div class="column-flex" data-heading="Compensation Rate:">
               <div>
-                <span className="text-number">{pool.compRate} %</span>
+                <span className="text-number">{this.props.loadedTo > key ? pool.compRate + '%' : 'loading'}</span>
               </div>
             </div>
         </Card>

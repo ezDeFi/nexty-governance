@@ -10,7 +10,6 @@ export default createContainer(Component, (state) => {
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
   async function load () {
-    console.log('xxx')
     ntfPoolService.getPools(false)
   }
   if (state.user.wallet !== curWallet && !curWallet) {
@@ -22,6 +21,7 @@ export default createContainer(Component, (state) => {
   }
 
   return {
+    loadedTo: state.pool.loadedTo,
     pools: state.pool.pools,
     poolsPortal: state.pool.poolsPortal,
     loadingPortal: state.pool.loadingPortal,

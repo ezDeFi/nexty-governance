@@ -13,7 +13,6 @@ export default createContainer(Component, (state) => {
   const ntfPoolService = new NtfPoolService()
 
   async function load () {
-    console.log('xxx')
     ntfPoolService.getPools(false)
     await ntfPoolService.loadCurrentPool()
     // ntfPoolService.getPools(false)
