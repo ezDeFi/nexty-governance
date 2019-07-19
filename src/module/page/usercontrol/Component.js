@@ -28,13 +28,15 @@ export default class extends StandardPage {
       super(props)
       const params = new URI(window.location.href || '').search(true)
       sessionStorage.setItem('pool_id', params.id)
-
+      this.state = {
+        listeningApprove: false
+      }
       props.selectPool(params.id)
   }
 
   componentDidMount () {
     this.loadData()
-    this.props.listenToDeposit()
+    // this.props.listenToDeposit()
   }
 
   componentWillUnmount() {
@@ -414,6 +416,12 @@ export default class extends StandardPage {
   }
 
   async deposit () {
+    if (!this.state.listeningApprove) {
+      this.setState({
+        listeningApprove: true
+      })
+      this.props.listenToDeposit()
+    }
     this.props.depositProcess()
     let amount = BigNumber(this.state.depositAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
     try {
