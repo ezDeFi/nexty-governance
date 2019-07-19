@@ -420,6 +420,7 @@ export default class extends StandardPage {
       this.setState({
         listeningApprove: true
       })
+      console.log('listening approval event')
       this.props.listenToDeposit()
     }
     this.props.depositProcess()
