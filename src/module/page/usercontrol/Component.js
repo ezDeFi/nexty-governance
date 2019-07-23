@@ -91,6 +91,8 @@ export default class extends StandardPage {
   }
 
   ord_renderContent () { // eslint-disable-line
+    const status = getStatusText(this.props.poolStatus, weiToEther(this.props.poolNtfBalance))
+    const color = status === 'Waiting for Stakes' ? 'red' : (status === 'Not Joined' ? 'orange' : 'green')
     return (
         <div className="page-common">
           <Row>
@@ -316,8 +318,8 @@ export default class extends StandardPage {
                     <span className="text-left">Status:</span>
                   </Col>
                   <Col md={16} xs={16}>
-                    <div className="text-right">
-                      {getStatusText(this.props.poolStatus, weiToEther(this.props.poolNtfBalance))}
+                    <div className={"text-right " + color}>
+                      {status}
                     </div>
                   </Col>
                 </Row>

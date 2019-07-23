@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import { cutString } from '@/service/Help'
 import moment from 'moment'
 import _ from 'lodash'
-import { getStatusText } from '@/util'
+import { getStatusText, getStatusColor } from '@/util'
 
 import './style.scss'
 
@@ -45,6 +45,7 @@ export default class extends StandardPage {
   }
 
   renderCard (pool, key) {
+    const color = this.props.loadedTo > key ? getStatusColor(pool.status, weiToEther(pool.poolNtfBalance)) : ''
     return (
       <Col md={6} xs={24} key={key}>
         <Card
@@ -66,7 +67,7 @@ export default class extends StandardPage {
             </div>
             <div class="column-flex" data-heading="Status:">
               <div>
-                <span className="text-number">{this.props.loadedTo > key ? getStatusText(pool.status, weiToEther(pool.poolNtfBalance)) : 'loading'}</span>
+                <span className={'text-number ' + color}>{this.props.loadedTo > key ? getStatusText(pool.status, weiToEther(pool.poolNtfBalance)) : 'loading'}</span>
               </div>
             </div>
         </Card>

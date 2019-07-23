@@ -38,6 +38,11 @@ export const getStatusText = (status, poolNtfBalance) => {
   return Number(poolNtfBalance) < 50000 ? 'Waiting for Stakes' : 'Not Joined'
 }
 
+export const getStatusColor = (status, poolNtfBalance) => {
+  if (status === 1) return 'green'
+  return Number(poolNtfBalance) < 50000 ? 'red' : 'orange'
+}
+
 export {
   api_request, // eslint-disable-line
   upload_file // eslint-disable-line
