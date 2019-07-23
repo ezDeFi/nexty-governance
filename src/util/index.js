@@ -33,6 +33,11 @@ export const validURL = (str) => {
   return !!pattern.test(str);
 }
 
+export const getStatusText = (status, poolNtfBalance) => {
+  if (status === 1) return 'Running'
+  return Number(poolNtfBalance) < 50000 ? 'Waiting for Stakes' : 'Not Joined'
+}
+
 export {
   api_request, // eslint-disable-line
   upload_file // eslint-disable-line

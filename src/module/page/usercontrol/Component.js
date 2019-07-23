@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import { cutString } from '@/service/Help'
 import moment from 'moment'
 import URI from 'urijs'
+import { getStatusText } from '@/util'
 
 import './style.scss'
 
@@ -316,7 +317,7 @@ export default class extends StandardPage {
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="text-right">
-                      {this.props.poolStatus}
+                      {getStatusText(this.props.poolStatus, weiToEther(this.props.poolNtfBalance))}
                     </div>
                   </Col>
                 </Row>

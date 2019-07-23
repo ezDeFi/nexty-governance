@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import { cutString } from '@/service/Help'
 import moment from 'moment'
 import _ from 'lodash'
-import { validURL } from '@/util'
+import { getStatusText } from '@/util'
 
 import './style.scss'
 
@@ -62,6 +62,11 @@ export default class extends StandardPage {
             <div class="column-flex" data-heading="Compensation Rate:">
               <div>
                 <span className="text-number">{this.props.loadedTo > key ? pool.compRate + '%' : 'loading'}</span>
+              </div>
+            </div>
+            <div class="column-flex" data-heading="Status:">
+              <div>
+                <span className="text-number">{this.props.loadedTo > key ? getStatusText(pool.status, weiToEther(pool.poolNtfBalance)) : 'loading'}</span>
               </div>
             </div>
         </Card>

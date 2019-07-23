@@ -85,6 +85,7 @@ export default class extends BaseService {
     let compRate = await methods.COMPRATE().call()
     let logo = await methods.logo().call()
     let poolNtfBalance = await methods.getPoolNtfBalance().call()
+    let status = await methods.getStatus().call()
     let updated = true
     //console.log(address, poolNtfBalance)
 
@@ -94,6 +95,7 @@ export default class extends BaseService {
       logo,
       poolNtfBalance,
       address,
+      status,
       updated
     }
   }
