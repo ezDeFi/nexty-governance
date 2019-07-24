@@ -84,7 +84,9 @@ export default class extends BaseService {
     let name = await methods.name().call()
     let compRate = await methods.COMPRATE().call()
     let logo = await methods.logo().call()
+    let deposited = await methods.getPoolGovBalance().call()
     let poolNtfBalance = await methods.getPoolNtfBalance().call()
+    poolNtfBalance = Number(poolNtfBalance) + Number(deposited)
     let status = await methods.getStatus().call()
     let updated = true
     //console.log(address, poolNtfBalance)

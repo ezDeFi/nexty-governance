@@ -29,6 +29,7 @@ export default createContainer(Component, (state) => {
     ntfPoolService.loadPoolNtyBalance()
     ntfPoolService.loadPoolStatus()
     ntfPoolService.loadMyPendingOutAmount()
+    ntfPoolService.loadPoolDeposited()
   }
   if (state.user.wallet !== curWallet && !curWallet) {
     curWallet = state.user.wallet
@@ -49,6 +50,7 @@ export default createContainer(Component, (state) => {
     myNtfDeposited: state.user.ntfDeposited,
     myUnlockTime: state.user.unlockTime,
     poolNtfBalance: state.pool.poolNtfBalance.balance,
+    poolNtfDeposited: state.pool.poolDeposited,
     poolNtyBalance: state.pool.poolNtyBalance,
     isLocking: state.user.isLocking,
     poolStatus: state.pool.status,

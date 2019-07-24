@@ -318,7 +318,7 @@ export default class extends StandardPage {
                     <span className="text-left">Status:</span>
                   </Col>
                   <Col md={16} xs={16}>
-                    <div className={"text-right " + color}>
+                    <div className={ 'text-right ' + color}>
                       {status}
                     </div>
                   </Col>
@@ -330,7 +330,7 @@ export default class extends StandardPage {
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="text-right">
-                      {weiToEther(this.props.poolNtfBalance)} NTF
+                      {weiToEther(Number(this.props.poolNtfBalance) + Number(this.props.poolNtfDeposited))} NTF
                     </div>
                   </Col>
                 </Row>
