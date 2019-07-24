@@ -40,20 +40,52 @@ async function getPoolCount () {
   return await poolCount
 }
 
+async function loadPool (address) {
+  const pool = new web3.eth.Contract(ntfPoolAbi.abi, address)
+  const methods = pool.methods
+  const details = {
+    address: address,
+    name: await methods.name().call(),
+    owner: await methods.owner().call(),
+    website: await methods.website().call(),
+    location: await methods.location().call(),
+    logo: await methods.logo().call(),
+    compRate: await methods.COMPRATE().call(),
+    status: await methods.getStatus().call(),
+    holdingNtfBalance: await methods.getPoolNtfBalance().call(),
+    govNtfBalance: await methods.getPoolGovBalance().call(),
+    holdingNtyBalance: await web3.eth.getBalance(address)
+  }
+  console.log(details)
+  return details
+}
+
 async function loadPools (from) {
   const poolCount = await getPoolCount()
   let res = []
   for (let i = from; i < poolCount; i++) {
-    let poolDetails =
     let poolAddress = await contracts.poolMaker.methods.pools(i).call()
-    let pool = new web3.eth.Contract(ntfPoolAbi.abi, poolAddress)
-    res.push(poolAddress)
+    const details = await loadPool(poolAddress)
+    res.push(details)
   }
   return res
 }
 
 async function start () {
-  await loadPools(145)
+  await loadPools(0)
 }
 
 start()
+
+/*
+    address: {type: String, toLowercase: true},
+    name: {type: String},
+    owner: {type: String, toLowercase: true},
+    website: {type: String},
+    location: {type: String},
+    logo: {type: String},
+    compRate: {type: Number},
+    status: {type: String},
+    holdingNtfBalance: {type: Number, default: 0},
+    holdingNtyBalance: {type: Number, default: 0},
+*/
