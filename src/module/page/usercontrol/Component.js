@@ -11,6 +11,7 @@ import { getStatusText } from '@/util'
 import './style.scss'
 
 import { Col, Row, Icon, InputNumber, Button, Select } from 'antd' // eslint-disable-line
+import { min } from 'bn.js';
 var BigNumber = require('bignumber.js')
 BigNumber.config({ ERRORS: false });
 const Option = Select.Option
@@ -22,6 +23,22 @@ const weiToEther = (wei) => {
 const toTime = (value) => {
   var dateString = moment.unix(value).format('DD/MM/YYYY')
   return dateString
+}
+
+const timeToString = (_sec) => {
+  var sec = Number(_sec)
+  var seconds = sec % 60
+  var minutes = Math.floor(sec / 60);
+  var hour = Math.floor(minutes / 60)
+  var day = Math.floor(hour / 60)
+  hour = hour % 24
+  minutes = minutes % 60
+  var s = ''
+  if (day > 0) s = s + day + ' day(s) '
+  if (hour > 0) s = s + hour + ' hour(s) '
+  if (minutes > 0) s = s + minutes + ' minute(s) '
+  if (seconds > 0) s = s + seconds + ' second(s)'
+  return s
 }
 
 export default class extends StandardPage {
@@ -298,6 +315,17 @@ export default class extends StandardPage {
                   <Col md={16} xs={16}>
                     <div className="text-right">
                       {this.props.compRate}
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left">Lock Duration:</span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="text-right">
+                      {timeToString(this.props.lockDuration)}
                     </div>
                   </Col>
                 </Row>

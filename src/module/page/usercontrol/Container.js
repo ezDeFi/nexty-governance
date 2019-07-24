@@ -60,7 +60,8 @@ export default createContainer(Component, (state) => {
     location: state.pool.location,
     logo: state.pool.logo,
     owner: state.pool.owner,
-    myPendingOutAmount: state.user.myPendingOutAmount
+    myPendingOutAmount: state.user.myPendingOutAmount,
+    lockDuration: state.pool.lockDuration
   }
 }, () => {
   const userService = new UserService()

@@ -5,6 +5,8 @@ import Log from './Log';
 import Connection from './Connection';
 import Message from './Message';
 
+import Pool from './Pool';
+
 import {utilCrypto} from '../utility';
 import * as uuid from 'uuid'
 

@@ -2,10 +2,8 @@ import {Schema} from 'mongoose';
 
 
 export const Log = {
-    type : {
-        type : String,     // LOG_TYPE
-        required : true
-    }
-
-
+    pool: {type: Schema.Types.ObjectId, ref: 'pool'},
+    type: {type: String},
+    data: {type: Object},
+    blockNumber: {type: Number}
 };
