@@ -10,7 +10,7 @@ import { getStatusText, getStatusColor } from '@/util'
 
 import './style.scss'
 
-import { Col, Row, Icon, InputNumber, Button, Select, Card, Spin, Input } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, Menu, Button, Select, Card, Spin, Input, Dropdown } from 'antd' // eslint-disable-line
 const Option = Select.Option
 const { Meta } = Card;
 
@@ -23,13 +23,20 @@ const toTime = (value) => {
   return dateString
 }
 
+const getPoolNtfBalance = (pool) => {
+  if (!pool) return 0
+  const sum = Number(pool.govNtfBalance) + Number(pool.holdingNtfBalance)
+  return weiToEther(sum)
+}
+
 export default class extends StandardPage {
 
   constructor(props) {
       super(props)
 
       this.state = {
-          nameFilter: ''
+          nameFilter: '',
+          selectedStatus: 'All'
       }
   }
 
@@ -45,7 +52,7 @@ export default class extends StandardPage {
   }
 
   renderCard (pool, key) {
-    const color = this.props.loadedTo > key ? getStatusColor(pool.status, weiToEther(pool.poolNtfBalance)) : ''
+    const color = this.props.loadedTo > key ? getStatusColor(pool.status, getPoolNtfBalance(pool)) : ''
     return (
       <Col md={6} xs={24} key={key}>
         <Card
@@ -57,7 +64,7 @@ export default class extends StandardPage {
           <Meta title={pool.name}/>
             <div class="column-flex" data-heading="Holding NTF:">
               <div>
-                <span className="text-number">{this.props.loadedTo > key ? weiToEther(pool.poolNtfBalance) + ' NTF' : 'loading'} </span>
+                <span className="text-number">{this.props.loadedTo > key ? getPoolNtfBalance(pool) + ' NTF' : 'loading'} </span>
               </div>
             </div>
             <div class="column-flex" data-heading="Compensation Rate:">
@@ -67,7 +74,7 @@ export default class extends StandardPage {
             </div>
             <div class="column-flex" data-heading="Status:">
               <div>
-                <span className={'text-number ' + color}>{this.props.loadedTo > key ? getStatusText(pool.status, weiToEther(pool.poolNtfBalance)) : 'loading'}</span>
+                <span className={'text-number ' + color}>{this.props.loadedTo > key ? getStatusText(pool.status, getPoolNtfBalance(pool)) : 'loading'}</span>
               </div>
             </div>
         </Card>
@@ -77,6 +84,12 @@ export default class extends StandardPage {
 
   handleSearch(value) {
       this.setState({nameFilter: value})
+  }
+
+  onSelectStatus(status) {
+      this.setState({
+          selectedStatus: status
+      })
   }
 
   ord_renderContent () { // eslint-disable-line
@@ -96,9 +109,27 @@ export default class extends StandardPage {
         })
     }
 
-    if (_.isEmpty(poolsPortal)) {
-      return <div className="spin-loading"><Spin /></div>
-    }
+    if (this.state.selectedStatus !== 'All') {
+      poolsPortal = poolsPortal.filter((item) => {
+          let status = getStatusText(item.status, getPoolNtfBalance(item))
+          return (status === this.state.selectedStatus ? item : null)
+      })
+  }
+
+    // if (_.isEmpty(poolsPortal)) {
+    //   return <div className="spin-loading"><Spin /></div>
+    // }
+
+    const statusList = ['All', 'Waiting for Stakes', 'Running', 'Not Joined']
+
+    const menu = (
+      <Menu>
+          {statusList.map(status => 
+          <Menu.Item onClick={() => this.onSelectStatus(status)} key={ status }>
+              {status}
+          </Menu.Item>)}
+      </Menu>
+    );
 
     return (
         <div className="page-portal">
@@ -109,15 +140,21 @@ export default class extends StandardPage {
                 placeholder="Search pool name"
               />
             </div>
+            <Dropdown overlay={menu}>
+                <Button>{this.state.selectedStatus} <Icon type="down" /></Button>
+            </Dropdown>
           </Row>
           <Row>
-            <h3 className="title">Pools</h3>
+            <h3 className="title">Pools             {(_.isEmpty(poolsPortal)) && 
+              <Spin />
+            }</h3>
           </Row>
-          <Row>
+          {!_.isEmpty(poolsPortal) && <Row>
             {Object.keys(poolsPortal).length > 0 && Object.values(poolsPortal).map((d, key) => {
               return this.renderCard(d, key)
             })}
           </Row>
+          }
         </div>
     )
   }

@@ -9,6 +9,8 @@ import user from './user';
 import upload from './upload';
 import ping from './ping';
 
+import pool from './pool';
+
 /**
  * Every request intercepts the token and sets the session user from the userId again
  *
@@ -76,6 +78,7 @@ if (getEnv() === 'dev') {
 router.use('/ping', ping);
 router.use('/user', user);
 router.use('/upload', upload);
+router.use('/pool', pool);
 
 router.use((req, res) => {
     return res.sendStatus(403);

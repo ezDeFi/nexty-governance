@@ -1,13 +1,13 @@
-import * as _ from 'lodash';
+// import * as _ from 'lodash';
 
-const create = (constant_list: string[]): any => {
+/* const create = (constant_list: string[]): any => {
     const map = {};
     _.each(constant_list, (key)=>{
         map[key] = key;
     });
 
     return map;
-}
+} */
 
 export const LOAD_INTERVAL = 5000
 export const LIMIT_PER_IP = 10

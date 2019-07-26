@@ -55,6 +55,7 @@ async function loadPool (address) {
     status: await methods.getStatus().call(),
     holdingNtfBalance: await methods.getPoolNtfBalance().call(),
     govNtfBalance: await methods.getPoolGovBalance().call(),
+    lockDuration: await methods.lockDuration().call(),
     holdingNtyBalance: await web3.eth.getBalance(address)
   }
   console.log(details)

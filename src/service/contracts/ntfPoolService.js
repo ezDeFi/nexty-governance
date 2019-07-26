@@ -2,9 +2,21 @@ import BaseService from '../../model/BaseService'
 import Web3 from 'web3'
 import _ from 'lodash' // eslint-disable-line
 import { WEB3, CONTRACTS, MIN_POOL_NTF, JSON_POOLS, JSON_POOLDETAILS } from '@/constant'
-import { stringify } from 'postcss';
+import { stringify } from 'postcss'
+import {api_request} from '@/util'
 
 export default class extends BaseService {
+  async getPortal () {
+    const poolRedux = this.store.getRedux('pool')
+    const result = await api_request({
+      path: '/api/pool/get_portal',
+      method: 'get'
+    })
+    await this.dispatch(poolRedux.actions.poolsPortal_update(result))
+    await this.dispatch(poolRedux.actions.loadedTo_update(result.length))
+  }
+
+
   async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
     const store = this.store.getState()
     let methods = store.contracts.poolMaker.methods
@@ -61,6 +73,8 @@ export default class extends BaseService {
   }
 
   async loadPoolPortal(pools) {
+    await this.getPortal()
+    return
     const store = this.store.getState()
     let contractsRedux = this.store.getRedux('contracts')
     let web3 = store.user.web3
@@ -111,6 +125,8 @@ export default class extends BaseService {
   }
 
   async loadPoolPortalDetails () {
+    await this.getPortal()
+    return
     const store = this.store.getState()
     let poolRedux = this.store.getRedux('pool')
     

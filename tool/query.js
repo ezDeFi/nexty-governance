@@ -33,9 +33,16 @@ const contracts = {
   poolMaker: new web3.eth.Contract(CONTRACTS_DATA.poolMaker.abi, CONTRACTS_DATA.poolMaker.address)
 }
 
-async function start () {
+async function loadPools (from) {
   const poolCount = await contracts.poolMaker.methods.getPoolCount().call()
-  console.log('xxx', poolCount)
+  for (let i = from; i < poolCount; i++) {
+    const poolAddress = await contracts.poolMaker.methods.pools(i).call()
+    console.log(poolAddress)
+  }
+}
+
+async function start () {
+  loadPools()
 }
 
 start()

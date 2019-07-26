@@ -12,6 +12,7 @@ export const PoolSchema = {
     compRate: {type: Number},
     status: {type: String},
     holdingNtfBalance: {type: Number, default: 0},
+    govNtfBalance: {type: Number, default: 0},
     holdingNtyBalance: {type: Number, default: 0},
     lockDuration: {type: Number, default: 0},
     maxLockDuration: {type: Number, default: 0}

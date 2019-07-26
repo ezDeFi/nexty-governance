@@ -16,7 +16,7 @@ export default class extends Base {
             teamId,
             memberId,
             reason,
-            type : constant.LOG_TYPE.APPLY_TEAM
+            // type : constant.LOG_TYPE.APPLY_TEAM
         });
     }
 }

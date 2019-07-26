@@ -129,17 +129,17 @@ export class Scanner{
         const pool = new web3.eth.Contract(ntfPoolAbi.abi, address)
         const methods = pool.methods
         const details = {
-            name: await methods.name().call(),
-            owner: await methods.owner().call(),
-            coinbase: await methods.getCoinbase().call(),
-            website: await methods.website().call(),
-            location: await methods.location().call(),
-            logo: await methods.logo().call(),
-            compRate: await methods.COMPRATE().call(),
-            status: await methods.getStatus().call(),
-            holdingNtfBalance: await methods.getPoolNtfBalance().call(),
-            govNtfBalance: await methods.getPoolGovBalance().call(),
-            lockDuration: await methods.getLockDuration().call(),
+            name: await methods.name().call().catch(),
+            owner: await methods.owner().call().catch(),
+            coinbase: await methods.getCoinbase().call().catch(),
+            website: await methods.website().call().catch(),
+            location: await methods.location().call().catch(),
+            logo: await methods.logo().call().catch(),
+            compRate: await methods.COMPRATE().call().catch(),
+            status: await methods.getStatus().call().catch(),
+            holdingNtfBalance: await methods.getPoolNtfBalance().call().catch(),
+            govNtfBalance: await methods.getPoolGovBalance().call().catch(),
+            lockDuration: await methods.getLockDuration().call().catch(),
             holdingNtyBalance: await web3.eth.getBalance(address)
         }
         await self.DB_Pool.update({address: address},details)
@@ -162,7 +162,7 @@ export class Scanner{
       }
 
       private async getPoolCount () {
-        const poolCount = await contracts.poolMaker.methods.getPoolCount().call()
+        const poolCount = await contracts.poolMaker.methods.getPoolCount().call().catch()
         return await poolCount
       }
 
@@ -174,7 +174,7 @@ export class Scanner{
         let res = []
         if (from >= poolCount) return
         for (let i = from; i < poolCount; i++) {
-          let poolAddress = await contracts.poolMaker.methods.pools(i).call()
+          let poolAddress = await contracts.poolMaker.methods.pools(i).call().catch()
           // const details = await loadPool(poolAddress)
           res.push(poolAddress.toLowerCase())
         //   console.log('loaded to ', i, poolAddress)
@@ -188,7 +188,7 @@ export class Scanner{
       }
 
       private async getCurrentBlockNumber () {
-          const blockNumber = await web3.eth.getBlockNumber()
+          const blockNumber = await web3.eth.getBlockNumber().catch()
           return Number(blockNumber)
       }
 }
