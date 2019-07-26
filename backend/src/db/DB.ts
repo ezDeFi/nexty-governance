@@ -6,6 +6,7 @@ import Connection from './Connection';
 import Message from './Message';
 
 import Pool from './Pool';
+import Queue from './Queue';
 
 import {utilCrypto} from '../utility';
 import * as uuid from 'uuid'
@@ -74,7 +75,8 @@ export default class {
         this.db.Log = new Log(db);
         this.db.Connection = new Connection(db);
         this.db.Message = new Message(db);
-
+        this.db.Pool = new Pool(db);
+        this.db.Queue = new Queue(db);
     }
 
     public getModel(name: string){

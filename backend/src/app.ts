@@ -12,6 +12,7 @@ import * as compression from 'compression';
 import * as fs from 'fs';
 import db from './db';
 import Socket from './socket'
+import {Scanner} from './scanner';
 
 import router, {middleware} from './router';
 
@@ -76,6 +77,9 @@ import './config';
     // if (process.env.NODE_ENV === 'production') {
     //     app.use(rollbar.errorHandler())
     // }
+
+    const scanner = new Scanner(DB)
+    scanner.start()
 
     const port = process.env.SERVER_PORT;
     server.listen(port, () => {
