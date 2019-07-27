@@ -7,15 +7,15 @@ const endPoint = 'https://rpc.nexty.io'
 const web3 = new Web3(endPoint)
 const PATH = '../../deployed/'
 
-const ntfAbi = require(PATH + 'NtfToken.json')
+import * as ntfAbi from './NtfToken.json'
 const ntfAddress = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda'
 
-const ntfPoolAbi = require(PATH + 'pool/NtfPool.json')
+import * as ntfPoolAbi from './deployed/pool/NtfPool.json'
 
-const govAbi = require(PATH + 'NextyGovernance.json')
+import * as govAbi from './deployed/NextyGovernance.json'
 const govAddress = '0x0000000000000000000000000000000000012345'
 
-const poolMakerAbi = require(PATH + 'pool/PoolMaker.json')
+import * as poolMakerAbi from './deployed/pool/PoolMaker.json'
 const poolMakerAddress = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E'
 
 const CONTRACTS_DATA = {
