@@ -3,8 +3,10 @@ import {constant} from '../constant'
 import { LOAD_INTERVAL } from 'src/constant/constant';
 import { setTimeout } from 'timers';
 
-const endPoint = 'https://rpc.nexty.io'
-const web3 = new Web3(endPoint)
+// const endPoint = 'https://rpc.nexty.io'
+const BigNumber = require('bignumber.js')
+var web3, contracts
+// const web3 = new Web3(endPoint)
 const PATH = '../../deployed/'
 
 import * as ntfAbi from './NtfToken.json'
@@ -33,12 +35,14 @@ const CONTRACTS_DATA = {
   },
 }
 
-const contracts = {
-  ntfToken: new web3.eth.Contract(CONTRACTS_DATA.ntfToken.abi, CONTRACTS_DATA.ntfToken.address),
-  gov: new web3.eth.Contract(CONTRACTS_DATA.gov.abi, CONTRACTS_DATA.gov.address),
-  poolMaker: new web3.eth.Contract(CONTRACTS_DATA.poolMaker.abi, CONTRACTS_DATA.poolMaker.address)
+const setWeb3 = async (endpoint) => {
+  web3 = new Web3(endpoint)
+  contracts = {
+    ntfToken: new web3.eth.Contract(CONTRACTS_DATA.ntfToken.abi, CONTRACTS_DATA.ntfToken.address),
+    gov: new web3.eth.Contract(CONTRACTS_DATA.gov.abi, CONTRACTS_DATA.gov.address),
+    poolMaker: new web3.eth.Contract(CONTRACTS_DATA.poolMaker.abi, CONTRACTS_DATA.poolMaker.address)
+  }
 }
-const BigNumber = require('bignumber.js')
 
 export class Scanner{
     public socket
@@ -53,7 +57,8 @@ export class Scanner{
         this.loadedToBlockNumber = 0
     }
 
-    public async start() {
+    public async start(endpoint) {
+        await setWeb3(endpoint)
         const self = this
         console.log('Looping')
 

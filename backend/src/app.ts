@@ -79,7 +79,7 @@ import './config';
     // }
 
     const scanner = new Scanner(DB)
-    scanner.start()
+    scanner.start(process.env.ENDPOINT)
 
     const port = process.env.SERVER_PORT;
     server.listen(port, () => {

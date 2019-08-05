@@ -9,6 +9,8 @@
     return map;
 } */
 
+export const ENDPOINT=process.env.ENDPOINT
+
 export const LOAD_INTERVAL = 5000
 export const LIMIT_PER_IP = 10
 
