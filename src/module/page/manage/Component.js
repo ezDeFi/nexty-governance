@@ -12,6 +12,10 @@ let sha3 = (value) => {
   }).toString()
 }
 
+const weiToEther = (wei) => {
+  return (Number(wei) / 1e18).toFixed(4)
+}
+
 Message.config({
   top: 100
 })
@@ -23,19 +27,18 @@ export default class extends StandardPage {
   }
 
   componentDidMount () {
-    this.loadData()
+    // this.loadData()
   }
 
   loadData () {
-    this.props.getStatus()
-    this.props.getDepositedBalance()
-    this.props.getMinNtfAmount()
-    this.props.getStakeLockHeight()
-    this.props.getTokenBalance(this.props.currentAddress)
-
-    this.setState({
-      walletAddress: this.props.currentAddress
-    })
+    // this.props.getStatus()
+    // this.props.getDepositedBalance()
+    // this.props.getMinNtfAmount()
+    // this.props.getStakeLockHeight()
+    // this.props.loadMyNtfBalance()
+    // this.setState({
+    //   walletAddress: this.props.currentAddress
+    // })
   }
 
   validValue (value) {
@@ -174,7 +177,7 @@ export default class extends StandardPage {
                 <span className="text-left">Balance:</span>
               </Col>
               <Col md={16} xs={16}>
-                <div className="text-right">{this.props.tokenBalance} NTF</div>
+                <div className="text-right">{weiToEther(this.props.myNtfBalance)} NTF</div>
               </Col>
             </Row>
             <Row>

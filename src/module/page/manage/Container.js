@@ -1,15 +1,34 @@
 import { createContainer } from '@/util'
 import Component from './Component'
-import NTFToken from '@/service/NTFToken'
+// import NTFToken from '@/service/NTFToken'
+import NtfTokenService from '@/service/contracts/ntfTokenService'
 import NextyManager from '@/service/NextyManager'
 import UserService from '@/service/UserService'
-
+var curWallet = null
 export default createContainer(Component, (state) => {
+  const ntfTokenService = new NtfTokenService()
+  const nextyManagerService = new NextyManager()
+
+  async function load () {
+    nextyManagerService.getStatus()
+    nextyManagerService.getDepositedBalance()
+    nextyManagerService.getMinNtfAmount()
+    nextyManagerService.getStakeLockHeight()
+    ntfTokenService.loadMyNtfBalance()
+  }
+  if (state.user.wallet !== curWallet && !curWallet) {
+    curWallet = state.user.wallet
+    load()
+    // setInterval(() => {
+    //   load()
+    // }, 5000)
+  }
   return {
-    ...state.user
+    ...state.user,
+    myNtfBalance: state.user.ntfBalance.balance
   }
 }, () => {
-  const ntfTokenService = new NTFToken()
+  const ntfTokenService = new NtfTokenService()
   const nextyManagerService = new NextyManager()
   const userService = new UserService()
 
@@ -37,8 +56,8 @@ export default createContainer(Component, (state) => {
     getStakeLockHeight () {
       return nextyManagerService.getStakeLockHeight()
     },
-    getTokenBalance (address) {
-      ntfTokenService.getTokenBalance(address)
+    loadMyNtfBalance () {
+      ntfTokenService.loadMyNtfBalance()
     },
     getAllowance () {
       ntfTokenService.getAllowance()

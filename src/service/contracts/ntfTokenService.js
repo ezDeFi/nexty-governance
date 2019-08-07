@@ -23,6 +23,16 @@ export default class extends BaseService {
     await this.dispatch(userRedux.actions.ntfBalance_update(_myNtfBalance))
   }
 
+  async getAllowance () {
+    const store = this.store.getState()
+    if (store.contracts.ntfToken === undefined) return 0
+    let wallet = store.user.wallet
+    const methods = store.contracts.ntfToken.methods
+    const allowance = await methods.allowance(wallet, WEB3.PAGE.NextyManager.ADDRESS).call()
+    const userRedux = this.store.getRedux('user')
+    await this.dispatch(userRedux.actions.allowance_update(allowance))
+  }
+
   // read functions
   async getNtfBalanceByAddress (_address) {
     const store = this.store.getState()
