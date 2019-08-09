@@ -30,7 +30,7 @@ const timeToString = (_sec) => {
   var seconds = sec % 60
   var minutes = Math.floor(sec / 60);
   var hour = Math.floor(minutes / 60)
-  var day = Math.floor(hour / 60)
+  var day = Math.floor(hour / 24)
   hour = hour % 24
   minutes = minutes % 60
   var s = ''
