@@ -34,9 +34,10 @@ const CONTRACT_ADDRESS_NtfPool = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' //
 
 export const WEB3 = {
   // HTTP: 'http://108.61.148.72:8545', // testnet
-  HTTP: 'http://13.228.68.50:8545', // mainnet
+  // HTTP: 'http://13.228.68.50:8545', // mainnet
   // HTTP: 'http://localhost:8545', // localhost
   // NETWORK_ID: '111111', // testnet
+  HTTP: 'https://rpc.nexty.io', // mainnet
   NETWORK_ID: '66666', // mainnet
   PAGE: {
     NTFToken: {
