@@ -109,7 +109,7 @@ function setupWeb3() {
                       // if (pool_id) {
                       //   userService.path.push(`/pool?id=${pool_id}`)
                       // } else {
-                        userService.path.push('/portal')
+                      // userService.path.push('/portal')
                       // }
                     }
                     isLogined = true
