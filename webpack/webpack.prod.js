@@ -15,7 +15,7 @@ const resolve = util.resolve;
 const prodEnv = {
     NODE_ENV: JSON.stringify('production'),
     PLATFORM_ENV: JSON.stringify('web'),
-    SERVER_URL: JSON.stringify('https://api-governance.nexty.io/')
+    SERVER_URL: JSON.stringify('https://api-governance.nexty.io')
     // SERVER_URL: JSON.stringify('http://localhost:3000')
 };
 
