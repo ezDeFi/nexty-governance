@@ -40,10 +40,13 @@ export default class extends BaseComponent {
                       {I18N.get('0203')}
                     </Menu.Item>
         }
-        {isLogin &&
-                    <Menu.Item key="logout">
-                      {I18N.get('0204')}
-                    </Menu.Item>
+        {isLogin
+          ? <Menu.Item key="logout">
+            {I18N.get('0204')}
+          </Menu.Item>
+          : <Menu.Item key="login">
+            {I18N.get('0201')}
+          </Menu.Item>
         }
       </Menu>
     )
@@ -94,11 +97,11 @@ export default class extends BaseComponent {
             </Menu.Item>}
           </Menu>
         </div>
-        {this.props.isLogin && <div className="show-icon-toggle">
+        <div className="show-icon-toggle">
           <span className="c_MenuItem mobile" key="mobileMenu" onClick={this.toggleMobileMenu.bind(this)}>
             <Icon style={{ color: '#47aaa7', fontSize: '22px' }} type="menu-fold"/>
           </span>
-        </div>}
+        </div>
         {/* {isLogin && <span onClick={this.logout.bind(this)} className="right-action"><a className="logout">{I18N.get('0204')}</a> <Icon type="logout" style={{color: "#1C7BFF"}} /></span>} */}
       </div>
     )

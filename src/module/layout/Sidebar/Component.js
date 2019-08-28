@@ -90,7 +90,7 @@ export default class extends BaseComponent {
           style={{ position: 'absolute', top: (window.innerHeight - 186) / 2, left: this.state.siderWidth, fontSize: 20, display: this.state.collapsed ? 'none' : 'block' }}
         />
 
-        <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
+        {/* <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
           <Menu.Item key="manage">
             <Icon type="setting" /> {I18N.get('0015')}
           </Menu.Item>
@@ -106,7 +106,7 @@ export default class extends BaseComponent {
           <Menu.Item key="pool">
             <Icon type="credit-card" /> {I18N.get('0017')}
           </Menu.Item>
-        </Menu>
+        </Menu> */}
       </Sider>
     )
   }
@@ -136,6 +136,8 @@ export default class extends BaseComponent {
         onCancel () {
         }
       })
+    } else if (key === 'login') {
+      this.props.history.push('/login')
     }
   }
 
