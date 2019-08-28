@@ -82,8 +82,8 @@ export default class extends StandardPage {
     )
   }
 
-  handleSearch(value) {
-      this.setState({nameFilter: value})
+  handleSearch(e) {
+      this.setState({nameFilter: e.target.value})
   }
 
   onSelectStatus(status) {
@@ -135,8 +135,7 @@ export default class extends StandardPage {
         <div className="page-portal">
           <Row>
             <div className="search-box">
-              <Input.Search onSearch={this.handleSearch.bind(this)}
-                size="large"
+              <Input.Search onChange={this.handleSearch.bind(this)}
                 placeholder="Search pool name"
               />
             </div>

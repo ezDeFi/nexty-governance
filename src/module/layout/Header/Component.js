@@ -75,7 +75,7 @@ export default class extends BaseComponent {
             <Menu.Item key="portal">
               <Icon type="unordered-list" /> {I18N.get('0017')}
             </Menu.Item>
-            <Menu.Item key="manage">
+            {/* <Menu.Item key="manage">
               <Icon type="setting" /> {I18N.get('0015')}
             </Menu.Item>
             <Menu.Item key="deposit">
@@ -86,7 +86,7 @@ export default class extends BaseComponent {
             </Menu.Item>
             <Menu.Item key="transfer">
               <Icon type="credit-card" /> {I18N.get('0016')}
-            </Menu.Item>
+            </Menu.Item> */}
             {isLogin &&  <Menu.Item key="logout">
               <Icon type="logout" style={{color: "#1C7BFF"}} /> {I18N.get('0204')}
             </Menu.Item>}
