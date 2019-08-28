@@ -28,6 +28,7 @@ export default class extends StandardPage {
 
   componentDidMount () {
     // this.loadData()
+    this.props.loadMyNtfBalance()
   }
 
   loadData () {

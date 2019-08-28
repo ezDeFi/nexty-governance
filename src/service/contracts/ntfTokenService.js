@@ -18,6 +18,7 @@ export default class extends BaseService {
   async loadMyNtfBalance () {
     const store = this.store.getState()
     let wallet = store.user.wallet
+    console.log('my wallet', wallet)
     let _myNtfBalance = await this.getNtfBalanceByAddress(wallet)
     const userRedux = this.store.getRedux('user')
     await this.dispatch(userRedux.actions.ntfBalance_update(_myNtfBalance))
