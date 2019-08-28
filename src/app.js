@@ -10,7 +10,7 @@ import { USER_ROLE } from '@/constant'
 import { api_request } from './util' // eslint-disable-line
 import UserService from '@/service/UserService'
 import NtfPoolService from '@/service/contracts/ntfPoolService'
-import {Helmet} from "react-helmet"
+import { Helmet } from 'react-helmet'
 import Web3 from '@/assets/js/web3'
 import { WEB3 } from '@/constant'
 
@@ -25,7 +25,7 @@ const App = () => { // eslint-disable-line
   return (
     <div>
       <Helmet>
-          {/*<script defer src="/assets/js/web310.js"></script>*/}
+        {/* <script defer src="/assets/js/web310.js"></script> */}
       </Helmet>
       <Switch id="ss-main">
         {_.map(config.router, (item, i) => {
@@ -59,15 +59,15 @@ let isRequest = false
 let isLogined = false
 
 async function setupCallWeb3 () {
-  let web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.nexty.io"));
+  let web3 = new Web3(new Web3.providers.HttpProvider('https://rpc.nexty.io'))
   const contract = {
     NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
     NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
     NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-    PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),
+    PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
   }
 
-  await store.dispatch(userRedux.actions.loginMetamask_update(true))
+  // await store.dispatch(userRedux.actions.loginMetamask_update(true))
   await store.dispatch(userRedux.actions.contract_update(contract))
   await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
   await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
@@ -82,62 +82,63 @@ async function setupCallWeb3 () {
   }
 }
 
-function setupWeb3() {
-      window.web3.eth.getAccounts( async (err, accounts) => {
-        if (accounts.length > 0) {
-            window.web3.version.getNetwork( async (err, networkId) => {
-                if (networkId === WEB3.NETWORK_ID) {
-                    let web3 = new Web3(window.ethereum)
+function setupWeb3 () {
+  window.web3.eth.getAccounts(async (err, accounts) => {
+    if (accounts.length > 0) {
+      window.web3.version.getNetwork(async (err, networkId) => {
+        if (networkId === WEB3.NETWORK_ID) {
+          let web3 = new Web3(window.ethereum)
 
-                    const contract = {
-                      NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
-                      NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-                      NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-                      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS),
-                    }
+          const contract = {
+            NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
+            NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+            NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+            PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
+          }
 
-                    if (!isLogined) {
-                      await store.dispatch(userRedux.actions.loginMetamask_update(true))
-                      await store.dispatch(userRedux.actions.contract_update(contract))
-                      await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
-                      await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
-                      await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
-                      await store.dispatch(userRedux.actions.web3_update(web3))
-                      await userService.metaMaskLogin(accounts[0])
+          if (!isLogined) {
+            await store.dispatch(userRedux.actions.loginMetamask_update(true))
+            await store.dispatch(userRedux.actions.is_login_update(true))
+            await store.dispatch(userRedux.actions.contract_update(contract))
+            await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
+            await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
+            await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
+            await store.dispatch(userRedux.actions.web3_update(web3))
+            await userService.metaMaskLogin(accounts[0])
 
-                      const pool_id = sessionStorage.getItem('pool_id')
-                      if (pool_id) {
-                        userService.path.push(`/pool?id=${pool_id}`)
-                      } else {
-                      // userService.path.push('/portal')
-                      }
-                    }
-                    isLogined = true
-                } else if (!isLogined) {
-                    await store.dispatch(userRedux.actions.loginMetamask_update(false))
-                    await userService.path.push('/login')
-                }
-            })
-        } else {
-            if (!isRequest) {
-                isRequest = true
-                await window.ethereum.enable()
+            const pool_id = sessionStorage.getItem('pool_id')
+            if (pool_id) {
+              userService.path.push(`/pool?id=${pool_id}`)
+            } else {
+              userService.path.push('/portal')
             }
-            await store.dispatch(userRedux.actions.loginMetamask_update(false))
-            isLogined = false
-            await userService.path.push('/login')
+          }
+          isLogined = true
+        } else if (!isLogined) {
+          await store.dispatch(userRedux.actions.loginMetamask_update(false))
+          await userService.path.push('/login')
         }
-    })
+      })
+    } else {
+      if (!isRequest) {
+        isRequest = true
+        await window.ethereum.enable()
+      }
+      await store.dispatch(userRedux.actions.loginMetamask_update(false))
+      isLogined = false
+      await userService.path.push('/login')
+    }
+  })
 }
 
 // setupCallWeb3()
 
 if (window.ethereum) {
-    setupWeb3()
+  setupWeb3()
 
-    window.web3.currentProvider.publicConfigStore.on('update', async () => {
-      setupWeb3()
-    })
+  window.web3.currentProvider.publicConfigStore.on('update', async () => {
+    setupWeb3()
+  })
 } else {
   setupCallWeb3()
   /* store.dispatch(userRedux.actions.loginMetamask_update(false)) */

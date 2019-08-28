@@ -16,9 +16,9 @@ export default class extends StandardPage {
               </Spin>
             </div>}
             {(!this.props.loginMetamask) && <div className="login-metamask">
-              <img src="/assets/images/metamask.svg" with="100px" height="100px" /><h2>Login with <a href="https://metamask.io/" target="_blank">MetaMask</a> or Private Key</h2>
+              <img src="/assets/images/metamask.svg" with="100px" height="100px" /><h2>Please use <a href="https://medium.com/nextyplatform/how-to-be-a-sealer-on-nexty-network-6e5877fba825#1764" target="_blank">MetaMask</a> to access this page</h2>
             </div>}
-             <LoginForm />
+            {/* <LoginForm /> */}
           </Col>
 
         </div>

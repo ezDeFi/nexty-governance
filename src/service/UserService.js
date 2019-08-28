@@ -52,7 +52,7 @@ export default class extends BaseService {
         }
         */
     sessionStorage.setItem('contract-adress', contractAdress) // eslint-disable-line
-    await this.dispatch(userRedux.actions.is_login_update(true))
+    // await this.dispatch(userRedux.actions.is_login_update(true))
     await this.dispatch(userRedux.actions.profile_update({
       web3,
       wallet,
@@ -79,7 +79,7 @@ export default class extends BaseService {
 
     web3.eth.defaultAccount = address
 
-    await this.dispatch(userRedux.actions.is_login_update(true))
+    // await this.dispatch(userRedux.actions.is_login_update(true))
     await this.dispatch(userRedux.actions.currentAddress_update(address))
     await this.dispatch(userRedux.actions.wallet_update(address))
     await this.dispatch(userRedux.actions.profile_update({

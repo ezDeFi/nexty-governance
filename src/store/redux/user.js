@@ -27,7 +27,7 @@ class UserRedux extends BaseRedux {
       unlockHeight: 0,
       unlockTime: 0,
       currentBlock: null,
-      loginMetamask: true,
+      loginMetamask: false,
       currentAddress: null,
       contract: null,
       readContract: null,
