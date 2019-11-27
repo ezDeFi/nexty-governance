@@ -11,9 +11,9 @@ import { getStatusText } from '@/util'
 import './style.scss'
 
 import { Col, Row, Icon, InputNumber, Button, Select } from 'antd' // eslint-disable-line
-import { min } from 'bn.js';
+import { min } from 'bn.js'
 var BigNumber = require('bignumber.js')
-BigNumber.config({ ERRORS: false });
+BigNumber.config({ ERRORS: false })
 const Option = Select.Option
 
 const weiToEther = (wei) => {
@@ -28,7 +28,7 @@ const toTime = (value) => {
 const timeToString = (_sec) => {
   var sec = Number(_sec)
   var seconds = sec % 60
-  var minutes = Math.floor(sec / 60);
+  var minutes = Math.floor(sec / 60)
   var hour = Math.floor(minutes / 60)
   var day = Math.floor(hour / 24)
   hour = hour % 24
@@ -43,13 +43,13 @@ const timeToString = (_sec) => {
 
 export default class extends StandardPage {
   constructor (props) {
-      super(props)
-      const params = new URI(window.location.href || '').search(true)
-      sessionStorage.setItem('pool_id', params.id)
-      this.state = {
-        listeningApprove: false
-      }
-      props.selectPool(params.id)
+    super(props)
+    const params = new URI(window.location.href || '').search(true)
+    sessionStorage.setItem('pool_id', params.id)
+    this.state = {
+      listeningApprove: false
+    }
+    props.selectPool(params.id)
   }
 
   componentDidMount () {
@@ -57,7 +57,7 @@ export default class extends StandardPage {
     // this.props.listenToDeposit()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     sessionStorage.removeItem('pool_id')
   }
 
@@ -83,7 +83,7 @@ export default class extends StandardPage {
   }
 
   handleChange (value) {
-    console.log(`selected ${value}`);
+    console.log(`selected ${value}`)
     this.props.selectPool(value)
   }
 
@@ -109,18 +109,18 @@ export default class extends StandardPage {
 
   ord_renderContent () { // eslint-disable-line
     let status = getStatusText(this.props.poolStatus, weiToEther(this.props.poolNtfBalance))
-    if (this.props.poolStatus === undefined || this.props.poolNtfBalance===undefined) {
+    if (this.props.poolStatus === undefined || this.props.poolNtfBalance === undefined) {
       status = 'Loading'
     }
     const color = status === 'Waiting for Stakes' ? 'red' : (status === 'Not Joined' ? 'orange' : 'green')
     return (
-        <div className="page-common">
-          <Row>
-            <h3 className="title">Private Informations</h3>
-          </Row>
-          <div style={{ 'textAlign': 'left' }}>
-            {/*{this.props.selectedPool && this.poolsRender()}*/}
-           {/*  <Row>
+      <div className="page-common">
+        <Row>
+          <h3 className="title">Private Informations</h3>
+        </Row>
+        <div style={{ 'textAlign': 'left' }}>
+          {/* {this.props.selectedPool && this.poolsRender()} */}
+          {/*  <Row>
               <Col md={8} xs={8}>
                 <span className="text-left">Coin Balance:</span>
               </Col>
@@ -130,18 +130,18 @@ export default class extends StandardPage {
                 </div>
               </Col>
             </Row> */}
-            <Row>
-              <Col md={8} xs={8}>
-                <span className="text-left">Balance:</span>
-              </Col>
-              <Col md={16} xs={16}>
-                <div className="text-right">
-                  {weiToEther(this.props.myNtfBalance)} NTF
-                </div>
-              </Col>
-            </Row>
-            {/* <h3 className="title-section">Private Informations</h3> */}
-            {this.props.selectedPool &&
+          <Row>
+            <Col md={8} xs={8}>
+              <span className="text-left">Balance:</span>
+            </Col>
+            <Col md={16} xs={16}>
+              <div className="text-right">
+                {weiToEther(this.props.myNtfBalance)} NTF
+              </div>
+            </Col>
+          </Row>
+          {/* <h3 className="title-section">Private Informations</h3> */}
+          {this.props.selectedPool &&
               <Row>
                 <Col md={8} xs={8}>
                   <span className="text-left">Deposited:</span>
@@ -152,7 +152,7 @@ export default class extends StandardPage {
                   </div>
                 </Col>
               </Row>
-            }
+          }
 
           {Number(this.props.myPendingOutAmount) > 0 &&
           <div>
@@ -208,7 +208,7 @@ export default class extends StandardPage {
           </div>
           }
 
-            {this.props.selectedPool && Number(this.props.myNtfDeposited) > 0 &&
+          {this.props.selectedPool && Number(this.props.myNtfDeposited) > 0 &&
               <Row>
                 <Col md={8} xs={8}>
                   <span className="text-left">Status:</span>
@@ -219,8 +219,8 @@ export default class extends StandardPage {
                   </div>
                 </Col>
               </Row>
-            }
-            {this.props.selectedPool && this.props.isLocking &&
+          }
+          {this.props.selectedPool && this.props.isLocking &&
               <Row>
                 <Col md={8} xs={8}>
                   <span className="text-left">UnlockTime:</span>
@@ -231,8 +231,8 @@ export default class extends StandardPage {
                   </div>
                 </Col>
               </Row>
-            }
-            {!this.props.selectedPool &&
+          }
+          {!this.props.selectedPool &&
               <Row>
                 <Col md={8} xs={8}>
                   <span className="text-left"></span>
@@ -241,8 +241,8 @@ export default class extends StandardPage {
                   <p>Not found any pool!</p>
                 </Col>
               </Row>
-            }
-            {this.props.selectedPool &&
+          }
+          {this.props.selectedPool &&
               <div>
                 {Number(this.props.myRewardBalance) > 0 &&
                 <div>
@@ -399,7 +399,7 @@ export default class extends StandardPage {
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="">
-                      <Button className= {this.props.depositing ? "alertButton" : ""} disabled={this.props.depositing} onClick={this.deposit.bind(this)} type="ebp">Deposit</Button>
+                      <Button className= {this.props.depositing ? 'alertButton' : ''} disabled={this.props.depositing} onClick={this.deposit.bind(this)} type="ebp">Deposit</Button>
                     </div>
                   </Col>
                 </Row>
@@ -431,9 +431,9 @@ export default class extends StandardPage {
                   </Col>
                 </Row> */}
               </div>
-            }
-          </div>
+          }
         </div>
+      </div>
     )
   }
 
@@ -461,6 +461,8 @@ export default class extends StandardPage {
     let amount = BigNumber(this.state.depositAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
     try {
       await this.props.approve(amount.toString())
+      await this.props.deposit(amount.toString())
+      // await this.props.approve(amount.toString())
     } catch (e) {
       console.log('canceled')
       this.props.depositStop()

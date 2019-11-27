@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import _ from 'lodash' // eslint-disable-line
 import { WEB3, CONTRACTS, MIN_POOL_NTF, JSON_POOLS, JSON_POOLDETAILS } from '@/constant'
 import { stringify } from 'postcss'
-import {api_request} from '@/util'
+import { api_request } from '@/util'
 
 export default class extends BaseService {
   async getPortal () {
@@ -16,19 +16,18 @@ export default class extends BaseService {
     await this.dispatch(poolRedux.actions.loadedTo_update(result.length))
   }
 
-
   async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
     const store = this.store.getState()
     let methods = store.contracts.poolMaker.methods
     let wallet = store.user.wallet
-    //console.log(owner, compRate, maxLock, delay, name, website, location, logo)
-    let res = await methods.createPool(owner, compRate.toString(), maxLock.toString(), delay.toString(), name, website, location, logo).send({from: wallet, gasPrice: '0' })
+    // console.log(owner, compRate, maxLock, delay, name, website, location, logo)
+    let res = await methods.createPool(owner, compRate.toString(), maxLock.toString(), delay.toString(), name, website, location, logo).send({ from: wallet, gasPrice: '0' })
     await console.log(res)
   }
 
   async loadMyCurrentPool () {
     const store = this.store.getState()
-    //console.log('my current Pool', store.pool.mySelectedPool)
+    // console.log('my current Pool', store.pool.mySelectedPool)
     await this.selectPool(store.pool.mySelectedPool)
   }
 
@@ -45,7 +44,7 @@ export default class extends BaseService {
     await this.dispatch(poolRedux.actions.selectedPool_update(_address))
     const store = this.store.getState()
     console.log('store', store.pool.selectedPool)
-    //this.loadPool(_address)
+    // this.loadPool(_address)
   }
 
   async loadPool (_address) {
@@ -54,7 +53,7 @@ export default class extends BaseService {
     let web3 = store.user.web3
     if (!web3) return
     let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
-    //let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
+    // let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
     await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
     await this.loadPoolInfo()
   }
@@ -67,12 +66,12 @@ export default class extends BaseService {
     let web3 = store.user.web3
     if (!web3) return
     let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
-    //let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
+    // let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
     await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
     await this.loadPoolInfo()
   }
 
-  async loadPoolPortal(pools) {
+  async loadPoolPortal (pools) {
     await this.getPortal()
     return
     const store = this.store.getState()
@@ -89,7 +88,7 @@ export default class extends BaseService {
     await this.dispatch(poolRedux.actions.poolsPortal_update(data))
   }
 
-  async loadPoolInfoPortal(pool, address) {
+  async loadPoolInfoPortal (pool, address) {
     const methods = pool.methods
     if (!methods) {
       return
@@ -103,7 +102,7 @@ export default class extends BaseService {
     poolNtfBalance = Number(poolNtfBalance) + Number(deposited)
     let status = await methods.getStatus().call()
     let updated = true
-    //console.log(address, poolNtfBalance)
+    // console.log(address, poolNtfBalance)
 
     return {
       name,
@@ -118,7 +117,7 @@ export default class extends BaseService {
 
   getName (_address) {
     const store = this.store.getState()
-    //let _name = store.pool.poolNames[_address]
+    // let _name = store.pool.poolNames[_address]
     // console.log('address', _address)
     // console.log('name', store.pool.poolNames[_address])
     return store.pool.poolNames[_address]
@@ -129,7 +128,7 @@ export default class extends BaseService {
     return
     const store = this.store.getState()
     let poolRedux = this.store.getRedux('pool')
-    
+
     let web3 = store.user.web3
     let poolsPortal = store.pool.poolsPortal
     let poolCount = store.pool.poolCount
@@ -138,10 +137,10 @@ export default class extends BaseService {
       let poolAddress = poolsPortal[i].address
       let poolContract = await new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, poolAddress)
       let poolDetail = await this.loadPoolInfoPortal(poolContract, poolAddress)
-      poolsPortal[i] = poolDetail;
+      poolsPortal[i] = poolDetail
       // console.log('xxx',  poolsPortal[i] )
       await this.dispatch(poolRedux.actions.poolsPortal_update(poolsPortal))
-      await this.dispatch(poolRedux.actions.loadedTo_update(i+1))
+      await this.dispatch(poolRedux.actions.loadedTo_update(i + 1))
     }
   }
 
@@ -163,7 +162,7 @@ export default class extends BaseService {
     let poolCount = await methods.getPoolCount().call()
     // console.log('loading Pools', poolCount)
     await this.dispatch(poolRedux.actions.poolCount_update(Number(poolCount)))
-    //console.log('poolCount', poolCount)
+    // console.log('poolCount', poolCount)
     let pools = JSON_POOLS
     let myPools = []
     let poolDetails = JSON_POOLDETAILS
@@ -204,7 +203,7 @@ export default class extends BaseService {
       //   address: poolAddress
       // }
       // let poolDetail = await this.loadPoolInfoPortal(poolContract, poolAddress)
-      poolDetails.push({name: poolName, address: poolAddress})
+      poolDetails.push({ name: poolName, address: poolAddress })
       // if (i === 10) {
       //   await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
       // }
@@ -243,7 +242,7 @@ export default class extends BaseService {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.fundWithdraw(wallet).send({from: wallet, gasPrice: '0'})
+    return await methods.fundWithdraw(wallet).send({ from: wallet, gasPrice: '0' })
   }
 
   async joinGov (_signer) {
@@ -251,50 +250,52 @@ export default class extends BaseService {
     let methods = store.contracts.ntfPool.methods
     let stakeRequire = 500 * 1e18
     let wallet = store.user.wallet
-    return await methods.join(stakeRequire.toString(), _signer).send({from: wallet, gasPrice: '0'})
+    return await methods.join(stakeRequire.toString(), _signer).send({ from: wallet, gasPrice: '0' })
   }
 
   async leaveGov () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.leave().send({from: wallet})
+    return await methods.leave().send({ from: wallet })
   }
 
   async tokenPoolWithdraw () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.tokenPoolWithdraw().send({from: wallet, gasPrice: '0'})
+    return await methods.tokenPoolWithdraw().send({ from: wallet, gasPrice: '0' })
   }
 
   async setLockDuration (_duration) {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.setLockDuration(_duration).send({from: wallet, gasPrice: '0'})
+    return await methods.setLockDuration(_duration).send({ from: wallet, gasPrice: '0' })
   }
 
   async listenToDeposit () {
     var self = this
     let started = false
-    setInterval(async function () {
+    let depositListening = setInterval(async function () {
       const store = self.store.getState()
       if ((store.user.wallet) && (store.pool.selectedPool) && (!started)) {
         started = true
         let readContract = store.contracts
+        console.log(store.pool.selectedPool, store.user.wallet)
         readContract.ntfToken.events.Approval({
           owner: String(store.user.wallet).toLowerCase(),
           spender: String(store.pool.selectedPool).toLowerCase()
         }, (error, data) => {
           if (!error) {
             let depositAmount = data.returnValues.value
+            clearInterval(depositListening)
             self.deposit(depositAmount)
           }
         })
       }
     }, 2000)
-}
+  }
 
   // members actions
   async deposit (_amount) {
@@ -303,35 +304,35 @@ export default class extends BaseService {
     let wallet = store.user.wallet
     const userRedux = this.store.getRedux('user')
     this.dispatch(userRedux.actions.depositing_update(false))
-    return await methods.tokenDeposit(_amount.toString()).send({from: wallet, gasPrice: '0'})
+    return await methods.tokenDeposit(_amount.toString()).send({ from: wallet, gasPrice: '0' })
   }
 
   async requestOut (_amount) {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.requestOut(_amount.toString()).send({from: wallet, gasPrice: '0'})
+    return await methods.requestOut(_amount.toString()).send({ from: wallet, gasPrice: '0' })
   }
 
   async withdraw () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.tokenMemberWithdraw().send({from: wallet, gasPrice: '0'})
+    return await methods.tokenMemberWithdraw().send({ from: wallet, gasPrice: '0' })
   }
 
   async claim () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.coinWithdraw().send({from: wallet, gasPrice: '0'})
+    return await methods.coinWithdraw().send({ from: wallet, gasPrice: '0' })
   }
 
   async virtuellMining () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     let wallet = store.user.wallet
-    return await methods.virtuellMining().send({from: wallet, value: 3e18})
+    return await methods.virtuellMining().send({ from: wallet, value: 3e18 })
   }
   // load pool's datas
 
@@ -424,9 +425,9 @@ export default class extends BaseService {
     let methods = store.contracts.ntfToken.methods
     const poolRedux = this.store.getRedux('pool')
     let _poolNtfBalance = await methods.balanceOf(_address).call()
-    //WTF
-    //console.log('aaa',_poolNtfBalance.balance)
-    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))  
+    // WTF
+    // console.log('aaa',_poolNtfBalance.balance)
+    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))
     return await _poolNtfBalance
   }
 
@@ -530,35 +531,35 @@ export default class extends BaseService {
     await this.dispatch(userRedux.actions.ntfDeposited_update(deposited))
   }
 
-  async resetPool() {
-    let pool = {name: null,
-    compRate: null,
-    website: null,
-    location: null,
-    logo: null,
-    poolNames: [],
-    myPools: [],
-    pools: [],
-    poolCount: 0,
-    selectedPool: null,
-    mySelectedPool: null,
-    poolNtyBalance: 0,
-    poolNtfBalance: 0,
-    poolGovBalance: 0,
-    lockDuration: 0,
-    maxLockDuration: 0,
-    ownerDelay: 0,
-    fund: 0,
-    owner: null,
-    ownerBalance: 0,
-    signer: null,
-    status: null,
-    isWithdrawable: false,
-    unlockHeight: 0,
-    poolDeposited: 0,
-    stakeRequire: 500 * 1e18,
-    poolsPortal: [],
-    loadingPortal: false,
+  async resetPool () {
+    let pool = { name: null,
+      compRate: null,
+      website: null,
+      location: null,
+      logo: null,
+      poolNames: [],
+      myPools: [],
+      pools: [],
+      poolCount: 0,
+      selectedPool: null,
+      mySelectedPool: null,
+      poolNtyBalance: 0,
+      poolNtfBalance: 0,
+      poolGovBalance: 0,
+      lockDuration: 0,
+      maxLockDuration: 0,
+      ownerDelay: 0,
+      fund: 0,
+      owner: null,
+      ownerBalance: 0,
+      signer: null,
+      status: null,
+      isWithdrawable: false,
+      unlockHeight: 0,
+      poolDeposited: 0,
+      stakeRequire: 500 * 1e18,
+      poolsPortal: [],
+      loadingPortal: false
     }
     let poolRedux = this.store.getRedux('pool')
     await this.dispatch(poolRedux.actions.name_update(pool.name))
@@ -582,7 +583,6 @@ export default class extends BaseService {
     await this.dispatch(poolRedux.actions.isWithdrawable_update(pool.isWithdrawable))
     await this.dispatch(poolRedux.actions.unlockHeight_update(pool.unlockHeight))
 
-    
     await this.dispatch(poolRedux.actions.poolDeposited_update(pool.poolDeposited))
     await this.dispatch(poolRedux.actions.stakeRequire_update(pool.stakeRequire))
     await this.dispatch(poolRedux.actions.isWithdrawable_update(pool.isWithdrawable))
