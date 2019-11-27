@@ -1,13 +1,13 @@
 {
 	"apps": [
 		{
-			"name": "nexty-governance",
+			"name": "governance",
 			"script": "node",
 			"args" : "dist/index.js --node-args='--max-old-space-size=1768' --log-date-format 'DD-MM HH:mm:ss.SSS' --log ./output.log && tail -f /dev/null",
 			"env": {
 	  			"NODE_ENV": "production",
 			},
-			"watch": true
+			"log_date_format" : "YYYY-MM-DD HH:mm Z"
 		}
 	]
 }

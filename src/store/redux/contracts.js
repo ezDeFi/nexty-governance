@@ -8,6 +8,7 @@ class ContractRedux extends BaseRedux {
   defineDefaultState () {
     return {
       web3: null,
+      endpoint: null,
       ntfToken: null,
       readNtfToken: null,
       ntfPool: null,

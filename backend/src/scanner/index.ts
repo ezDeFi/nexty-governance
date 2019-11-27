@@ -2,7 +2,7 @@ import * as Web3 from 'web3'
 import {constant} from '../constant'
 import { LOAD_INTERVAL } from 'src/constant/constant';
 import { setTimeout } from 'timers';
-
+import axios from 'axios'
 // const endPoint = 'https://rpc.nexty.io'
 const BigNumber = require('bignumber.js')
 var web3, contracts
@@ -50,15 +50,19 @@ export class Scanner{
     public DB_Queue: any;
 
     private loadedToBlockNumber
+    private leaked_signers = []
+    private endpoint
 
     constructor(_db){
         this.DB_Pool = _db.getModel('Pool')
         this.DB_Queue = _db.getModel('Queue')
         this.loadedToBlockNumber = 0
+        this.leaked_signers = []
     }
 
     public async start(endpoint) {
         await setWeb3(endpoint)
+        this.endpoint = endpoint
         const self = this
         console.log('Looping')
 
@@ -66,9 +70,23 @@ export class Scanner{
 
         this.loadPoolList()
         this.loadPool()
+        self.loadLeaked()
         await self.listenEvents()
     }
 
+    public async loadLeaked() {
+      const self = this
+      await setTimeout(async function(){
+        self.leaked_signers = await axios.post(self.endpoint, {"jsonrpc":"2.0","method":"dccs_queue","params":["leaked"],"id":1})
+        .then(function (response) {
+          return response.data.result
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        self.loadLeaked()
+      }, 10000)
+    }
     public async listenEvents() {
         const self = this
         await setTimeout(async function(){
@@ -147,6 +165,9 @@ export class Scanner{
             lockDuration: await methods.getLockDuration().call().catch(),
             holdingNtyBalance: await web3.eth.getBalance(address)
         }
+        //Check if this pool is leaked or not
+        let found = this.leaked_signers.find(key => key.toUpperCase() === details.coinbase.toUpperCase()) != undefined;
+        if (found) details.status = "leaked"
         await self.DB_Pool.update({address: address},details)
     }
 

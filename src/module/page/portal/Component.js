@@ -119,7 +119,7 @@ export default class extends StandardPage {
     //   return <div className="spin-loading"><Spin /></div>
     // }
 
-    const statusList = ['All', 'Waiting for Stakes', 'Running', 'Not Joined']
+    const statusList = ['All', 'Waiting for Stakes',"Leaked", 'Running', 'Not Joined']
 
     const menu = (
       <Menu>
