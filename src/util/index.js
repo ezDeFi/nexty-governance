@@ -35,12 +35,13 @@ export const validURL = (str) => {
 
 export const getStatusText = (status, poolNtfBalance) => {
   if (Number(status) === 1) return 'Running'
+  if (status === "leaked") return 'Leaked'
   return Number(poolNtfBalance) < 50000 ? 'Waiting for Stakes' : 'Not Joined'
 }
 
 export const getStatusColor = (status, poolNtfBalance) => {
   if (status === 1) return 'green'
-  return Number(poolNtfBalance) < 50000 ? 'red' : 'orange'
+  return (Number(poolNtfBalance) < 50000 || status == "leaked") ? 'red' : 'orange'
 }
 
 export {

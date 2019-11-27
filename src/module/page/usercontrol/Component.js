@@ -112,7 +112,7 @@ export default class extends StandardPage {
     if (this.props.poolStatus === undefined || this.props.poolNtfBalance===undefined) {
       status = 'Loading'
     }
-    const color = status === 'Waiting for Stakes' ? 'red' : (status === 'Not Joined' ? 'orange' : 'green')
+    const color = (status === 'Waiting for Stakes' || status === 'Leaked') ? 'red' : (status === 'Not Joined' ? 'orange' : 'green')
     return (
         <div className="page-common">
           <Row>
