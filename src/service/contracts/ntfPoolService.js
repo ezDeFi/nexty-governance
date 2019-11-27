@@ -450,28 +450,29 @@ export default class extends BaseService {
     return await _signer
   }
 
-  async getLeakedSigners() {
+  async getLeakedSigners () {
     let _leaked_signers = []
-    await axios.post(WEB3.HTTP, {"jsonrpc":"2.0","method":"dccs_queue","params":["leaked"],"id":1})
-    .then(function (response) {
-      _leaked_signers = response.data.result
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    await axios.post(WEB3.HTTP, { 'jsonrpc': '2.0', 'method': 'dccs_queue', 'params': ['leaked'], 'id': 1 })
+      .then(function (response) {
+        _leaked_signers = response.data.result
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
     return _leaked_signers
   }
 
   async loadPoolStatus () {
-    console.log("Load pool status")
+    console.log('Load pool status')
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
     const poolRedux = this.store.getRedux('pool')
     let _status = await methods.getStatus().call()
-    let _signer = await methods.getCoinbase().call().toLowerCase()
-    let found = this.getLeakedSigners().find(key => key.toUpperCase() === _signer.toUpperCase()) != undefined
-    if (found) _status = "leaked"
-    //web3.currentProvider.connection._url
+    let _signer = await methods.getCoinbase().call()
+    let _leaked_signers = await this.getLeakedSigners()
+    let found = _leaked_signers.find(key => key.toUpperCase() === _signer.toUpperCase()) != undefined
+    if (found) _status = 'leaked'
+    // web3.currentProvider.connection._url
     await this.dispatch(poolRedux.actions.status_update(_status))
     return await _status
   }
