@@ -167,6 +167,7 @@ export default class extends BaseService {
     let pools = JSON_POOLS
     let myPools = []
     let poolDetails = JSON_POOLDETAILS
+    this.loadPoolPortalDetails()
 
     await this.dispatch(poolRedux.actions.pools_update(pools))
     await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
@@ -230,7 +231,6 @@ export default class extends BaseService {
     await this.dispatch(poolRedux.actions.pools_update(pools))
     await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
     await this.dispatch(poolRedux.actions.loadingPortal_update(false))
-    this.loadPoolPortalDetails()
     return await store.pool.selectedPool
   }
 
