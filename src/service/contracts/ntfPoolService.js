@@ -73,7 +73,7 @@ export default class extends BaseService {
   }
 
   async loadPoolPortal (pools) {
-    await this.getPortal()
+    //await this.getPortal()
     return
     const store = this.store.getState()
     let contractsRedux = this.store.getRedux('contracts')
@@ -231,6 +231,7 @@ export default class extends BaseService {
     await this.dispatch(poolRedux.actions.pools_update(pools))
     await this.dispatch(poolRedux.actions.poolsPortal_update(poolDetails))
     await this.dispatch(poolRedux.actions.loadingPortal_update(false))
+    this.loadPoolPortalDetails() //Temporarily fix for blank result
     return await store.pool.selectedPool
   }
 
