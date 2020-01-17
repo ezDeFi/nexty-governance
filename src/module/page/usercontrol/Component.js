@@ -339,7 +339,9 @@ export default class extends StandardPage {
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="">
-                      {this.props.logo && <img width={24} height={24} src={this.props.logo} />}
+                      <img width={24} height={24} src={this.props.logo}
+                      onError={(e)=>{e.target.onerror = null;
+                      e.target.src="../../../assets/images/default-logo.png"}}/>
                     </div>
                   </Col>
                 </Row>
@@ -365,6 +367,28 @@ export default class extends StandardPage {
                     </div>
                   </Col>
                 </Row>
+
+                {/* <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left">Pool Ntf Balance:</span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="text-right">
+                      {weiToEther(Number(this.props.poolNtfBalance))} NTF
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left">Pool Ntf Deposited:</span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="text-right">
+                      {weiToEther(Number(this.props.poolNtfDeposited))} NTF
+                    </div>
+                  </Col>
+                </Row> */}
 
                 <Row>
                   <Col md={8} xs={8}>
