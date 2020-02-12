@@ -7,7 +7,7 @@ import UserService from '@/service/UserService'
 var curWallet = null
 
 export default createContainer(Component, (state) => {
-  //console.log('contract pool', state.contracts.ntfPool)
+  // console.log('contract pool', state.contracts.ntfPool)
   const userService = new UserService()
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
@@ -19,7 +19,7 @@ export default createContainer(Component, (state) => {
     userService.getBalanceBeta()
 
     ntfTokenService.loadMyNtfBalance()
-    
+
     ntfPoolService.loadPoolOwner()
     ntfPoolService.loadMyRewardBalance()
     ntfPoolService.loadMyDepositedNtf()
@@ -72,9 +72,7 @@ export default createContainer(Component, (state) => {
     await ntfPoolService.loadCurrentPool()
     // ntfPoolService.getPools(false)
     userService.getBalanceBeta()
-
     ntfTokenService.loadMyNtfBalance()
-    
     ntfPoolService.loadPoolOwner()
     ntfPoolService.loadMyRewardBalance()
     ntfPoolService.loadMyDepositedNtf()
@@ -94,37 +92,37 @@ export default createContainer(Component, (state) => {
       return ntfPoolService.getName(_address)
     },
     async depositProcess () {
-      return await userService.depositProcess()
+      return userService.depositProcess()
     },
     async depositStop () {
-      return await userService.depositStop()
+      return userService.depositStop()
     },
     async listenToDeposit () {
-      return await ntfPoolService.listenToDeposit()
+      return ntfPoolService.listenToDeposit()
     },
     async loadPool (_address) {
-      return await ntfPoolService.loadPool(_address)
+      return ntfPoolService.loadPool(_address)
     },
     async selectPool (_address) {
-      return await ntfPoolService.selectPool(_address)
+      return ntfPoolService.selectPool(_address)
     },
     async approve (_amount) {
-      return await ntfTokenService.approve(_amount)
+      return ntfTokenService.approve(_amount)
     },
     async deposit (_amount) {
-      return await ntfPoolService.deposit(_amount)
+      return ntfPoolService.deposit(_amount)
     },
     async requestOut (_amount) {
-      return await ntfPoolService.requestOut(_amount)
+      return ntfPoolService.requestOut(_amount)
     },
     async claim () {
-      return await ntfPoolService.claim()
+      return ntfPoolService.claim()
     },
     async withdraw () {
-      return await ntfPoolService.withdraw()
+      return ntfPoolService.withdraw()
     },
     async virtuellMining () {
-      await ntfPoolService.virtuellMining()
+      ntfPoolService.virtuellMining()
     }
   }
 })

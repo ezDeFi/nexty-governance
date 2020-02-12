@@ -60,6 +60,7 @@ let isLogined = false
 
 async function setupCallWeb3 () {
   let web3 = new Web3(new Web3.providers.HttpProvider('https://rpc.nexty.io'))
+  // let web3 = new Web3(new Web3.providers.WebsocketProvider("wss://ws.nexty.io"));
   const contract = {
     NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
     NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
