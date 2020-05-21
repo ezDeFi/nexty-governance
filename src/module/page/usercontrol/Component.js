@@ -116,6 +116,14 @@ export default class extends StandardPage {
     return (
       <div className="page-common">
         <Row>
+          <Col span={20}></Col>
+          <Col span={4}>
+            <div className="">
+              <Button type="ebp" href='/poolcontrol'> Pool setting</Button>
+            </div>
+          </Col>
+        </Row>
+        <Row>
           <h3 className="title">Private Informations</h3>
         </Row>
         <div style={{ 'textAlign': 'left' }}>

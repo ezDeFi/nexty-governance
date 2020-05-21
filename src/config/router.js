@@ -6,6 +6,10 @@ import WithdrawPage from '@/module/page/withdraw/Container'
 import ManagePage from '@/module/page/manage/Container'
 import TransferPage from '@/module/page/transfer/Container'
 import UserControlPage from '@/module/page/usercontrol/Container'
+import PoolControlPage from '@/module/page/poolcontrol/Container'
+import PoolMakerPage from '@/module/page/poolmaker/Container'
+
+
 
 import LoginPage from '@/module/page/login/Container'
 
@@ -51,6 +55,14 @@ export default [
   {
     path: '/portal',
     page: PortalPage
+  },
+  {
+    path: '/poolcontrol',
+    page: PoolControlPage
+  },
+  {
+    path: '/poolmaker',
+    page: PoolMakerPage
   },
   {
     page: NotFound

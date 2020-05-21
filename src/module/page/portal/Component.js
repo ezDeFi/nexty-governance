@@ -35,7 +35,8 @@ export default class extends StandardPage {
 
     this.state = {
       nameFilter: '',
-      selectedStatus: 'All'
+      selectedStatus: 'All',
+      redirect: false
     }
   }
 
@@ -145,7 +146,10 @@ export default class extends StandardPage {
               />
             </div>
           </Col>
-          <Col span={6}></Col>
+          <Col span={3}></Col>
+          <Col span={3}>
+          <Button type="primary" shape="round" href={'/poolmaker'}>New Pool</Button>
+          </Col>
         </Row>
         <Row>
           <h3 className="title">Pools             {(_.isEmpty(poolsPortal)) &&

@@ -35,6 +35,7 @@ const infuraProvider = network => providerWithMnemonic(
 const PrivateKeyProvider = require('truffle-privatekey-provider')
 const pkey = 'B72F001329A170CB0F64851EE3B03779B17865003F95CC0BDF4BAB981F5FB257'
 // address 0x6f53c8502bb884775e422c7c34be681554cee2ba
+// PoolMaker 2: 0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F
 const ropstenProvider = process.env.SOLIDITY_COVERAGE
   ? undefined
   : infuraProvider('ropsten')
