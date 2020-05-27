@@ -27,10 +27,10 @@ const CONTRACT_ABI_NextyManager = NextyManager.abi // eslint-disable-line
 const CONTRACT_ADDRESS_NextyManager = '0x0000000000000000000000000000000000012345' // eslint-disable-line
 
 const CONTRACT_ABI_PoolMaker = PoolMaker.abi // eslint-disable-line
-const CONTRACT_ADDRESS_PoolMaker = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' // eslint-disable-line
+const CONTRACT_ADDRESS_PoolMaker = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F' // eslint-disable-line
 
 const CONTRACT_ABI_NtfPool = NtfPoolABI // eslint-disable-line
-const CONTRACT_ADDRESS_NtfPool = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E' // eslint-disable-line
+const CONTRACT_ADDRESS_NtfPool = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F' // eslint-disable-line
 
 export const WEB3 = {
   // HTTP: 'http://108.61.148.72:8545', // testnet

@@ -10,7 +10,7 @@ const govAbi = require(PATH + 'NextyGovernance.json')
 const govAddress = '0x0000000000000000000000000000000000012345'
 
 const poolMakerAbi = require(PATH + 'pool/PoolMaker.json')
-const poolMakerAddress = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E'
+const poolMakerAddress = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F'
 
 const CONTRACTS_DATA = {
   ntfToken: {

@@ -441,7 +441,7 @@ async claimFund () {
     let methods = store.contracts.ntfToken.methods
     const poolRedux = this.store.getRedux('pool')
     let _poolNtfBalance = await methods.balanceOf(_address).call()
-    console.log('aaa',_poolNtfBalance)
+    // console.log('aaa',_poolNtfBalance)
     await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance.balance))
     return await _poolNtfBalance
     // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
@@ -454,7 +454,7 @@ async claimFund () {
     let methods = store.contracts.ntfToken.methods
     const poolRedux = this.store.getRedux('pool')
     let _poolNtfBalance = await methods.balanceOf(_address).call()
-    console.log('1111',_poolNtfBalance)
+    // console.log('1111',_poolNtfBalance)
     await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))
     return await _poolNtfBalance
     // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
