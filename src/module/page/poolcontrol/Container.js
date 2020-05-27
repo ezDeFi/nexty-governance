@@ -8,6 +8,8 @@ var curWallet = null
 const oneHour = 60*60
 const oneDay = 24 * oneHour
 
+let ntfBalance = 0
+
 export default createContainer(Component, (state) => {
   const userService = new UserService()
   const ntfTokenService = new NtfTokenService()
@@ -25,7 +27,7 @@ export default createContainer(Component, (state) => {
     let _selectedPool = await ntfPoolService.getPools(true)
     if (await !_selectedPool) return
     ntfPoolService.loadFund()
-    ntfPoolService.loadPoolNtfBalance()
+    ntfPoolService.loadPoolNtfBalance1()
     ntfPoolService.loadPoolNtyBalance()
 
     ntfPoolService.loadPoolIsWithdrawable()

@@ -3,17 +3,24 @@ import LoggedInPage from '../LoggedInPage'
 import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
 import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
-import web3 from 'web3'
+import Web3 from 'web3'
 import { cutString } from '@/service/Help'
 
 import './style.scss'
 
 import { Col, Row, Icon, Button, Breadcrumb, Input, InputNumber, Select } from 'antd' // eslint-disable-line
+
+let web3 = new Web3(new Web3.providers.HttpProvider('https://rpc.nexty.io'))
 const Option = Select.Option;
 
+const queryString = window.location.search.replace('?id=','');
+console.log('alo',queryString);
 const weiToEther = (wei) => {
-  return Number(web3.utils.fromWei(wei.toString())).toFixed(4)
+    // console.log('AAA', web3.fromWei(wei.toString()).toFixed(4))
+    return Number(web3.fromWei(wei.toString())).toFixed(4)
+    // return Number(web3.fromWei(wei.toString())).toFixed(4)`
 }
+
 
 export default class extends LoggedInPage {
   componentDidMount () {
@@ -47,7 +54,7 @@ export default class extends LoggedInPage {
 
   selectPool () {
     const address = this.state.poolAddress
-    console.log('xxx', address)
+    console.log('xxx', address) 
     this.props.selectPool(address)
   }
 
@@ -56,36 +63,31 @@ export default class extends LoggedInPage {
     //console.log('data', Object.keys(source).length)
     return (
       <Row style={{ 'marginTop': '15px' }}>
-        {/* <Col span={6}>
+        {/* <Col span={7}>
           SelectedPool: <img width={24} height={24} src={this.props.logo} />
         </Col>
         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-        <Col span={18}>
+        <Col span={17}>
           <Select defaultValue={this.props.mySelectedPool} className='maxWidth' onChange={this.handleChange.bind(this)}>
             {Object.keys(source).length > 0 && Object.values(source).map((d, key) => (
               <Option key={key} value={d}>{this.props.getName(d)} - {cutString(d)}</Option>
             ))}
           </Select>
         </Col> */}
-        <Row>
-          <Col span={6}>
-            Pool Address:
-          </Col>
-          <Col span={18}>
-            <Input
-              className = "maxWidth"
-              onChange={this.onPoolAddressChange.bind(this)}
-            />
-          </Col>
-        </Row>
-        <Row style={{ 'marginTop': '25px' }}>
-          <Col span={6}></Col>
-          <Col span={12}>
-            <Button className = "maxWidth" type = "primary" onClick={() => this.selectPool()}>
-              Select
-            </Button>
-          </Col>
-        </Row>
+        <Col span={7}>
+          Pool Address:
+        </Col>
+        <Col span={17}>
+          <Input
+            className = "maxWidth"
+            onChange={this.onPoolAddressChange.bind(this)}
+          />
+        </Col>
+        <Col span={24} style={{ 'marginTop': '15px' }}>
+          <Button className = "maxWidth" type = "primary" onClick={() => this.selectPool()}>
+            Select
+          </Button>
+        </Col>
       </Row>
     )
   }
@@ -94,170 +96,170 @@ export default class extends LoggedInPage {
     return (
       <div>
         <Row>
-          <Col span={6}>
-                        Pool's address:
+          <Col span={7}>
+            Pool's address:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.mySelectedPool}
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Owner:
+          <Col span={7}>
+            Owner:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.owner}
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Pool's name:
+          <Col span={7}>
+            Pool's name:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.name}
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Owner Compensation Rate:
+          <Col span={7}>
+            Owner Compensation Rate:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.compRate}
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Pool's website:
+          <Col span={7}>
+            Pool's website:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <a href={this.props.website} target='_'>{this.props.website}</a>
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Pool's location:
+          <Col span={7}>
+            Pool's location:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.location}
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Pool's logo:
+          <Col span={7}>
+            Pool's logo:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.logo}
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        signer address:
+          <Col span={7}>
+            signer address:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.signer}
           </Col>
         </Row>
 
         {/* <Row>
-          <Col span={6}>
+          <Col span={7}>
                         owner:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.owner}
           </Col>
         </Row> */}
 
         <Row>
-          <Col span={6}>
-                        owner's balance:
+          <Col span={7}>
+            owner's balance:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {weiToEther(this.props.ownerBalance)} NTY
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        lockDuration / MAX:
+          <Col span={7}>
+            LockDuration / MAX:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.lockDuration} / {this.props.maxLockDuration} Day(s)
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        Owner's actionDelay:
+          <Col span={7}>
+            Owner's actionDelay:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.ownerDelay} Hour(s)
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
-                        fund:
+          <Col span={7}>
+            Fund:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {weiToEther(this.props.fund)} NTY
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
+          <Col span={7}>
             NTY Balance:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {weiToEther(this.props.poolNtyBalance)} NTY
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
+          <Col span={7}>
             NTF Balance:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {weiToEther(this.props.poolNtfBalance)} NTF
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
+          <Col span={7}>
             Stake require:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.stakeRequire} NTF
           </Col>
         </Row>
 
         <Row>
-          <Col span={6}>
+          <Col span={7}>
             Status:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.getStatus(Number(this.props.poolStatus))}
           </Col>
         </Row>
         <Row>
-          <Col span={6}>
+          <Col span={7}>
             Unlock / cur. Block:
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             {this.props.unlockHeight} / {this.props.blockNumber}
           </Col>
         </Row>
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={6}>
+          <Col span={7}>
             Amount(NTF):
           </Col>
-          <Col span={18}>
+          <Col span={17}>
 
             <InputNumber
               className = "maxWidth"
@@ -266,18 +268,19 @@ export default class extends LoggedInPage {
               onChange={this.onDepositAmountChange.bind(this)}
             />
           </Col>
-          <Col span={6}></Col>
+        </Row>
+        <Row>
+          <Col span={7}></Col>
           <Col span={12} style={{ 'marginTop': '15px' }}>
             <Button onClick={this.deposit.bind(this)} type="primary" className="btn-margin-top submit-button maxWidth">Deposit</Button>
           </Col>
-          <Col span={6}></Col>
         </Row>
 
         <Row>
-          <Col span={6}>
+          <Col span={7}>
             Signer
           </Col>
-          <Col span={18}>
+          <Col span={17}>
             <Input
               value={this.state.signer}
               onChange={this.onSignerChange.bind(this)}
@@ -285,39 +288,35 @@ export default class extends LoggedInPage {
           </Col>
         </Row>
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={6}></Col>
+          <Col span={7}></Col>
           <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.joinGov.bind(this)} type="primary" className="btn-margin-top submit-button">Join Gov</Button>
           </Col>
-          <Col span={6}></Col>
         </Row>
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={6}></Col>
+          <Col span={7}></Col>
           <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.leaveGov.bind(this)} type="primary" className="btn-margin-top submit-button">Leave Gov</Button>
           </Col>
-          <Col span={6}></Col>
         </Row>
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={6}></Col>
+          <Col span={7}></Col>
           <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.tokenPoolWithdraw.bind(this)} type="primary" className="btn-margin-top submit-button">Pool's Token Withdraw</Button>
           </Col>
-          <Col span={6}></Col>
         </Row>
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={6}></Col>
+          <Col span={7}></Col>
           <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.claimFund.bind(this)} type="primary" className="btn-margin-top submit-button">Claim Fund</Button>
           </Col>
-          <Col span={6}></Col>
         </Row>
 
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={6}>
-            lockDuration
+          <Col span={7}>
+            _lockDuration
           </Col>
-          <Col span={18}>
+          <Col span={17}>
             <InputNumber
               style = {{'width' : '100%'}}
               defaultValue = {0}
@@ -327,13 +326,15 @@ export default class extends LoggedInPage {
           </Col>
         </Row>
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={24}>
+          <Col span={7}></Col>
+          <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.setLockDuration.bind(this)} type="primary" className="btn-margin-top submit-button">Set lockDuration</Button>
           </Col>
         </Row>
 
         <Row style={{ 'marginTop': '15px' }}>
-          <Col span={24}>
+          <Col span={7}></Col>
+          <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.virtuellMining.bind(this)} type="primary" className="btn-margin-top submit-button">Mining(virtuell) 3ETH</Button>
           </Col>
         </Row>
@@ -414,7 +415,7 @@ export default class extends LoggedInPage {
   tokenPoolWithdraw () {
     this.props.tokenPoolWithdraw()
   }
-  
+
   setLockDuration () {
     this.props.setLockDuration(this.state.lockDuration)
   }

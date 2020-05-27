@@ -13,6 +13,8 @@ const govAddress = '0x0000000000000000000000000000000000012345'
 
 const poolMakerAbi = require(PATH + 'pool/PoolMaker.json')
 const poolMakerAddress = '0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E'
+// poolMaker1: 0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E
+// poolMaker2: 0xd4e5390c22782841B28F65A3B8F0cbd82f2b775E
 
 const CONTRACTS_DATA = {
   ntfToken: {

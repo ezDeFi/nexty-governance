@@ -15,7 +15,8 @@ import { min } from 'bn.js'
 var BigNumber = require('bignumber.js')
 BigNumber.config({ ERRORS: false })
 const Option = Select.Option
-
+const queryString = window.location.search.replace('?id=','poolcontrol/?id=');
+console.log('alo',queryString);
 const weiToEther = (wei) => {
   return (Number(wei) / 1e18).toFixed(4)
 }
@@ -107,6 +108,10 @@ export default class extends StandardPage {
     )
   }
 
+  gotoControlPage () {
+    this.props.history.push('/poolcontrol')
+  }
+
   ord_renderContent () { // eslint-disable-line
     let status = getStatusText(this.props.poolStatus, weiToEther(this.props.poolNtfBalance))
     if (this.props.poolStatus === undefined || this.props.poolNtfBalance === undefined) {
@@ -119,7 +124,7 @@ export default class extends StandardPage {
           <Col span={20}></Col>
           <Col span={4}>
             <div className="">
-              <Button type="ebp" href='/poolcontrol'> Pool setting</Button>
+              <Button type="primary" onClick={this.gotoControlPage.bind(this)}> Pool control</Button>
             </div>
           </Col>
         </Row>

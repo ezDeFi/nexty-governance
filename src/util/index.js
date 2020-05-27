@@ -19,7 +19,6 @@ export const constant = (moduleName, detailArray) => {
   _.each(detailArray, (detail) => {
     result[detail] = `${moduleName}/${detail}`
   })
-
   return result
 }
 
