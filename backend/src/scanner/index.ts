@@ -87,6 +87,7 @@ export class Scanner{
         self.loadLeaked()
       }, 10000)
     }
+
     public async listenEvents() {
         const self = this
         await setTimeout(async function(){

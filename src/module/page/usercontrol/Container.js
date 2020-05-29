@@ -25,7 +25,7 @@ export default createContainer(Component, (state) => {
     ntfPoolService.loadMyDepositedNtf()
     ntfPoolService.loadUnlockTime()
     ntfPoolService.loadIsLocking()
-    ntfPoolService.loadPoolNtfBalance1()
+    ntfPoolService.loadPoolNtfBalance()
     ntfPoolService.loadPoolNtyBalance()
     ntfPoolService.loadPoolStatus()
     ntfPoolService.loadMyPendingOutAmount()
@@ -49,7 +49,7 @@ export default createContainer(Component, (state) => {
     myRewardBalance: state.user.rewardBalance,
     myNtfDeposited: state.user.ntfDeposited,
     myUnlockTime: state.user.unlockTime,
-    poolNtfBalance: state.pool.poolNtfBalance.balance,
+    poolNtfBalance: state.pool.poolNtfBalance,
     poolNtfDeposited: state.pool.poolDeposited,
     poolNtyBalance: state.pool.poolNtyBalance,
     isLocking: state.user.isLocking,
@@ -78,7 +78,7 @@ export default createContainer(Component, (state) => {
     ntfPoolService.loadMyDepositedNtf()
     ntfPoolService.loadUnlockTime()
     ntfPoolService.loadIsLocking()
-    ntfPoolService.loadPoolNtfBalance1()
+    ntfPoolService.loadPoolNtfBalance()
     ntfPoolService.loadPoolNtyBalance()
     ntfPoolService.loadPoolStatus()
     ntfPoolService.loadMyPendingOutAmount()

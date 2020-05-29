@@ -15,13 +15,13 @@ export default createContainer(Component, (state) => {
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
 
-  async function loadOnInit () {
-    // ntfPoolService.loadLockDuration()
-    // ntfPoolService.loadMaxLockDuration()
-    ntfPoolService.loadMyCurrentPool()
-    ntfPoolService.loadPoolInfo()
-    load()
-  }
+  // async function loadOnInit () {
+  //   // ntfPoolService.loadLockDuration()
+  //   // ntfPoolService.loadMaxLockDuration()
+  //   ntfPoolService.loadMyCurrentPool()
+  //   ntfPoolService.loadPoolInfo()
+  //   load()
+  // }
 
   async function load () {
     let _selectedPool = await ntfPoolService.getPools(true)

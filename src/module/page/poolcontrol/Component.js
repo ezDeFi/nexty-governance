@@ -13,19 +13,26 @@ import { Col, Row, Icon, Button, Breadcrumb, Input, InputNumber, Select } from '
 let web3 = new Web3(new Web3.providers.HttpProvider('https://rpc.nexty.io'))
 const Option = Select.Option;
 
-const queryString = window.location.search.replace('?id=','');
-console.log('alo',queryString);
+// const queryString = window.location.search.replace('?id=','');
+// console.log('alo',queryString);
 const weiToEther = (wei) => {
     // console.log('AAA', web3.fromWei(wei.toString()).toFixed(4))
     return Number(web3.fromWei(wei.toString())).toFixed(4)
     // return Number(web3.fromWei(wei.toString())).toFixed(4)`
 }
 
-
 export default class extends LoggedInPage {
   componentDidMount () {
     this.loadData()
+    let queryString = window.location.search.replace('?id=','')
+    console.log(queryString)
+    this.setState({
+      poolAddress: queryString
+    }
+    // , () => this.selectPool()
+    )
   }
+  // UNSAFE_componentWillReceiveProps(nextProps: )
 
   loadData () {
     // this.props.getBalance()
@@ -47,19 +54,29 @@ export default class extends LoggedInPage {
     }
   }
 
-  handleChange (value) {
-    console.log(`selected ${value}`);
-    this.props.selectPool(value)
-  }
+  /**
+   *
+   * @param {*} value
+   */
+
+  // handleChange (value) {
+  //   console.log(`selected ${value}`);
+  //   this.props.selectPool(value)
+  // }
 
   selectPool () {
     const address = this.state.poolAddress
-    console.log('xxx', address) 
+    console.log('@@@@', address)
     this.props.selectPool(address)
   }
 
+  onPoolAddressChange (e) {
+    this.setState({
+      poolAddress: e.target.value
+    })
+  }
   poolsRender () {
-    let source = this.props.myPools ? this.props.myPools : []
+    // let source = this.props.myPools ? this.props.myPools : []
     //console.log('data', Object.keys(source).length)
     return (
       <Row style={{ 'marginTop': '15px' }}>
@@ -74,7 +91,7 @@ export default class extends LoggedInPage {
             ))}
           </Select>
         </Col> */}
-        <Col span={7}>
+        {/* <Col span={7}>
           Pool Address:
         </Col>
         <Col span={17}>
@@ -82,19 +99,21 @@ export default class extends LoggedInPage {
             className = "maxWidth"
             onChange={this.onPoolAddressChange.bind(this)}
           />
-        </Col>
-        <Col span={24} style={{ 'marginTop': '15px' }}>
+        </Col> */}
+        <Col span ={4}></Col>
+        <Col span={16} style={{ 'marginTop': '15px'}}>
           <Button className = "maxWidth" type = "primary" onClick={() => this.selectPool()}>
-            Select
+            Show detail
           </Button>
         </Col>
+        <Col span ={4}></Col>
       </Row>
     )
   }
 
   mainContentRender () {
     return (
-      <div>
+      <div style={{ 'marginTop': '30px'}}>
         <Row>
           <Col span={7}>
             Pool's address:
@@ -149,14 +168,14 @@ export default class extends LoggedInPage {
           </Col>
         </Row>
 
-        <Row>
+        {/* <Row>
           <Col span={7}>
             Pool's logo:
           </Col>
           <Col span={7}>
             {this.props.logo}
           </Col>
-        </Row>
+        </Row> */}
 
         <Row>
           <Col span={7}>
@@ -235,7 +254,7 @@ export default class extends LoggedInPage {
             Stake require:
           </Col>
           <Col span={7}>
-            {this.props.stakeRequire} NTF
+            {weiToEther(this.props.stakeRequire)} NTF
           </Col>
         </Row>
 
@@ -352,7 +371,7 @@ export default class extends LoggedInPage {
           <h3 className="text-center">Pool's Control</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
             {this.poolsRender()}
-            {this.props.mySelectedPool && this.mainContentRender()}
+            {this.mainContentRender()}
             <div className="ebp-header-divider dashboard-rate-margin">
             </div>
           </div>
@@ -384,12 +403,6 @@ export default class extends LoggedInPage {
   onSignerChange (e) {
     this.setState({
       signer: e.target.value
-    })
-  }
-
-  onPoolAddressChange (e) {
-    this.setState({
-      poolAddress: e.target.value
     })
   }
 

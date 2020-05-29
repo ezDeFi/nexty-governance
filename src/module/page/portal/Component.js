@@ -146,9 +146,9 @@ export default class extends StandardPage {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={4}></Col>
+          <Col span={2}>
           <Button type="primary" shape="round" href={'/poolmaker'}>New Pool</Button>
-          <Button type="primary" shape="round" href={'/poolcontrol'}> Pool control</Button>
           </Col>
         </Row>
         <Row>

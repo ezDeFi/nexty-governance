@@ -15,8 +15,7 @@ import { min } from 'bn.js'
 var BigNumber = require('bignumber.js')
 BigNumber.config({ ERRORS: false })
 const Option = Select.Option
-const queryString = window.location.search.replace('?id=','poolcontrol/?id=');
-console.log('alo',queryString);
+// console.log('alo',queryString);
 const weiToEther = (wei) => {
   return (Number(wei) / 1e18).toFixed(4)
 }
@@ -41,7 +40,7 @@ const timeToString = (_sec) => {
   if (seconds > 0) s = s + seconds + ' second(s)'
   return s
 }
-
+let address1
 export default class extends StandardPage {
   constructor (props) {
     super(props)
@@ -56,6 +55,7 @@ export default class extends StandardPage {
   componentDidMount () {
     this.loadData()
     // this.props.listenToDeposit()
+    address1 = window.location.search.replace('?id=','/poolcontrol?id=')
   }
 
   componentWillUnmount () {
@@ -124,7 +124,7 @@ export default class extends StandardPage {
           <Col span={20}></Col>
           <Col span={4}>
             <div className="">
-              <Button type="primary" onClick={this.gotoControlPage.bind(this)}> Pool control</Button>
+            <Button type="primary" shape="round" href={address1}> Pool control</Button>
             </div>
           </Col>
         </Row>

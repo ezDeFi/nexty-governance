@@ -447,19 +447,6 @@ async claimFund () {
     // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
     // console.log('adadad',dat,this.store.getState())
   }
-  async loadPoolNtfBalance1 () {
-    const store = this.store.getState()
-    //let _address = CONTRACTS.NtfPool.address
-    let _address = store.pool.selectedPool
-    let methods = store.contracts.ntfToken.methods
-    const poolRedux = this.store.getRedux('pool')
-    let _poolNtfBalance = await methods.balanceOf(_address).call()
-    // console.log('1111',_poolNtfBalance)
-    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))
-    return await _poolNtfBalance
-    // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
-    // console.log('adadad',dat,this.store.getState())
-  }
 
   async loadPoolNtyBalance () {
     const store = this.store.getState()
