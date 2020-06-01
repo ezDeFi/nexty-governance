@@ -17,7 +17,7 @@ const Option = Select.Option;
 // console.log('alo',queryString);
 const weiToEther = (wei) => {
     // console.log('AAA', web3.fromWei(wei.toString()).toFixed(4))
-    return Number(web3.fromWei(wei.toString())).toFixed(4)
+    return Number(web3.utils.fromWei(wei.toString())).toFixed(4)
     // return Number(web3.fromWei(wei.toString())).toFixed(4)`
 }
 

@@ -67,11 +67,11 @@ export default class extends BaseService {
     const userRedux = this.store.getRedux('user')
     let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
 
-    const NTFToken = web3.eth.contract(WEB3.PAGE['NTFToken'].ABI)
-    const NTFTokenContract = NTFToken.at(WEB3.PAGE['NTFToken'].ADDRESS)
+    const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
+    // const NTFTokenContract = NTFToken.at(WEB3.PAGE['NTFToken'].ADDRESS)
 
-    const NextyManager = web3.eth.contract(WEB3.PAGE['NextyManager'].ABI)
-    const NextyManagerContract = NextyManager.at(WEB3.PAGE['NextyManager'].ADDRESS)
+    const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
+    // const NextyManagerContract = NextyManager.at(WEB3.PAGE['NextyManager'].ADDRESS)
     const contract = {
       NTFToken: NTFTokenContract,
       NextyManager: NextyManagerContract

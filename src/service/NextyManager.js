@@ -2,7 +2,7 @@ import BaseService from '../model/BaseService'
 import _ from 'lodash'
 import Tx from 'ethereumjs-tx'
 import { WEB3 } from '@/constant'
-const SolidityFunction = require('web3/lib/web3/function')
+const SolidityFunction = require('web3')
 
 export default class extends BaseService {
   // Basic Functions
