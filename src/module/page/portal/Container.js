@@ -1,3 +1,11 @@
+import { createContainer } from '@/util'
+import Component from './Component'
+// import NTFToken from '@/service/NTFToken'
+import NtfTokenService from '@/service/contracts/ntfTokenService'
+import NtfPoolService from '@/service/contracts/ntfPoolService'
+import UserService from '@/service/UserService'
+var curWallet = null
+
 import Web3 from 'web3'
 
 const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ws.nexty.io'))
@@ -43,3 +51,39 @@ async function getCurrentBlockNumber () {
   return Number(blockNumber)
 }
 
+export default createContainer(Component, (state) => {
+  const userService = new UserService()
+  const ntfTokenService = new NtfTokenService()
+  const ntfPoolService = new NtfPoolService()
+  async function load () {
+    ntfPoolService.getPools(false)
+  }
+  if (state.user.wallet !== curWallet && !curWallet) {
+    curWallet = state.user.wallet
+    load()
+    // setInterval(() => {
+    //   load()
+    // }, 5000)
+  }
+
+  return {
+    loadedTo: state.pool.loadedTo,
+    pools: state.pool.pools,
+    poolsPortal: state.pool.poolsPortal,
+    loadingPortal: state.pool.loadingPortal,
+    myPendingOutAmount: state.user.myPendingOutAmount,
+  }
+}, () => {
+  const userService = new UserService()
+  const ntfTokenService = new NtfTokenService()
+  const ntfPoolService = new NtfPoolService()
+
+  return {
+    getName (_address) {
+      return ntfPoolService.getName(_address)
+    },
+    async loadPoolPortal (pools) {
+      // return await ntfPoolService.loadPoolPortal(pools)
+    }
+  }
+})
