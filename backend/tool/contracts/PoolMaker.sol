@@ -2,24 +2,25 @@ pragma solidity ^0.5.0;
 
 import "./ntfPool/NtfPool.sol";
 
+
 interface NtfPoolI {
     function name() external view returns (string memory);
-    function getPoolNtfBalance() external view returns(uint256);
-    function getPoolGovBalance() external view returns(uint256);
+
+    function getPoolNtfBalance() external view returns (uint256);
+
+    function getPoolGovBalance() external view returns (uint256);
 }
 
+
 contract PoolMaker {
+    event NewPool(address indexed _address);
     address public ntfAddress;
     address public govAddress;
     address[] public pools;
     mapping(address => address) public poolOwner;
+    mapping(address => address) public ownedBy;
 
-    constructor (
-        address _ntfAddress,
-        address _govAddress
-    )
-      public
-    {
+    constructor(address _ntfAddress, address _govAddress) public {
         ntfAddress = _ntfAddress;
         govAddress = _govAddress;
     }
@@ -33,10 +34,7 @@ contract PoolMaker {
         string memory _website,
         string memory _location,
         string memory _profile
-    )
-        public
-        returns (address)
-    {
+    ) public returns (address) {
         NtfPool ntfPool = new NtfPool(
             _owner,
             ntfAddress,
@@ -51,23 +49,27 @@ contract PoolMaker {
         );
         pools.push(address(ntfPool));
         poolOwner[address(ntfPool)] = _owner;
+        ownedBy[_owner] = address(ntfPool);
+        emit NewPool(address(ntfPool));
         return (address(ntfPool));
     }
 
     // Read
 
-    function getPoolCount()
-        public
-        view
-        returns(uint256)
-    {
+    function getPoolCount() public view returns (uint256) {
         return pools.length;
     }
 
     function getPool(uint256 i)
         public
         view
-        returns(address, address, string memory, uint256, uint256)
+        returns (
+            address,
+            address,
+            string memory,
+            uint256,
+            uint256
+        )
     {
         address _pAddress = pools[i];
         address _owner = poolOwner[_pAddress];
@@ -76,6 +78,26 @@ contract PoolMaker {
         uint256 _poolNtfBalance = NtfPoolI(_pAddress).getPoolNtfBalance();
         // in Gov Ntf balance
         uint256 _poolGovBalance = NtfPoolI(_pAddress).getPoolGovBalance();
-        return(_pAddress, _owner, _name, _poolNtfBalance, _poolGovBalance);
+        return (_pAddress, _owner, _name, _poolNtfBalance, _poolGovBalance);
+    }
+
+    function getPoolByAddress(address _pAddress)
+        public
+        view
+        returns (
+            address,
+            address,
+            string memory,
+            uint256,
+            uint256
+        )
+    {
+        address _owner = poolOwner[_pAddress];
+        string memory _name = NtfPoolI(_pAddress).name();
+        // avaiable balance
+        uint256 _poolNtfBalance = NtfPoolI(_pAddress).getPoolNtfBalance();
+        // in Gov Ntf balance
+        uint256 _poolGovBalance = NtfPoolI(_pAddress).getPoolGovBalance();
+        return (_pAddress, _owner, _name, _poolNtfBalance, _poolGovBalance);
     }
 }
