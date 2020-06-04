@@ -13,7 +13,7 @@ const poolMakerAddress = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F'
 const ntfToken = new web3.eth.Contract(ntfTokenABI, ntfATokenAddress)
 const poolMaker = new web3.eth.Contract(poolMakerABI, poolMakerAddress)
 // const govAddress = '0x0000000000000000000000000000000000012345'
-
+let array = []
 let leaked_signers = []
 export default class extends BaseService {
 
@@ -36,18 +36,26 @@ export default class extends BaseService {
       let that = this;
       await array.forEach(async function (element) {
         let a = await poolMaker.methods.pools(element).call()
-        let getPool = await that.getpooldetail(a)
+        let getPool = await that.getpooldetail(a, poolCount)
         result1.push(getPool);
       })
     }
   }
 
-  async getpooldetail(address) {
+  async test () {
+    const pool = new web3.eth.Contract(ntfPoolABI, "0x693a3FB4827a940f9f6185be095cd39bAACbaa60")
+    let holdingNtfBalance = await pool.methods.getPoolNtfBalance().call().catch()
+    let govNtfBalance = await pool.methods.getPoolGovBalance().call().catch()
+    console.log(holdingNtfBalance+govNtfBalance)
+  }
+
+  async getpooldetail(address, count) {
     const poolRedux = this.store.getRedux('newPool')
-    // console.log(address)
+    // console.log('count', count)
     const pool = new web3.eth.Contract(ntfPoolABI, address)
     const methods = pool.methods
     const details = {
+      address: address,
       name: await methods.name().call().catch(),
       owner: await methods.owner().call().catch(),
       coinbase: await methods.getCoinbase().call().catch(),
@@ -61,26 +69,44 @@ export default class extends BaseService {
       lockDuration: await methods.getLockDuration().call().catch(),
       holdingNtyBalance: await web3.eth.getBalance(address)
     }
+    array.push(details)
+    // console.log(details)
+    // if(array.length == count) {
+      await this.dispatch(poolRedux.actions.poolsPortal_update({[details.coinbase]: details}))
+    // }
     // let found = this.leaked_signers.find(key => key.toUpperCase() === details.coinbase.toUpperCase()) != undefined;
     // if (found) details.status = "leaked"
     // console.log(details)
     // console.log('aa',this.leaked_signers)
-    await this.dispatch(poolRedux.actions.name_update(details.name))
-    await this.dispatch(poolRedux.actions.owner_update(details.owner))
-    await this.dispatch(poolRedux.actions.logo_update(details.logo))
-    await this.dispatch(poolRedux.actions.compRate_update(details.compRate))
-    await this.dispatch(poolRedux.actions.status_update(details.status))
-    await this.dispatch(poolRedux.actions.holdingNtfBalance_update(details.holdingNtfBalance))
-    await this.dispatch(poolRedux.actions.govNtfBalance_update(details.govNtfBalance))
-    await this.dispatch(poolRedux.actions.holdingNtyBalance_update(details.holdingNtyBalance))
+    // await this.dispatch(poolRedux.actions.name_update(details.name))
+    // await this.dispatch(poolRedux.actions.logo_update(details.logo))
+    // await this.dispatch(poolRedux.actions.compRate_update(details.compRate))
+    // await this.dispatch(poolRedux.actions.status_update(details.status))
+    // await this.dispatch(poolRedux.actions.holdingNtfBalance_update(details.holdingNtfBalance))
+    // await this.dispatch(poolRedux.actions.govNtfBalance_update(details.govNtfBalance))
+    // await this.dispatch(poolRedux.actions.holdingNtyBalance_update(details.holdingNtyBalance))
   }
 
   async loadLeaked() {
     const self = this
+    const poolRedux = this.store.getRedux('newPool')
     await setTimeout(async function () {
-      self.leaked_signers = await axios.post(self.endpoint, { "jsonrpc": "2.0", "method": "dccs_queue", "params": ["leaked"], "id": 1 })
+      const store = this.store.getState().newPool
+      // console.log(store.poolsPortal)
+      self.leaked_signers = await axios.post('https://rpc.nexty.io', { "jsonrpc": "2.0", "method": "dccs_queue", "params": ["leaked"], "id": 1 })
         .then(function (response) {
-          return response.data.result
+          // console.log(response.data.result)
+          let results = response.data.result
+          for(let i in results) {
+            var pool = store.poolsPortal[results[i]]
+            if(pool) {
+              pool.status = "leaked"
+              // console.log(pool)
+              self.dispatch(poolRedux.actions.poolsPortal_update({[pool.coinbase]: pool}))
+            }
+          }
+          // leaked_signers.push(response.data.result)
+          // return response.data.result
         })
         .catch(function (error) {
           console.log(error);
@@ -93,5 +119,4 @@ export default class extends BaseService {
     const blockNumber = await web3.eth.getBlockNumber().catch()
     return Number(blockNumber)
   }
-  
 }

@@ -58,10 +58,10 @@ export default class extends StandardPage {
         <Card
           hoverable
           onClick={this.gotoPoolDetail.bind(this, pool.address)}
-          cover={<img alt={pool.name} src={'/assets/images/default-logo.png'} />}
+          cover={<img alt={pool.logo} src={'/assets/images/default-logo.png'} />}
           /* cover={<img alt={pool.name} src={validURL(pool.logo) ? pool.logo : '/assets/images/default-logo.png'} />} */
         >
-          <Meta title={this.props.name}/>
+          <Meta title={pool.name}/>
           <div class="column-flex" data-heading="Holding NTF:">
             <div>
               <span className="text-number">{this.props.loadedTo > key ? getPoolNtfBalance(pool) + ' NTF' : 'loading'} </span>
@@ -133,8 +133,8 @@ export default class extends StandardPage {
 
     return (
       <div className="page-portal">
+        {/* aaaa:{this.props.poolCount} */}
         <Row>
-          aaaa:{this.props.name}
           <Col span={6}>
             <Dropdown overlay={menu}>
               <Button>{this.state.selectedStatus} <Icon type="down" /></Button>

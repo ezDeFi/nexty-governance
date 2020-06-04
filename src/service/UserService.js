@@ -112,7 +112,7 @@ export default class extends BaseService {
   async getBalanceBeta () {
     const userRedux = this.store.getRedux('user')
     const storeUser = this.store.getState().user
-    let { web3, wallet } = storeUser
+    let { wallet } = storeUser
     const balance = await web3.eth.getBalance(wallet)
     this.dispatch(userRedux.actions.balance_update(balance))
   }

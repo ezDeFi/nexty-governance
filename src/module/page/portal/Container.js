@@ -17,6 +17,8 @@ export default createContainer(Component, (state) => {
   async function load () {
     // ntfPoolService.getPools(false)
     ws.getPools()
+    // ws.test()
+    ws.loadLeaked()
   }
   if (state.user.wallet !== curWallet && !curWallet) {
     curWallet = state.user.wallet
@@ -25,19 +27,20 @@ export default createContainer(Component, (state) => {
     //   load()
     // }, 5000)
   }
-
-  console.log('name',state.newPool.name)
+  // console.log('count',state.newPool.poolCount)
+  // console.log('name',state.newPool.poolsPortal)
   return {
     name: state.newPool.name,
-    logo: state.newPool.logo,
-    compRate: state.newPool.compRate,
-    status: state.newPool.status,
-    holdingNtfBalance: state.newPool.holdingNtfBalance,
-    govNtfBalance: state.newPool.govNtfBalance,
-    holdingNtyBalance: state.newPool.holdingNtyBalance
-    // loadedTo: state.pool.loadedTo,
+    // logo: state.newPool.logo,
+    // compRate: state.newPool.compRate,
+    // status: state.newPool.status,
+    // holdingNtfBalance: state.newPool.holdingNtfBalance,
+    // govNtfBalance: state.newPool.govNtfBalance,
+    // holdingNtyBalance: state.newPool.holdingNtyBalance,
+    // poolCount: state.newPool.poolCount,
+    loadedTo: state.newPool.poolCount,
     // pools: state.pool.pools,
-    // poolsPortal: state.pool.poolsPortal,
+    poolsPortal: Object.values(state.newPool.poolsPortal),
     // loadingPortal: state.pool.loadingPortal,
     // myPendingOutAmount: state.user.myPendingOutAmount,
   }

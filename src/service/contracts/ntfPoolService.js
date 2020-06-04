@@ -434,6 +434,15 @@ async claimFund () {
     return await _fund
   }
 
+  async loadPoolDeposited () {
+    const store = this.store.getState()
+    let methods = store.contracts.ntfPool.methods
+    const poolRedux = this.store.getRedux('pool')
+    let _deposited = await methods.getPoolGovBalance().call()
+    await this.dispatch(poolRedux.actions.poolDeposited_update(_deposited))
+    return await _deposited
+  }
+
   async loadPoolNtfBalance () {
     const store = this.store.getState()
     //let _address = CONTRACTS.NtfPool.address
@@ -491,15 +500,6 @@ async claimFund () {
     // web3.currentProvider.connection._url
     await this.dispatch(poolRedux.actions.status_update(_status))
     return await _status
-  }
-
-  async loadPoolDeposited () {
-    const store = this.store.getState()
-    let methods = store.contracts.ntfPool.methods
-    const poolRedux = this.store.getRedux('pool')
-    let _deposited = await methods.getPoolGovBalance().call()
-    await this.dispatch(poolRedux.actions.poolDeposited_update(_deposited))
-    return await _deposited
   }
 
   async loadPoolUnlockHeight () {

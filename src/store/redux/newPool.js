@@ -21,6 +21,7 @@ class PoolRedux extends BaseRedux {
       govNtfBalance: 0,
       owner: null,
       status: null,
+      poolsPortal: [],
     }
   }
 }

@@ -245,7 +245,7 @@ export default class extends LoggedInPage {
             NTF Balance:
           </Col>
           <Col span={7}>
-            {weiToEther(this.props.poolNtfBalance)} NTF
+            {parseFloat(weiToEther(this.props.poolNtfBalance)) + parseFloat(weiToEther(this.props.poolNtfDeposited))} NTF
           </Col>
         </Row>
 
