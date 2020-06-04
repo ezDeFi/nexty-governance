@@ -61,7 +61,7 @@ export default class extends StandardPage {
           cover={<img alt={pool.name} src={'/assets/images/default-logo.png'} />}
           /* cover={<img alt={pool.name} src={validURL(pool.logo) ? pool.logo : '/assets/images/default-logo.png'} />} */
         >
-          <Meta title={pool.name}/>
+          <Meta title={this.props.name}/>
           <div class="column-flex" data-heading="Holding NTF:">
             <div>
               <span className="text-number">{this.props.loadedTo > key ? getPoolNtfBalance(pool) + ' NTF' : 'loading'} </span>
@@ -95,7 +95,7 @@ export default class extends StandardPage {
   ord_renderContent () { // eslint-disable-line
     let source = this.props.pools ? this.props.pools : []
     if (!_.isEmpty(source)) {
-      this.props.loadPoolPortal(source)
+      // this.props.loadPoolPortal(source)
     }
     let poolsPortal = this.props.poolsPortal ? this.props.poolsPortal : []
 
@@ -134,6 +134,7 @@ export default class extends StandardPage {
     return (
       <div className="page-portal">
         <Row>
+          aaaa:{this.props.name}
           <Col span={6}>
             <Dropdown overlay={menu}>
               <Button>{this.state.selectedStatus} <Icon type="down" /></Button>

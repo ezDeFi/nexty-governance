@@ -6,6 +6,7 @@ import user from './redux/user'
 import community from './redux/community'
 import pool from './redux/pool'
 import contracts from './redux/contracts'
+import newPool from './redux/newPool'
 
 const default_state = { // eslint-disable-line
   init: false
@@ -26,5 +27,6 @@ export default combineReducers({
   user: user.getReducer(),
   community: community.getReducer(),
   pool: pool.getReducer(),
+  newPool: newPool.getReducer(),
   contracts: contracts.getReducer()
 })
