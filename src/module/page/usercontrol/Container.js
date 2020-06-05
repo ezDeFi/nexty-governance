@@ -19,7 +19,7 @@ export default createContainer(Component, (state) => {
     userService.getBalanceBeta()
 
     ntfTokenService.loadMyNtfBalance()
-
+    ntfPoolService.loadPoolDeposited()
     ntfPoolService.loadPoolOwner()
     ntfPoolService.loadMyRewardBalance()
     ntfPoolService.loadMyDepositedNtf()
@@ -29,7 +29,6 @@ export default createContainer(Component, (state) => {
     ntfPoolService.loadPoolNtyBalance()
     ntfPoolService.loadPoolStatus()
     ntfPoolService.loadMyPendingOutAmount()
-    ntfPoolService.loadPoolDeposited()
   }
   if (state.user.wallet !== curWallet && !curWallet) {
     curWallet = state.user.wallet

@@ -440,6 +440,7 @@ async claimFund () {
     const poolRedux = this.store.getRedux('pool')
     let _deposited = await methods.getPoolGovBalance().call()
     await this.dispatch(poolRedux.actions.poolDeposited_update(_deposited))
+    console.log(_deposited)
     return await _deposited
   }
 
