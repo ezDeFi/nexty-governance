@@ -66,15 +66,14 @@ export default class extends LoggedInPage {
 
   selectPool () {
     const address = this.state.poolAddress
-    console.log('@@@@', address)
     this.props.selectPool(address)
   }
 
-  onPoolAddressChange (e) {
-    this.setState({
-      poolAddress: e.target.value
-    })
-  }
+  // onPoolAddressChange (e) {
+  //   this.setState({
+  //     poolAddress: e.target.value
+  //   })
+  // }
   poolsRender () {
     // let source = this.props.myPools ? this.props.myPools : []
     //console.log('data', Object.keys(source).length)

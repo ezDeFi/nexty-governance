@@ -61,18 +61,18 @@ let isLogined = false
 async function setupCallWeb3 () {
   let web3 = new Web3(new Web3.providers.HttpProvider('https://rpc.nexty.io'))
   // let web3 = new Web3(new Web3.providers.WebsocketProvider("wss://ws.nexty.io"));
-  const contract = {
+  const contracts = {
     NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
     NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
     NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
     PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
   }
 
-  // await store.dispatch(userRedux.actions.loginMetamask_update(true))
-  await store.dispatch(userRedux.actions.contract_update(contract))
-  await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
-  await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
-  await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
+  await store.dispatch(userRedux.actions.loginMetamask_update(true))
+  await store.dispatch(userRedux.actions.contract_update(contracts))
+  await store.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
+  await store.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
+  await store.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))
   await store.dispatch(userRedux.actions.web3_update(web3))
   await userService.metaMaskLogin('0x0000000000000000000000000000000000000000')
   const pool_id = sessionStorage.getItem('pool_id')

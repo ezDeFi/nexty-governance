@@ -7,10 +7,10 @@ import poolMakerABI from '../../deployed/PoolMaker.json'
 
 const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ws.nexty.io'))
 
-const ntfATokenAddress = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda'
+const ntfTokenAddress = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda'
 const poolMakerAddress = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F'
 
-const ntfToken = new web3.eth.Contract(ntfTokenABI, ntfATokenAddress)
+const ntfToken = new web3.eth.Contract(ntfTokenABI, ntfTokenAddress)
 const poolMaker = new web3.eth.Contract(poolMakerABI, poolMakerAddress)
 // const govAddress = '0x0000000000000000000000000000000000012345'
 let array = []
@@ -36,7 +36,7 @@ export default class extends BaseService {
       let that = this;
       await array.forEach(async function (element) {
         let a = await poolMaker.methods.pools(element).call()
-        let getPool = await that.getpooldetail(a, poolCount)
+        let getPool = await that.getPoolDetail(a, poolCount)
         result1.push(getPool);
       })
     }
@@ -49,7 +49,7 @@ export default class extends BaseService {
     console.log(holdingNtfBalance+govNtfBalance)
   }
 
-  async getpooldetail(address, count) {
+  async getPoolDetail(address, count) {
     const poolRedux = this.store.getRedux('newPool')
     // console.log('count', count)
     const pool = new web3.eth.Contract(ntfPoolABI, address)

@@ -41,7 +41,7 @@ export default createContainer(Component, (state) => {
     curWallet = state.user.wallet
     // loadOnInit()
     // setInterval(() => {
-    //   load()
+      load()
     // }, 5000)
   }
 

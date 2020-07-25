@@ -13,22 +13,21 @@ export default createContainer(Component, (state) => {
   const ntfPoolService = new NtfPoolService()
 
   async function load () {
-    ntfPoolService.getPools(false)
-    await ntfPoolService.loadCurrentPool()
     // ntfPoolService.getPools(false)
-    userService.getBalanceBeta()
+    // await ntfPoolService.loadCurrentPool()
+    // userService.getBalanceBeta()
 
-    ntfTokenService.loadMyNtfBalance()
-    ntfPoolService.loadPoolDeposited()
-    ntfPoolService.loadPoolOwner()
-    ntfPoolService.loadMyRewardBalance()
-    ntfPoolService.loadMyDepositedNtf()
-    ntfPoolService.loadUnlockTime()
-    ntfPoolService.loadIsLocking()
-    ntfPoolService.loadPoolNtfBalance()
-    ntfPoolService.loadPoolNtyBalance()
+    // ntfTokenService.loadMyNtfBalance()
+    // ntfPoolService.loadPoolDeposited()
+    // ntfPoolService.loadPoolOwner()
+    // ntfPoolService.loadMyRewardBalance()
+    // ntfPoolService.loadMyDepositedNtf()
+    // ntfPoolService.loadUnlockTime()
+    // ntfPoolService.loadIsLocking()
+    // ntfPoolService.loadPoolNtfBalance()
+    // ntfPoolService.loadPoolNtyBalance()
     ntfPoolService.loadPoolStatus()
-    ntfPoolService.loadMyPendingOutAmount()
+    // ntfPoolService.loadMyPendingOutAmount()
   }
   if (state.user.wallet !== curWallet && !curWallet) {
     curWallet = state.user.wallet
@@ -68,8 +67,9 @@ export default createContainer(Component, (state) => {
   const ntfPoolService = new NtfPoolService()
 
   async function load () {
+    await ntfPoolService.putData()
     await ntfPoolService.loadCurrentPool()
-    // ntfPoolService.getPools(false)
+    ntfPoolService.getPools(false)
     userService.getBalanceBeta()
     ntfTokenService.loadMyNtfBalance()
     ntfPoolService.loadPoolOwner()
@@ -87,41 +87,41 @@ export default createContainer(Component, (state) => {
     reload () {
       load()
     },
-    getName (_address) {
-      return ntfPoolService.getName(_address)
-    },
-    async depositProcess () {
-      return userService.depositProcess()
-    },
-    async depositStop () {
-      return userService.depositStop()
-    },
-    async listenToDeposit () {
-      return ntfPoolService.listenToDeposit()
-    },
-    async loadPool (_address) {
-      return ntfPoolService.loadPool(_address)
-    },
+    // getName (_address) {
+    //   return ntfPoolService.getName(_address)
+    // },
+    // async depositProcess () {
+    //   return userService.depositProcess()
+    // },
+    // async depositStop () {
+    //   return userService.depositStop()
+    // },
+    // async listenToDeposit () {
+    //   return ntfPoolService.listenToDeposit()
+    // },
+    // async loadPool (_address) {
+    //   return ntfPoolService.loadPool(_address)
+    // },
     async selectPool (_address) {
       return ntfPoolService.selectPool(_address)
     },
-    async approve (_amount) {
-      return ntfTokenService.approve(_amount)
-    },
-    async deposit (_amount) {
-      return ntfPoolService.deposit(_amount)
-    },
-    async requestOut (_amount) {
-      return ntfPoolService.requestOut(_amount)
-    },
-    async claim () {
-      return ntfPoolService.claim()
-    },
-    async withdraw () {
-      return ntfPoolService.withdraw()
-    },
-    async virtuellMining () {
-      ntfPoolService.virtuellMining()
-    }
+    // async approve (_amount) {
+    //   return ntfTokenService.approve(_amount)
+    // },
+    // async deposit (_amount) {
+    //   return ntfPoolService.deposit(_amount)
+    // },
+    // async requestOut (_amount) {
+    //   return ntfPoolService.requestOut(_amount)
+    // },
+    // async claim () {
+    //   return ntfPoolService.claim()
+    // },
+    // async withdraw () {
+    //   return ntfPoolService.withdraw()
+    // },
+    // async virtuellMining () {
+    //   ntfPoolService.virtuellMining()
+    // }
   }
 })

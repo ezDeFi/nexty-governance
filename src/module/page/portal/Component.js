@@ -140,14 +140,13 @@ export default class extends StandardPage {
               <Button>{this.state.selectedStatus} <Icon type="down" /></Button>
             </Dropdown>
           </Col>
-          <Col span={12}>
+          <Col span={11}>
             <div className="search-box">
               <Input.Search onChange={this.handleSearch.bind(this)}
                 placeholder="Search pool name"
               />
             </div>
           </Col>
-          <Col span={4}></Col>
           <Col span={2}>
           <Button type="primary" shape="round" href={'/poolmaker'}>New Pool</Button>
           </Col>

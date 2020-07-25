@@ -121,8 +121,8 @@ export default class extends StandardPage {
     return (
       <div className="page-common">
         <Row>
-          <Col span={20}></Col>
-          <Col span={4}>
+          <Col span={0}></Col>
+          <Col span={5}>
             <div className="">
             <Button type="primary" shape="round" href={address1}> Pool control</Button>
             </div>
