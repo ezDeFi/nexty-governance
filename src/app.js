@@ -56,7 +56,6 @@ const contractsRedux = store.getRedux('contracts')
 const userService = new UserService()
 const ntfPoolService = new NtfPoolService()
 let isRequest = false
-let isLogined = false
 
 async function setupCallWeb3 () {
   let web3 = new Web3(new Web3.providers.HttpProvider('https://rpc.nexty.io'))
@@ -83,12 +82,24 @@ async function setupCallWeb3 () {
   }
 }
 
+let isLoggedIn = false
+
 function setupWeb3 () {
   window.web3.eth.getAccounts(async (err, accounts) => {
+    if (err) return
     if (accounts.length > 0) {
-      window.web3.version.getNetwork(async (err, networkId) => {
-        if (networkId === WEB3.NETWORK_ID) {
-          let web3 = new Web3(window.ethereum)
+      window.web3.version.getNetwork((err, networkId) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+
+        // detect account switch
+        const wallet = store.getState().user.wallet;
+        isLoggedIn = isLoggedIn && wallet === accounts[0];
+
+        if (!isLoggedIn) {
+          const web3 = new Web3(window.ethereum)
 
           const contract = {
             NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
@@ -97,15 +108,14 @@ function setupWeb3 () {
             PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
           }
 
-          if (!isLogined) {
-            await store.dispatch(userRedux.actions.loginMetamask_update(true))
-            await store.dispatch(userRedux.actions.is_login_update(true))
-            await store.dispatch(userRedux.actions.contract_update(contract))
-            await store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
-            await store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
-            await store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
-            await store.dispatch(userRedux.actions.web3_update(web3))
-            await userService.metaMaskLogin(accounts[0])
+          store.dispatch(userRedux.actions.loginMetamask_update(true))
+          store.dispatch(userRedux.actions.is_login_update(true))
+          store.dispatch(userRedux.actions.contract_update(contract))
+          store.dispatch(contractsRedux.actions.ntfToken_update(contract.NtfToken))
+          store.dispatch(contractsRedux.actions.ntfPool_update(contract.NtfPool))
+          store.dispatch(contractsRedux.actions.poolMaker_update(contract.PoolMaker))
+          store.dispatch(userRedux.actions.web3_update(web3))
+          userService.metaMaskLogin(accounts[0])
 
             const pool_id = sessionStorage.getItem('pool_id')
             if (pool_id) {
@@ -113,26 +123,26 @@ function setupWeb3 () {
             } else {
               // userService.path.push('/portal')
             }
+
+          userService.metaMaskLogin(accounts[0])
+          isLoggedIn = true
+
+          // simple trick: not work for entering .../login directly to the browser
+          if (userService.path.location.pathname === '/login') {
+            userService.path.goBack();
           }
-          isLogined = true
-        } else if (!isLogined) {
-          await store.dispatch(userRedux.actions.loginMetamask_update(false))
-          await userService.path.push('/login')
         }
       })
     } else {
-      if (!isRequest) {
-        isRequest = true
-        await window.ethereum.enable()
-      }
-      await store.dispatch(userRedux.actions.loginMetamask_update(false))
-      isLogined = false
-      await userService.path.push('/login')
+        if (!isRequest) {
+            isRequest = true
+            await window.ethereum.enable()
+        }
+        store.dispatch(userRedux.actions.loginMetamask_update(false))
+        isLoggedIn = false
     }
   })
 }
-
-// setupCallWeb3()
 
 if (window.ethereum) {
   setupWeb3()
@@ -142,8 +152,7 @@ if (window.ethereum) {
     })
   }
 } else {
-  setupCallWeb3()
-  /* store.dispatch(userRedux.actions.loginMetamask_update(false)) */
+  store.dispatch(userRedux.actions.loginMetamask_update(false))
 }
 
 render()
