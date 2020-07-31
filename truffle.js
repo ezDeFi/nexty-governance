@@ -1,82 +1,33 @@
-/*
- * NB: since truffle-hdwallet-provider 0.0.5 you must wrap HDWallet providers in a
- * function when declaring them. Failure to do so will cause commands to hang. ex:
- * ```
- * mainnet: {
- *     provider: function() {
- *       return new HDWalletProvider(mnemonic, 'https://mainnet.infura.io/<infura-key>')
- *     },
- *     network_id: '1',
- *     gas: 4500000,
- *     gasPrice: 10000000000,
- *   },
- */
+const HDWalletProvider = require('truffle-hdwallet-provider');
 
-// module.exports = {
-// See <http://truffleframework.com/docs/advanced/configuration>
-// to customize your Truffle configuration!
-// };
+// 0x95e2fcBa1EB33dc4b8c6DCBfCC6352f0a253285d
+var localPKey = 'a0cf475a29e527dcb1c35f66f1d78852b14d5f5109f75fa4b38fbe46db2022a5'
+var localEndPoint = 'http://127.0.0.1:8545'
 
-require('dotenv').config()
-require('babel-register')
-require('babel-polyfill')
+var devPKey = 'a0cf475a29e527dcb1c35f66f1d78852b14d5f5109f75fa4b38fbe46db2022a5'
+var devEndPoint = 'http://rpc.testnet.nexty.io:8545'
 
-const HDWalletProvider = require('truffle-hdwallet-provider')
-// const HDmnemonic = 'accident people carpet dice ring diary produce base want shrimp melt side'
-
-const providerWithMnemonic = (mnemonic, rpcEndpoint) =>
-  new HDWalletProvider(mnemonic, rpcEndpoint)
-
-const infuraProvider = network => providerWithMnemonic(
-  process.env.MNEMONIC || '',
-  `https://${network}.infura.io/${process.env.INFURA_API_KEY}`
-)
-
-const PrivateKeyProvider = require('truffle-privatekey-provider')
-const pkey = 'B72F001329A170CB0F64851EE3B03779B17865003F95CC0BDF4BAB981F5FB257'
-// address 0x6f53c8502bb884775e422c7c34be681554cee2ba
-// PoolMaker 2: 0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F
-const ropstenProvider = process.env.SOLIDITY_COVERAGE
-  ? undefined
-  : infuraProvider('ropsten')
+var mainPKey = ''
+var mainEndPoint = 'http://127.0.0.1:8545'
 
 module.exports = {
-  networks: {
-    development: {
-      host: 'localhost',
-      port: 8545,
-      network_id: 'ganache' // eslint-disable-line camelcase
+    networks: {
+        localhost: {
+            provider: () => new HDWalletProvider(localPKey, localEndPoint),
+            network_id: 111111
+        },
+        development: {
+            provider: () => new HDWalletProvider(devPKey, devEndPoint),
+            network_id: 111111
+        },
+        production: {
+            provider: () => new HDWalletProvider(mainPKey, mainEndPoint),
+            network_id: 66666
+        }
     },
-    testnetNexty: {
-      provider: () =>
-        new PrivateKeyProvider(
-          pkey,
-          `http://125.212.250.61:11111`
-        ),
-      gas: 21000000000000,
-      gasPrice: 300000,
-      network_id: 66666 // eslint-disable-line camelcase
-    },
-    mainnetNexty: {
-      provider: () =>
-        new PrivateKeyProvider(
-          pkey,
-          `http://13.228.68.50:8545`
-        ),
-      gas: 7000000,
-      gasPrice: 21000,
-      network_id: 66666 // eslint-disable-line camelcase
-    },
-    ropsten: {
-      provider: ropstenProvider,
-      network_id: 3 // eslint-disable-line camelcase
-    },
-    coverage: {
-      host: 'localhost',
-      network_id: '*', // eslint-disable-line camelcase
-      port: 8555,
-      gas: 0xfffffffffff,
-      gasPrice: 0x01
+    compilers: {
+        solc: {
+            version: '0.6.8'
+        }
     }
-  }
 }
