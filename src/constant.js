@@ -33,24 +33,18 @@ const CONTRACT_ABI_NtfPool = NtfPoolABI // eslint-disable-line
 const CONTRACT_ADDRESS_NtfPool = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F' // eslint-disable-line
 
 export const WEB3 = {
-  // HTTP: 'http://108.61.148.72:8545', // testnet
-  // HTTP: 'http://13.228.68.50:8545', // mainnet
-  // HTTP: 'http://localhost:8545', // localhost
-  // NETWORK_ID: '111111', // testnet
-  HTTP: 'https://rpc.nexty.io', // mainnet
-  NETWORK_ID: '66666', // mainnet
+  HTTP: 'http://rpc.testnet.ezdefi.com',
+  NETWORK_ID: '111111', // testnet
+  // HTTP: 'https://rpc.ezdefi.com',
+  // NETWORK_ID: '66666', // mainnet
   PAGE: {
-    NTFToken: {
-      ABI: CONTRACT_ABI_NTFToken,
-      ADDRESS: CONTRACT_ADDRESS_NTFToken
-    },
     NextyManager: {
       ABI: CONTRACT_ABI_NextyManager,
       ADDRESS: CONTRACT_ADDRESS_NextyManager
     },
     PoolMaker: {
       ABI: CONTRACT_ABI_PoolMaker,
-      ADDRESS: CONTRACT_ADDRESS_PoolMaker
+      ADDRESS: '0x629Baf2dc2F80F131079f53E5F764A8fDc78A724'
     },
     NtfPool: {
       ABI: CONTRACT_ABI_NtfPool,

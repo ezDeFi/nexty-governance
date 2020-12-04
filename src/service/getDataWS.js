@@ -5,12 +5,10 @@ import ntfTokenABI from '../../deployed/NtfTokenABI.json'
 import ntfPoolABI from '../../deployed/NtfPoolABI.json'
 import poolMakerABI from '../../deployed/PoolMaker.json'
 
-const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ws.nexty.io'))
+const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
 
-const ntfTokenAddress = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda'
-const poolMakerAddress = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F'
+const poolMakerAddress = '0x629Baf2dc2F80F131079f53E5F764A8fDc78A724'
 
-const ntfToken = new web3.eth.Contract(ntfTokenABI, ntfTokenAddress)
 const poolMaker = new web3.eth.Contract(poolMakerABI, poolMakerAddress)
 // const govAddress = '0x0000000000000000000000000000000000012345'
 let array = []

@@ -71,40 +71,40 @@ export default class extends BaseService {
     const contractsRedux = stores.getRedux('contracts')
     let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
 
-    const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
-    // const NTFTokenContract = NTFToken.at(WEB3.PAGE['NTFToken'].ADDRESS)
+    // const NTFTokenContract = new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS)
+    // // const NTFTokenContract = NTFToken.at(WEB3.PAGE['NTFToken'].ADDRESS)
 
-    const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
-    // const NextyManagerContract = NextyManager.at(WEB3.PAGE['NextyManager'].ADDRESS)
-    const contract = {
-      NTFToken: NTFTokenContract,
-      NextyManager: NextyManagerContract
-    }
+    // const NextyManagerContract = new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS)
+    // // const NextyManagerContract = NextyManager.at(WEB3.PAGE['NextyManager'].ADDRESS)
+    // const contract = {
+    //   NTFToken: NTFTokenContract,
+    //   NextyManager: NextyManagerContract
+    // }
 
     web3.eth.defaultAccount = address
     // await this.dispatch(userRedux.actions.is_login_update(true))
     await this.dispatch(userRedux.actions.currentAddress_update(address))
     await this.dispatch(userRedux.actions.wallet_update(address))
-    await this.dispatch(userRedux.actions.profile_update({
-      web3,
-      contract
-    }))
+    // await this.dispatch(userRedux.actions.profile_update({
+    //   web3,
+    //   contract
+    // }))
     const store = this.store.getState()
     let wallet = store.user.wallet
     console.log('my wallet1', wallet)
 
     console.log('setuppppppppppppppppppppppppppppppppppppppp')
-    const contracts = {
-      NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
-      NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-      NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
-    }
+    // const contracts = {
+    //   NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
+    //   NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+    //   NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+    //   PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
+    // }
     // await store.dispatch(userRedux.actions.loginMetamask_update(true))
-    await stores.dispatch(userRedux.actions.contract_update(contracts))
-    await stores.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
-    await stores.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
-    await stores.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))
+    // await stores.dispatch(userRedux.actions.contract_update(contracts))
+    // await stores.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
+    // await stores.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
+    // await stores.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))
     await stores.dispatch(userRedux.actions.web3_update(web3))
 
     return true
