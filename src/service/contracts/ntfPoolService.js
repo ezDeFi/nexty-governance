@@ -13,17 +13,17 @@ export default class extends BaseService {
     const userRedux = this.store.getRedux('user')
     const contractsRedux = stores.getRedux('contracts')
     const contracts = {
-      NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
-      NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-      NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+      // NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
+      // NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
+      // NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
       PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
     }
     // await store.dispatch(userRedux.actions.loginMetamask_update(true))
-    await stores.dispatch(userRedux.actions.contract_update(contracts))
-    await stores.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
-    await stores.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
-    await stores.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))
-    await stores.dispatch(userRedux.actions.web3_update(web3))
+    // await stores.dispatch(userRedux.actions.contract_update(contracts))
+    // await stores.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
+    // await stores.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
+    // await stores.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))
+    // await stores.dispatch(userRedux.actions.web3_update(web3))
   }
 
   async getPortal () {
@@ -37,12 +37,15 @@ export default class extends BaseService {
   }
 
   async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
+    console.log(owner, compRate, maxLock, delay, name, website, location, logo)
+    console.log(typeof(owner), typeof(compRate), typeof(maxLock), typeof(delay), typeof(name), typeof(website), typeof(location), typeof(logo))
     const store = this.store.getState()
+    console.log('contract', store.contracts)
     let methods = store.contracts.poolMaker.methods
     let wallet = store.user.wallet
-    // console.log(owner, compRate, maxLock, delay, name, website, location, logo)
-    let res = await methods.createPool(owner, compRate.toString(), maxLock.toString(), delay.toString(), name, website, location, logo).send({ from: wallet, gasPrice: '0' })
-    await console.log(res)
+    console.log('wallet', wallet)
+    let res = await methods.createPool(owner, compRate, maxLock, delay, name, website, location, logo).send({ from: wallet, gasPrice: '0' })
+    console.log('resssssssssssssss',res)
   }
 
   async loadMyCurrentPool () {

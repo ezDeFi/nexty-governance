@@ -94,10 +94,11 @@ function setupWeb3 () {
             // NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
             // NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
             // NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-            // PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
+            PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
           }
 
           if (!isLogined) {
+            console.log('setupWeb3 contract',contract)
             await store.dispatch(userRedux.actions.loginMetamask_update(true))
             await store.dispatch(userRedux.actions.is_login_update(true))
             await store.dispatch(userRedux.actions.contract_update(contract))

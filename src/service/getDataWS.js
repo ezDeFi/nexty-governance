@@ -6,9 +6,9 @@ import ntfPoolABI from '../../deployed/NtfPoolABI.json'
 import poolMakerABI from '../../deployed/PoolMaker.json'
 
 const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
-
+// WebsocketProvider('wss://108.61.148.72:8546'))
 const poolMakerAddress = '0x629Baf2dc2F80F131079f53E5F764A8fDc78A724'
-
+console.log('web3',web3)
 const poolMaker = new web3.eth.Contract(poolMakerABI, poolMakerAddress)
 // const govAddress = '0x0000000000000000000000000000000000012345'
 let array = []
@@ -16,8 +16,11 @@ let leaked_signers = []
 export default class extends BaseService {
 
   async getPoolCount() {
+    let balance = await web3.eth.getBalance('0x65662f08E77432a474b17f17873e87F557D7f0D3')
+    console.log('balance', balance)
     const poolRedux = this.store.getRedux('newPool')
     const poolCount = await poolMaker.methods.getPoolCount().call().catch()
+    console.log('poolCount',poolCount)
     await this.dispatch(poolRedux.actions.poolCount_update(poolCount))
     return await poolCount
   }
@@ -32,11 +35,13 @@ export default class extends BaseService {
     }
     if (array.length == poolCount) {
       let that = this;
-      await array.forEach(async function (element) {
+      array.forEach(async function (element) {
         let a = await poolMaker.methods.pools(element).call()
         let getPool = await that.getPoolDetail(a, poolCount)
+        console.log('getPool',getPool)
         result1.push(getPool);
       })
+      console.log('data', result1)
     }
   }
 

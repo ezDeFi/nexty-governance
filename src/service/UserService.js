@@ -80,7 +80,6 @@ export default class extends BaseService {
     //   NTFToken: NTFTokenContract,
     //   NextyManager: NextyManagerContract
     // }
-
     web3.eth.defaultAccount = address
     // await this.dispatch(userRedux.actions.is_login_update(true))
     await this.dispatch(userRedux.actions.currentAddress_update(address))
@@ -94,14 +93,14 @@ export default class extends BaseService {
     console.log('my wallet1', wallet)
 
     console.log('setuppppppppppppppppppppppppppppppppppppppp')
-    // const contracts = {
+    const contracts = {
     //   NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
     //   NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
     //   NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-    //   PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
-    // }
+      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
+    }
     // await store.dispatch(userRedux.actions.loginMetamask_update(true))
-    // await stores.dispatch(userRedux.actions.contract_update(contracts))
+    await stores.dispatch(userRedux.actions.contract_update(contracts))
     // await stores.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
     // await stores.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
     // await stores.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))

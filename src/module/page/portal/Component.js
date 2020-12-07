@@ -92,6 +92,10 @@ export default class extends StandardPage {
     })
   }
 
+  gotoPoolMaker () {
+    this.props.history.push('/poolmaker')
+  }
+
   ord_renderContent () { // eslint-disable-line
     let source = this.props.pools ? this.props.pools : []
     if (!_.isEmpty(source)) {
@@ -148,11 +152,12 @@ export default class extends StandardPage {
             </div>
           </Col>
           <Col span={2}>
-          <Button type="primary" shape="round" href={'/poolmaker'}>New Pool</Button>
+          <Button type="primary" shape="round" onClick={this.gotoPoolMaker.bind(this)}>New Pool</Button>
           </Col>
         </Row>
         <Row>
-          <h3 className="title">Pools             {(_.isEmpty(poolsPortal)) &&
+          <h3 className="title">pools
+          {(_.isEmpty(poolsPortal)) &&
               <Spin />
           }</h3>
         </Row>
