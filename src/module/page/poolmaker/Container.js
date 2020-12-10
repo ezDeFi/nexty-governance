@@ -4,6 +4,7 @@ import Component from './Component'
 // import NtfTokenService from '@/service/contracts/ntfTokenService'
 import NtfPoolService from '@/service/contracts/ntfPoolService'
 import UserService from '@/service/UserService'
+import GetData from '@/service/getDataWS'
 var curWallet = null
 export default createContainer(Component, (state) => {
   const userService = new UserService()
@@ -48,12 +49,13 @@ console.log('wallettt',state.user.wallet)
   }
 }, () => {
   const userService = new UserService()
-  // const ntfTokenService = new NtfTokenService()
+  // const ntfTokenService = new NtfTokenService()GetData
   const ntfPoolService = new NtfPoolService()
+  const getData = new GetData()
 
   return {
     async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
-      return await ntfPoolService.createPool(owner, compRate, maxLock, delay, name, website, location, logo)
+      return await getData.createPool(owner, compRate, maxLock, delay, name, website, location, logo)
     }
   }
 })

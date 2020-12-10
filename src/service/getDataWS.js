@@ -4,6 +4,7 @@ import Web3 from 'web3'
 import ntfTokenABI from '../../deployed/NtfTokenABI.json'
 import ntfPoolABI from '../../deployed/NtfPoolABI.json'
 import poolMakerABI from '../../deployed/PoolMaker.json'
+import stores from '@/store'
 
 const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
 // WebsocketProvider('wss://108.61.148.72:8546'))
@@ -121,5 +122,17 @@ export default class extends BaseService {
   async getCurrentBlockNumber () {
     const blockNumber = await web3.eth.getBlockNumber().catch()
     return Number(blockNumber)
+  }
+
+  async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
+    console.log(owner, compRate, maxLock, delay, name, website, location, logo)
+    console.log(typeof(owner), typeof(compRate), typeof(maxLock), typeof(delay), typeof(name), typeof(website), typeof(location), typeof(logo))
+    const store = this.store.getState()
+    console.log('contract', store.contracts.poolMaker)
+    let methods = store.contracts.poolMaker.methods
+    let wallet = store.user.wallet
+    console.log('wallet', wallet)
+    let res = await poolMaker.methods.createPool(owner, compRate, maxLock, delay, name, website, location, logo).send({ from: wallet, gasPrice: '0' })
+    console.log('resssssssssssssss',res)
   }
 }

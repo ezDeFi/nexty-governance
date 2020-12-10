@@ -40,7 +40,7 @@ export default class extends BaseService {
     console.log(owner, compRate, maxLock, delay, name, website, location, logo)
     console.log(typeof(owner), typeof(compRate), typeof(maxLock), typeof(delay), typeof(name), typeof(website), typeof(location), typeof(logo))
     const store = this.store.getState()
-    console.log('contract', store.contracts)
+    console.log('contract', store.contracts.poolMaker)
     let methods = store.contracts.poolMaker.methods
     let wallet = store.user.wallet
     console.log('wallet', wallet)
