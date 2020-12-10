@@ -75,7 +75,7 @@ export default class extends BaseService {
     array.push(details)
     // console.log(details)
     // if(array.length == count) {
-      await this.dispatch(poolRedux.actions.poolsPortal_update({[details.coinbase]: details}))
+      await this.dispatch(poolRedux.actions.poolsPortal_update(array))
     // }
     // let found = this.leaked_signers.find(key => key.toUpperCase() === details.coinbase.toUpperCase()) != undefined;
     // if (found) details.status = "leaked"
