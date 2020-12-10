@@ -11,7 +11,7 @@ import { api_request } from './util' // eslint-disable-line
 import UserService from '@/service/UserService'
 import NtfPoolService from '@/service/contracts/ntfPoolService'
 import { Helmet } from 'react-helmet'
-import Web3 from '@/assets/js/web3'
+import Web3 from 'web3'
 import { WEB3 } from '@/constant'
 
 import './boot'
