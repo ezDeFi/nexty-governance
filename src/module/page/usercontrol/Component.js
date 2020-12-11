@@ -50,6 +50,7 @@ export default class extends StandardPage {
       listeningApprove: false
     }
     props.selectPool(params.id)
+    props.poolStatus(params.id)
   }
 
   componentDidMount () {
@@ -63,7 +64,13 @@ export default class extends StandardPage {
   }
 
   loadData () {
-    this.props.reload()
+    const params = new URI(window.location.href || '').search(true)
+    sessionStorage.setItem('pool_id', params.id)
+    this.state = {
+      listeningApprove: false
+    }
+    console.log('reload', params.id)
+    this.props.reload(params.id)
     // this.props.getBalance()
     // this.props.getTokenBalance(this.props.currentAddress)
     // this.props.getDepositedBalance()
@@ -109,7 +116,7 @@ export default class extends StandardPage {
   }
 
   gotoControlPage () {
-    this.props.history.push('/poolcontrol')
+    this.props.history.push(address1)
   }
 
   ord_renderContent () { // eslint-disable-line
@@ -124,7 +131,7 @@ export default class extends StandardPage {
           <Col span={0}></Col>
           <Col span={5}>
             <div className="">
-            <Button type="primary" shape="round" href={address1}> Pool control</Button>
+            <Button type="primary" shape="round" onClick={this.gotoControlPage.bind(this)}> Pool control</Button>
             </div>
           </Col>
         </Row>
@@ -145,11 +152,11 @@ export default class extends StandardPage {
             </Row> */}
           <Row>
             <Col md={8} xs={8}>
-              <span className="text-left">Balance:</span>
+              <span className="text-left">Balancess:</span>
             </Col>
             <Col md={16} xs={16}>
               <div className="text-right">
-                {weiToEther(this.props.myNtfBalance)} NTF
+                {weiToEther(this.props.myNtfBalance)} ZD
               </div>
             </Col>
           </Row>

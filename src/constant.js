@@ -30,7 +30,7 @@ const CONTRACT_ABI_PoolMaker = PoolMaker.abi // eslint-disable-line
 const CONTRACT_ADDRESS_PoolMaker = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F' // eslint-disable-line
 
 const CONTRACT_ABI_NtfPool = NtfPoolABI // eslint-disable-line
-const CONTRACT_ADDRESS_NtfPool = '0xdF4408e79bF48ca4dFA78CC62Ecc6F662f6c714F' // eslint-disable-line
+const CONTRACT_ADDRESS_NtfPool = '0x629Baf2dc2F80F131079f53E5F764A8fDc78A724' // eslint-disable-line
 
 export const WEB3 = {
   HTTP: 'http://rpc.testnet.ezdefi.com',

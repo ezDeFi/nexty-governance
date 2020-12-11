@@ -5,23 +5,23 @@ import _ from 'lodash' // eslint-disable-line
 import { WEB3, CONTRACTS, MIN_POOL_NTF, JSON_POOLS, JSON_POOLDETAILS } from '@/constant'
 import { stringify } from 'postcss'
 import { api_request } from '@/util'
+import ntfPoolABI from '../../../deployed/NtfPoolABI.json'
 import stores from '@/store'
 
+const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
+
 export default class extends BaseService {
-  async putData () {
+  async putData (pool) {
+    console.log('putData', pool)
     let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
     const userRedux = this.store.getRedux('user')
     const contractsRedux = stores.getRedux('contracts')
-    const contracts = {
-      // NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
-      // NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-      // NtfPool: new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
-      PoolMaker: new web3.eth.Contract(WEB3.PAGE['PoolMaker'].ABI, WEB3.PAGE['PoolMaker'].ADDRESS)
-    }
+    let NtfPool = new web3.eth.Contract(ntfPoolABI, pool)
+    console.log('cuccu', NtfPool)
     // await store.dispatch(userRedux.actions.loginMetamask_update(true))
     // await stores.dispatch(userRedux.actions.contract_update(contracts))
     // await stores.dispatch(contractsRedux.actions.ntfToken_update(contracts.NtfToken))
-    // await stores.dispatch(contractsRedux.actions.ntfPool_update(contracts.NtfPool))
+    await stores.dispatch(contractsRedux.actions.ntfPool_update(NtfPool))
     // await stores.dispatch(contractsRedux.actions.poolMaker_update(contracts.PoolMaker))
     // await stores.dispatch(userRedux.actions.web3_update(web3))
   }
@@ -40,7 +40,7 @@ export default class extends BaseService {
     console.log(owner, compRate, maxLock, delay, name, website, location, logo)
     console.log(typeof(owner), typeof(compRate), typeof(maxLock), typeof(delay), typeof(name), typeof(website), typeof(location), typeof(logo))
     const store = this.store.getState()
-    console.log('contract', store.contracts)
+    console.log('contract', store.contracts.poolMaker.methods)
     let methods = store.contracts.poolMaker.methods
     let wallet = store.user.wallet
     console.log('wallet', wallet)
@@ -53,7 +53,6 @@ export default class extends BaseService {
     console.log('my current Pool', store.pool.mySelectedPool)
     await this.selectPool(store.pool.mySelectedPool)
     this.loadFund()
-    this.loadPoolNtfBalance()
     this.loadPoolNtyBalance()
 
     this.loadPoolIsWithdrawable()
@@ -64,7 +63,10 @@ export default class extends BaseService {
   }
 
   async selectMyPool (_address) {
+    const contractsRedux = stores.getRedux('contracts')
     let poolRedux = this.store.getRedux('pool')
+    let NtfPool = new web3.eth.Contract(ntfPoolABI, _address)
+    await stores.dispatch(contractsRedux.actions.ntfPool_update(NtfPool))
     await this.dispatch(poolRedux.actions.mySelectedPool_update(_address))
     await this.dispatch(poolRedux.actions.selectedPool_update(_address))
     this.loadMyCurrentPool()
@@ -97,14 +99,15 @@ export default class extends BaseService {
   async loadCurrentPool () {
     await this.resetPool()
     const store = this.store.getState()
-    console.log('Load current pool', store.pool)
     let _address = store.pool.selectedPool
-    let contractsRedux = this.store.getRedux('contracts')
-    let web3 = store.user.web3
-    if (!web3) return
-    let selectedNtfPool = new web3.eth.Contract(WEB3.PAGE['NtfPool'].ABI, _address)
+    console.log('Load current pool', store.pool.selectedPool)
+    // let contractsRedux = this.store.getRedux('contracts')
+    // let web3 = store.user.web3
+    // if (!web3) return
+    // let selectedNtfPool = new web3.eth.Contract(ntfPoolABI, _address)
+    // console.log(selectedNtfPool)
     // let selectedNtfPool = new web3.eth.Contract(CONTRACTS.NtfPool.abi, _address)
-    await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
+    // await this.dispatch(contractsRedux.actions.ntfPool_update(selectedNtfPool))
     await this.loadPoolInfo()
   }
 
@@ -469,19 +472,19 @@ async claimFund () {
     return await _deposited
   }
 
-  async loadPoolNtfBalance () {
-    const store = this.store.getState()
-    //let _address = CONTRACTS.NtfPool.address
-    let _address = store.pool.selectedPool
-    console.log('NTF',store.pool.selectedPool)
-    let methods = store.contracts.ntfToken.methods
-    const poolRedux = this.store.getRedux('pool')
-    let _poolNtfBalance = await methods.balanceOf(_address).call()
-    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance.balance))
-    return await _poolNtfBalance
-    // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
-    // console.log('adadad',dat,this.store.getState())
-  }
+  // async loadPoolNtfBalance () {
+  //   const store = this.store.getState()
+  //   //let _address = CONTRACTS.NtfPool.address
+  //   let _address = store.pool.selectedPool
+  //   console.log('NTF',store.pool.selectedPool)
+  //   let methods = store.contracts.ntfToken.methods
+  //   const poolRedux = this.store.getRedux('pool')
+  //   let _poolNtfBalance = await methods.balanceOf(_address).call()
+  //   await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance.balance))
+  //   return await _poolNtfBalance
+  //   // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
+  //   // console.log('adadad',dat,this.store.getState())
+  // }
 
   async loadPoolNtyBalance () {
     const store = this.store.getState()
@@ -513,13 +516,14 @@ async claimFund () {
     return _leaked_signers
   }
 
-  async loadPoolStatus () {
-    console.log('Load pool status')
-    const store = this.store.getState()
-    let methods = store.contracts.ntfPool.methods
+  async loadPoolStatus (address) {
+    console.log('Load pool status',address)
+    // const store = this.store.getState()
+    // let methods = store.contracts.ntfPool.methods
+    const contract = new web3.eth.Contract(ntfPoolABI, address)
     const poolRedux = this.store.getRedux('pool')
-    let _status = await methods.getStatus().call()
-    let _signer = await methods.getCoinbase().call()
+    let _status = await contract.methods.getStatus().call()
+    let _signer = await contract.methods.getCoinbase().call()
     let _leaked_signers = await this.getLeakedSigners()
     let found = _leaked_signers.find(key => key.toUpperCase() === _signer.toUpperCase()) != undefined
     if (found) _status = 'leaked'

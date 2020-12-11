@@ -4,6 +4,7 @@ import Component from './Component'
 import NtfTokenService from '@/service/contracts/ntfTokenService'
 import NtfPoolService from '@/service/contracts/ntfPoolService'
 import UserService from '@/service/UserService'
+import GetData from '@/service/getDataWS'
 var curWallet = null
 
 export default createContainer(Component, (state) => {
@@ -26,7 +27,7 @@ export default createContainer(Component, (state) => {
     // ntfPoolService.loadIsLocking()
     // ntfPoolService.loadPoolNtfBalance()
     // ntfPoolService.loadPoolNtyBalance()
-    ntfPoolService.loadPoolStatus()
+    // ntfPoolService.loadPoolStatus()
     // ntfPoolService.loadMyPendingOutAmount()
   }
   if (state.user.wallet !== curWallet && !curWallet) {
@@ -43,7 +44,7 @@ export default createContainer(Component, (state) => {
     selectedPool: state.pool.selectedPool,
     wallet: state.user.wallet,
     balance: state.user.balance,
-    myNtfBalance: state.user.ntfBalance.balance,
+    myNtfBalance: state.user.ntfBalance,
     myRewardBalance: state.user.rewardBalance,
     myNtfDeposited: state.user.ntfDeposited,
     myUnlockTime: state.user.unlockTime,
@@ -65,27 +66,28 @@ export default createContainer(Component, (state) => {
   const userService = new UserService()
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
+  const getData = new GetData()
 
-  async function load () {
-    await ntfPoolService.putData()
-    await ntfPoolService.loadCurrentPool()
-    ntfPoolService.getPools(false)
+  async function load (pool) {
+    console.log('load', pool)
+    await ntfPoolService.putData(pool)
+    await ntfPoolService.loadCurrentPool(pool)
+    // ntfPoolService.getPools(false)
     userService.getBalanceBeta()
-    ntfTokenService.loadMyNtfBalance()
-    ntfPoolService.loadPoolOwner()
-    ntfPoolService.loadMyRewardBalance()
-    ntfPoolService.loadMyDepositedNtf()
-    ntfPoolService.loadUnlockTime()
-    ntfPoolService.loadIsLocking()
-    ntfPoolService.loadPoolNtfBalance()
-    ntfPoolService.loadPoolNtyBalance()
-    ntfPoolService.loadPoolStatus()
-    ntfPoolService.loadMyPendingOutAmount()
+    getData.getZDBalance()
+    // ntfPoolService.loadPoolOwner()
+    // ntfPoolService.loadMyRewardBalance()
+    // ntfPoolService.loadMyDepositedNtf()
+    // ntfPoolService.loadUnlockTime()
+    // ntfPoolService.loadIsLocking()
+    // ntfPoolService.loadPoolNtfBalance()
+    // ntfPoolService.loadPoolNtyBalance()
+    // ntfPoolService.loadMyPendingOutAmount()
   }
 
   return {
-    reload () {
-      load()
+    reload (pool) {
+      load(pool)
     },
     getName (_address) {
       return ntfPoolService.getName(_address)
@@ -122,6 +124,9 @@ export default createContainer(Component, (state) => {
     },
     async virtuellMining () {
       ntfPoolService.virtuellMining()
+    },
+    async poolStatus (address) {
+      ntfPoolService.loadPoolStatus(address)
     }
   }
 })

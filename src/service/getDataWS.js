@@ -16,8 +16,6 @@ let leaked_signers = []
 export default class extends BaseService {
 
   async getPoolCount() {
-    let balance = await web3.eth.getBalance('0x65662f08E77432a474b17f17873e87F557D7f0D3')
-    console.log('balance', balance)
     const poolRedux = this.store.getRedux('newPool')
     const poolCount = await poolMaker.methods.getPoolCount().call().catch()
     console.log('poolCount',poolCount)
@@ -116,6 +114,19 @@ export default class extends BaseService {
         });
       self.loadLeaked()
     }, 10000)
+  }
+
+  async getZDBalance () {
+    const userRedux = this.store.getRedux('user')
+    let balance = await web3.eth.getBalance('0x65662f08E77432a474b17f17873e87F557D7f0D3')
+    console.log('balance', balance)
+    await this.dispatch(userRedux.actions.ntfBalance_update(balance))
+  }
+
+  async getWallet () {
+    const userRedux = this.store.getRedux('user')
+    let wallet = await window.ethereum.selectedAddress
+    await this.dispatch(userRedux.actions.wallet_update(wallet))
   }
 
   async getCurrentBlockNumber () {

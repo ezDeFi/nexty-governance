@@ -15,6 +15,7 @@ const weiToEther = (wei) => {
 
 export default class extends LoggedInPage {
   componentDidMount () {
+    this.loadData()
     this.setState({
       owner: this.props.wallet,
       name: 'name',
@@ -26,10 +27,10 @@ export default class extends LoggedInPage {
       delay: 24,
       newPool: false
     })
-    this.loadData()
   }
 
   loadData () {
+    // this.props.getWallet()
     // this.props.getBalance()
     // this.props.getTokenBalance(this.props.currentAddress)
     // this.props.getDepositedBalance()

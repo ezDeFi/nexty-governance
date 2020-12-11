@@ -65,8 +65,8 @@ export default class extends LoggedInPage {
   // }
 
   selectPool () {
-    const address = this.state.poolAddress
-    this.props.selectPool(address)
+    console.log('this.state.poolAddress',this.state.poolAddress)
+    this.props.selectPool(this.state.poolAddress)
   }
 
   // onPoolAddressChange (e) {
@@ -74,41 +74,6 @@ export default class extends LoggedInPage {
   //     poolAddress: e.target.value
   //   })
   // }
-  poolsRender () {
-    // let source = this.props.myPools ? this.props.myPools : []
-    //console.log('data', Object.keys(source).length)
-    return (
-      <Row style={{ 'marginTop': '15px' }}>
-        {/* <Col span={7}>
-          SelectedPool: <img width={24} height={24} src={this.props.logo} />
-        </Col>
-        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
-        <Col span={17}>
-          <Select defaultValue={this.props.mySelectedPool} className='maxWidth' onChange={this.handleChange.bind(this)}>
-            {Object.keys(source).length > 0 && Object.values(source).map((d, key) => (
-              <Option key={key} value={d}>{this.props.getName(d)} - {cutString(d)}</Option>
-            ))}
-          </Select>
-        </Col> */}
-        {/* <Col span={7}>
-          Pool Address:
-        </Col>
-        <Col span={17}>
-          <Input
-            className = "maxWidth"
-            onChange={this.onPoolAddressChange.bind(this)}
-          />
-        </Col> */}
-        <Col span ={4}></Col>
-        <Col span={16} style={{ 'marginTop': '15px'}}>
-          <Button className = "maxWidth" type = "primary" onClick={() => this.selectPool()}>
-            Show detail
-          </Button>
-        </Col>
-        <Col span ={4}></Col>
-      </Row>
-    )
-  }
 
   mainContentRender () {
     return (
@@ -369,7 +334,6 @@ export default class extends LoggedInPage {
         <div className="ebp-page">
           <h3 className="text-center">Pool's Control</h3>
           <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{ 'textAlign': 'left' }}>
-            {this.poolsRender()}
             {this.mainContentRender()}
             <div className="ebp-header-divider dashboard-rate-margin">
             </div>

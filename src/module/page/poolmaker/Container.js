@@ -4,6 +4,8 @@ import Component from './Component'
 // import NtfTokenService from '@/service/contracts/ntfTokenService'
 import NtfPoolService from '@/service/contracts/ntfPoolService'
 import UserService from '@/service/UserService'
+import GetData from '@/service/getDataWS'
+
 var curWallet = null
 export default createContainer(Component, (state) => {
   const userService = new UserService()
@@ -19,7 +21,7 @@ export default createContainer(Component, (state) => {
 
   async function load () {
     console.log('loadInterval')
-    userService.loadBlockNumber()
+    // userService.loadBlockNumber()
 
     // ntfPoolService.loadPoolAddress()
     // ntfPoolService.loadOwner()
@@ -32,6 +34,7 @@ export default createContainer(Component, (state) => {
     // ntfPoolService.loadPoolDeposited()
     // ntfPoolService.loadPoolStatus()
     // ntfPoolService.loadPoolSigner()
+    // ntfPoolService.getPools()
     ntfPoolService.getPools()
   }
 
@@ -42,18 +45,21 @@ export default createContainer(Component, (state) => {
     //   load()
     // }, 5000)
   }
-console.log('wallettt',state.user.wallet)
+
   return {
     wallet: state.user.wallet
   }
 }, () => {
   const userService = new UserService()
-  // const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
+  const getData = new GetData()
 
   return {
     async createPool (owner, compRate, maxLock, delay, name, website, location, logo) {
       return await ntfPoolService.createPool(owner, compRate, maxLock, delay, name, website, location, logo)
+    },
+    async getWallet () {
+      return await getData.getWallet()
     }
   }
 })
