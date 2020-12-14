@@ -4,6 +4,7 @@ import Component from './Component'
 import NtfTokenService from '@/service/contracts/ntfTokenService'
 import NtfPoolService from '@/service/contracts/ntfPoolService'
 import UserService from '@/service/UserService'
+import GetData from '@/service/getDataWS'
 var curWallet = null
 const oneHour = 60*60
 const oneDay = 24 * oneHour
@@ -72,7 +73,24 @@ export default createContainer(Component, (state) => {
   const userService = new UserService()
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
+  const getData = new GetData()
 
+  async function load (pool) {
+    console.log('load', pool)
+    await ntfPoolService.putData(pool)
+    await ntfPoolService.loadCurrentPool(pool)
+    // ntfPoolService.getPools(false)
+    userService.getBalanceBeta()
+    getData.getZDBalance()
+    // ntfPoolService.loadPoolOwner()
+    // ntfPoolService.loadMyRewardBalance()
+    // ntfPoolService.loadMyDepositedNtf()
+    // ntfPoolService.loadUnlockTime()
+    // ntfPoolService.loadIsLocking()
+    // ntfPoolService.loadPoolNtfBalance()
+    // ntfPoolService.loadPoolNtyBalance()
+    // ntfPoolService.loadMyPendingOutAmount()
+  }
   return {
     getName (_address) {
       return ntfPoolService.getName(_address)
@@ -103,6 +121,13 @@ export default createContainer(Component, (state) => {
     },
     async deposit (amount) {
       await ntfPoolService.deposit(amount)
+    },
+    async tokenVesting (address, time, value) {
+      console.log('tokenVesting',address, time, value)
+      return ntfPoolService.tokenVesting(address, value, time)
+    },
+    reload (pool) {
+      load(pool)
     }
   }
 })

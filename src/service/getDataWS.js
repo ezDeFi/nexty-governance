@@ -4,6 +4,7 @@ import Web3 from 'web3'
 import ntfTokenABI from '../../deployed/NtfTokenABI.json'
 import ntfPoolABI from '../../deployed/NtfPoolABI.json'
 import poolMakerABI from '../../deployed/PoolMaker.json'
+import { WEB3 } from '@/constant'
 
 const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
 // WebsocketProvider('wss://108.61.148.72:8546'))
@@ -89,21 +90,22 @@ export default class extends BaseService {
   }
 
   async loadLeaked() {
+    console.log('loadLeaked')
     const self = this
     const poolRedux = this.store.getRedux('newPool')
-    await setTimeout(async function () {
+    setTimeout(async function () {
       const store = this.store.getState().newPool
       // console.log(store.poolsPortal)
-      self.leaked_signers = await axios.post('https://rpc.nexty.io', { "jsonrpc": "2.0", "method": "dccs_queue", "params": ["leaked"], "id": 1 })
+      self.leaked_signers = await axios.post(WEB3.HTTP, { "jsonrpc": "2.0", "method": "dccs_queue", "params": ["leaked"], "id": 1 })
         .then(function (response) {
-          // console.log(response.data.result)
+          console.log(response)
           let results = response.data.result
           for(let i in results) {
             var pool = store.poolsPortal[results[i]]
             if(pool) {
               pool.status = "leaked"
               // console.log(pool)
-              self.dispatch(poolRedux.actions.poolsPortal_update({[pool.coinbase]: pool}))
+              self.dispatch(poolRedux.actions.poolsPortal_update(pool))
             }
           }
           // leaked_signers.push(response.data.result)

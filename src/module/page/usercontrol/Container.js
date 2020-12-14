@@ -12,8 +12,9 @@ export default createContainer(Component, (state) => {
   const userService = new UserService()
   const ntfTokenService = new NtfTokenService()
   const ntfPoolService = new NtfPoolService()
-
+  const getData = new GetData()
   async function load () {
+    getData.getPools()
     // ntfPoolService.getPools(false)
     // await ntfPoolService.loadCurrentPool()
     // userService.getBalanceBeta()
@@ -98,9 +99,9 @@ export default createContainer(Component, (state) => {
     async depositStop () {
       return userService.depositStop()
     },
-    async listenToDeposit () {
-      return ntfPoolService.listenToDeposit()
-    },
+    // async listenToDeposit () {
+    //   return ntfPoolService.listenToDeposit()
+    // },
     async loadPool (_address) {
       return ntfPoolService.loadPool(_address)
     },
@@ -127,6 +128,10 @@ export default createContainer(Component, (state) => {
     },
     async poolStatus (address) {
       ntfPoolService.loadPoolStatus(address)
-    }
+    },
+    async tokenVesting (address, time, value) {
+      console.log('tokenVesting',address, time, value)
+      return ntfPoolService.tokenVesting(address, value, time)
+    },
   }
 })

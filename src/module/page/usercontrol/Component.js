@@ -10,7 +10,7 @@ import { getStatusText } from '@/util'
 
 import './style.scss'
 
-import { Col, Row, Icon, InputNumber, Button, Select } from 'antd' // eslint-disable-line
+import { Col, Row, Icon, InputNumber, Button, Select, Input } from 'antd' // eslint-disable-line
 import { min } from 'bn.js'
 var BigNumber = require('bignumber.js')
 BigNumber.config({ ERRORS: false })
@@ -379,11 +379,11 @@ export default class extends StandardPage {
 
                 <Row>
                   <Col md={8} xs={8}>
-                    <span className="text-left">Holding Ntf Balance:</span>
+                    <span className="text-left">Holding ZD Balance:</span>
                   </Col>
                   <Col md={16} xs={16}>
                     <div className="text-right">
-                      {weiToEther(Number(this.props.poolNtfBalance) + Number(this.props.poolNtfDeposited))} NTF
+                      {weiToEther(Number(this.props.poolNtfBalance) + Number(this.props.poolNtfDeposited))} ZD
                       {/* {this.props.poolNtfDeposited} */}
                     </div>
                   </Col>
@@ -411,7 +411,7 @@ export default class extends StandardPage {
                   </Col>
                 </Row> */}
 
-                <Row>
+                {/* <Row>
                   <Col md={8} xs={8}>
                     <span className="text-left">Holding Nty Balance:</span>
                   </Col>
@@ -420,7 +420,7 @@ export default class extends StandardPage {
                       {weiToEther(this.props.poolNtyBalance)} NTY
                     </div>
                   </Col>
-                </Row>
+                </Row> */}
 
                 <Row>
                   <Col md={8} xs={8}>
@@ -445,6 +445,56 @@ export default class extends StandardPage {
                   <Col md={16} xs={16}>
                     <div className="">
                       <Button className= {this.props.depositing ? 'alertButton' : ''} disabled={this.props.depositing} onClick={this.deposit.bind(this)} type="ebp">Deposit</Button>
+                    </div>
+                  </Col>
+                </Row>
+
+                <h4 className="title-section">Token vesting</h4>
+                <Row>
+                  <Col md={8} xs={8}>
+                    Vesting address:
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <Input
+                      className = "maxWidth"
+                      value={this.state.vestingAddress}
+                      onChange={this.onVestingAddressChange.bind(this)}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={8} xs={8}>
+                    Vesting amount:
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <InputNumber
+                      className = "maxWidth"
+                      defaultValue={0}
+                      value={this.state.vestingAmount}
+                      onChange={this.onVestingAmountChange.bind(this)}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={8} xs={8}>
+                    Vesting time:
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <InputNumber
+                      className = "maxWidth"
+                      defaultValue={0}
+                      value={this.state.vestingTime}
+                      onChange={this.onVestingTimeChange.bind(this)}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={8} xs={8}>
+                    <span className="text-left"></span>
+                  </Col>
+                  <Col md={16} xs={16}>
+                    <div className="">
+                      <Button onClick={this.vesting.bind(this)} type="ebp">Vesting</Button>
                     </div>
                   </Col>
                 </Row>
@@ -494,24 +544,55 @@ export default class extends StandardPage {
     })
   }
 
+  async vesting () {
+    if (this.state.vestingAddress && this.state.vestingAmount && this.state.vestingTime) {
+      console.log('2', this.state.vestingAddress, this.state.vestingAmount, this.state.vestingTime)
+      let value = zdToWei(this.state.vestingAmount)
+      await this.props.tokenVesting(this.state.vestingAddress, value, this.state.vestingTime)
+    }else {
+      this.setState({
+        vestingError: 'fill all input!'
+      })
+    }
+  }
+
+  onVestingAddressChange (e) {
+    console.log(e.target.value)
+    this.setState({
+      vestingAddress: e.target.value
+    })
+  }
+
+  onVestingAmountChange (value) {
+    this.setState({
+      vestingAmount: value
+    })
+  }
+
+  onVestingTimeChange (value) {
+    this.setState({
+      vestingTime: value
+    })
+  }
+
   async deposit () {
     if (!this.state.listeningApprove) {
       this.setState({
         listeningApprove: true
       })
       console.log('listening approval event')
-      this.props.listenToDeposit()
+      // this.props.listenToDeposit()
     }
     this.props.depositProcess()
     let amount = BigNumber(this.state.depositAmount).times(BigNumber(10).pow(BigNumber(18))).toFixed(0)
-    try {
-      await this.props.approve(amount.toString())
+    // try {
+      // await this.props.approve(amount.toString())
       await this.props.deposit(amount.toString())
       // await this.props.approve(amount.toString())
-    } catch (e) {
-      console.log('canceled')
-      this.props.depositStop()
-    }
+    // } catch (e) {
+    //   console.log('canceled')
+    //   this.props.depositStop()
+    // }
     // let approve = await this.props.approve(amount.toString())
     // if (approve === false) {
     //   console.log('canceled')

@@ -5,7 +5,8 @@ import { WEB3, CONTRACTS } from '@/constant'
 import ntfTokenABI from '../../../deployed/NtfTokenABI.json'
 
 
-const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ws.nexty.io'))
+// const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ws.nexty.io'))
+const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
 
 const ntfTokenAddress = '0x2c783ad80ff980ec75468477e3dd9f86123ecbda'
 

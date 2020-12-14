@@ -86,15 +86,15 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "sender",
+				"name": "from",
 				"type": "address"
 			},
 			{
-				"name": "recipient",
+				"name": "to",
 				"type": "address"
 			},
 			{
-				"name": "amount",
+				"name": "value",
 				"type": "uint256"
 			}
 		],
@@ -197,7 +197,7 @@
 		"constant": true,
 		"inputs": [
 			{
-				"name": "account",
+				"name": "owner",
 				"type": "address"
 			}
 		],
@@ -219,20 +219,6 @@
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "email",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -381,6 +367,25 @@
 	},
 	{
 		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "vestingTime",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [],
 		"name": "CPT_ZOOM",
 		"outputs": [
@@ -452,6 +457,32 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"name": "_website",
+				"type": "string"
+			},
+			{
+				"name": "_location",
+				"type": "string"
+			},
+			{
+				"name": "_logo",
+				"type": "string"
+			}
+		],
+		"name": "updateDesc",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -710,6 +741,20 @@
 		"constant": false,
 		"inputs": [
 			{
+				"name": "_COMPRATE",
+				"type": "uint256"
+			}
+		],
+		"name": "updateComRate",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "_amount",
 				"type": "uint256"
 			}
@@ -724,14 +769,27 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_amount",
+				"name": "member",
+				"type": "address"
+			},
+			{
+				"name": "lockTime",
 				"type": "uint256"
 			}
 		],
+		"name": "tokenVesting",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
 		"name": "tokenDeposit",
 		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -834,15 +892,6 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "virtuellMining",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
 		"type": "function"
 	}
 ]

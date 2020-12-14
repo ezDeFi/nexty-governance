@@ -4,6 +4,7 @@ import Footer from '@/module/layout/Footer/Container' // eslint-disable-line
 import Tx from 'ethereumjs-tx' // eslint-disable-line
 import { Link } from 'react-router-dom' // eslint-disable-line
 import Web3 from 'web3'
+import URI from 'urijs'
 import { cutString } from '@/service/Help'
 
 import './style.scss'
@@ -35,6 +36,13 @@ export default class extends LoggedInPage {
   // UNSAFE_componentWillReceiveProps(nextProps: )
 
   loadData () {
+    const params = new URI(window.location.href || '').search(true)
+    sessionStorage.setItem('pool_id', params.id)
+    this.state = {
+      listeningApprove: false
+    }
+    console.log('reload', params.id)
+    this.props.reload(params.id)
     // this.props.getBalance()
     // this.props.getTokenBalance(this.props.currentAddress)
     // this.props.getDepositedBalance()
@@ -83,7 +91,7 @@ export default class extends LoggedInPage {
             Pool's address:
           </Col>
           <Col span={7}>
-            {this.props.mySelectedPool}
+            {this.state.poolAddress}
           </Col>
         </Row>
 
@@ -259,7 +267,7 @@ export default class extends LoggedInPage {
           </Col>
         </Row>
 
-        <Row>
+        <Row style={{ 'marginTop': '15px' }}>
           <Col span={7}>
             Signer
           </Col>
@@ -321,6 +329,59 @@ export default class extends LoggedInPage {
             <Button style={{ 'width': '100%' }} onClick={this.virtuellMining.bind(this)} type="primary" className="btn-margin-top submit-button">Mining(virtuell) 3ETH</Button>
           </Col>
         </Row>
+
+        <Row style={{ 'marginTop': '15px' }}>
+          <Col span={7}>
+            Token vesting
+          </Col>
+          <Col span={12} style={{ 'textAlign': 'center' }}>
+            {this.state.vestingError && <p>{this.state.vestingError}</p>}
+          </Col>
+        </Row>
+        <Row style={{ 'marginTop': '15px' }}>
+          <Col span={7}>
+            Vesting address:
+          </Col>
+          <Col span={17}>
+            <Input
+              className = "maxWidth"
+              value={this.state.vestingAddress}
+              onChange={this.onVestingAddressChange.bind(this)}
+            />
+          </Col>
+        </Row>
+        <Row style={{ 'marginTop': '15px' }}>
+          <Col span={7}>
+            Vesting amount:
+          </Col>
+          <Col span={17}>
+            <InputNumber
+              className = "maxWidth"
+              defaultValue={0}
+              value={this.state.vestingAmount}
+              onChange={this.onVestingAmountChange.bind(this)}
+            />
+          </Col>
+        </Row>
+        <Row style={{ 'marginTop': '15px' }}>
+          <Col span={7}>
+            Vesting time:
+          </Col>
+          <Col span={17}>
+            <InputNumber
+              className = "maxWidth"
+              defaultValue={0}
+              value={this.state.vestingTime}
+              onChange={this.onVestingTimeChange.bind(this)}
+            />
+          </Col>
+        </Row>
+        <Row style={{ 'marginTop': '15px' }}>
+          <Col span={7}></Col>
+          <Col span={12}>
+            <Button style={{ 'width': '100%' }}  onClick={this.vesting.bind(this)} type="primary" className="btn-margin-top submit-button">Vesting</Button>
+          </Col>
+        </Row>
       </div>
     )
   }
@@ -350,6 +411,37 @@ export default class extends LoggedInPage {
         <Breadcrumb.Item>Pool's Control</Breadcrumb.Item>
       </Breadcrumb>
     )
+  }
+
+  async vesting () {
+    if (this.state.vestingAddress && this.state.vestingAmount && this.state.vestingTime) {
+      console.log('2', this.state.vestingAddress, this.state.vestingAmount, this.state.vestingTime)
+      let value = zdToWei(this.state.vestingAmount)
+      await this.props.tokenVesting(this.state.vestingAddress, value, this.state.vestingTime)
+    }else {
+      this.setState({
+        vestingError: 'fill all input!'
+      })
+    }
+  }
+
+  onVestingAddressChange (e) {
+    console.log(e.target.value)
+    this.setState({
+      vestingAddress: e.target.value
+    })
+  }
+
+  onVestingAmountChange (value) {
+    this.setState({
+      vestingAmount: value
+    })
+  }
+
+  onVestingTimeChange (value) {
+    this.setState({
+      vestingTime: value
+    })
   }
 
   async deposit () {
