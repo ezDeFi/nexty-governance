@@ -408,7 +408,7 @@ export default class extends BaseService {
     let _lockDuration = methods.getLockDuration().call()
     let _signer = methods.getCoinbase().call()
     let owner = await methods.owner().call()
-    this.dispatch(poolRedux.actions.owner_update(owner))
+    this.dispatch(poolRedux.actions.owner_update(owner.toLowerCase()))
     this.dispatch(poolRedux.actions.name_update(await name))
     this.dispatch(poolRedux.actions.compRate_update(await compRate))
     this.dispatch(poolRedux.actions.website_update(await website))
@@ -456,7 +456,7 @@ export default class extends BaseService {
     let methods = store.contracts.ntfPool.methods
     const poolRedux = this.store.getRedux('pool')
     let _owner = await methods.owner().call()
-    await this.dispatch(poolRedux.actions.owner_update(_owner))
+    await this.dispatch(poolRedux.actions.owner_update(_owner.toLowerCase()))
     return await _owner
   }
 

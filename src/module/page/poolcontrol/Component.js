@@ -445,7 +445,7 @@ export default class extends LoggedInPage {
   }
 
   async deposit () {
-    await this.props.approve(this.state.depositAmount * 1e18)
+    // await this.props.approve(this.state.depositAmount * 1e18)
     await this.props.deposit(this.state.depositAmount * 1e18)
   }
 
