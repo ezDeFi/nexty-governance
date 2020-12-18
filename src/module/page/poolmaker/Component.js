@@ -39,17 +39,6 @@ export default class extends LoggedInPage {
     // this.props.getAllowance()
   }
 
-  getStatus (status) {
-    switch (status) {
-      case 0: return 'Ready'
-      case 1: return 'Active'
-      case 2: return 'Inactive'
-      case 3: return 'Withdrawn'
-      case 127: return 'Penalized'
-      default: return 'Unknown'
-    }
-  }
-
   poolCreateRender () {
     return (
       <div>

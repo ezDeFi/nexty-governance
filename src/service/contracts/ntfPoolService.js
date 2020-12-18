@@ -13,8 +13,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi
 export default class extends BaseService {
   async putData (pool) {
     console.log('putData', pool)
-    let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
-    const userRedux = this.store.getRedux('user')
+    let web3 = new Web3(window.ethereum)
     const contractsRedux = stores.getRedux('contracts')
     let NtfPool = new web3.eth.Contract(ntfPoolABI, pool)
     await stores.dispatch(contractsRedux.actions.ntfPool_update(NtfPool))
@@ -38,8 +37,8 @@ export default class extends BaseService {
     let methods = store.contracts.poolMaker.methods
     let wallet = store.user.wallet
     console.log('wallet', wallet)
-    let res = await methods.createPool(owner, compRate, maxLock, delay, name, website, location, logo).send({ from: wallet, gasPrice: '0' })
-    console.log('resssssssssssssss',res)
+    await methods.createPool(owner, compRate, maxLock, delay, name, website, location, logo).send({ from: wallet, gasPrice: '0' }).then(console.log)
+
   }
 
   async loadMyCurrentPool () {
@@ -59,6 +58,7 @@ export default class extends BaseService {
   async selectMyPool (_address) {
     const contractsRedux = stores.getRedux('contracts')
     let poolRedux = this.store.getRedux('pool')
+    console.log('selectMyPool', _address)
     let NtfPool = new web3.eth.Contract(ntfPoolABI, _address)
     await stores.dispatch(contractsRedux.actions.ntfPool_update(NtfPool))
     console.log('_address',_address)
@@ -82,6 +82,7 @@ export default class extends BaseService {
   //   await this.loadPoolInfo()
   // }
   async loadPool (_address) {
+    console.log('loadPool', _address)
     const store = this.store.getState()
     let contractsRedux = this.store.getRedux('contracts')
     let web3 = store.user.web3
@@ -270,26 +271,28 @@ export default class extends BaseService {
     console.log(store.pool.poolCount)
   }
 
-  async tokenVesting (_address, _amount, time) {
+  async tokenVesting (_address, value, time) {
     console.log('tokenVesting', _address, value, time)
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
+    let wallet = store.user.wallet
     if (_address == null) {
       return await methods.tokenVesting(
         _address,
-        _time * 60,  // 20s
-        value
+        time * 60,  // 20s
+        // value
       )
     } else if (_address != null ) {
-      return await methods.tokenVesting(
+      let vesting = await methods.tokenVesting(
         _address,
-        _time * 60,  // 20s
-        value
-        )
-      }
+        time * 60,  // 20s
+        // value
+      ).send({from: wallet, value: 123 })
+      console.log('vesting',vesting)
     }
+  }
 
-  // pool's owner acctions
+  // pool's owner actions
   async claimFund () {
     const store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
@@ -360,7 +363,7 @@ export default class extends BaseService {
     console.log('deposit wallet', wallet)
     const userRedux = this.store.getRedux('user')
     this.dispatch(userRedux.actions.depositing_update(false))
-    return await methods.tokenDeposit().send({ from: wallet, gasPrice: '0', value: _amount.toString() })
+    return await methods.tokenDeposit().send({ from: wallet, gasPrice: '0', value: _amount.toString() }).then(console.log)
   }
 
   async requestOut (_amount) {
@@ -495,8 +498,8 @@ export default class extends BaseService {
     let _address = store.pool.selectedPool
     let methods = store.contracts.ntfPool.methods
     const poolRedux = this.store.getRedux('pool')
-    let _poolNtfBalance = await methods.getPoolNtfBalance(_address).call()
-    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance.balance))
+    let _poolNtfBalance = await methods.getPoolNtfBalance().call()
+    await this.dispatch(poolRedux.actions.poolNtfBalance_update(_poolNtfBalance))
     return await _poolNtfBalance
     // let dat = await this.store.getState().contracts.ntfToken.methods.balanceOf(store.pool.selectedPool).call()
     // console.log('adadad',dat,this.store.getState())
@@ -608,8 +611,10 @@ export default class extends BaseService {
     let userRedux = this.store.getRedux('user')
     let store = this.store.getState()
     let methods = store.contracts.ntfPool.methods
+    console.log('loadMyDepositedNtf', methods)
     let wallet = store.user.wallet
     let deposited = await methods.balanceOf(wallet).call()
+    console.log('deposited@@@@@@@@@@@@@@@@@@@@@',deposited)
     await this.dispatch(userRedux.actions.ntfDeposited_update(deposited))
   }
 

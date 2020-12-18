@@ -7,6 +7,7 @@ import { cutString } from '@/service/Help'
 import moment from 'moment'
 import URI from 'urijs'
 import { getStatusText } from '@/util'
+import { zdToWei } from '../../../util/help'
 
 import './style.scss'
 
@@ -168,7 +169,7 @@ export default class extends StandardPage {
                 </Col>
                 <Col md={16} xs={16}>
                   <div className="text-right">
-                    {weiToEther(this.props.myNtfDeposited)} NTF
+                    {weiToEther(this.props.myNtfDeposited)} ZD
                   </div>
                 </Col>
               </Row>
@@ -479,7 +480,7 @@ export default class extends StandardPage {
                   />
                 </Col>
               </Row>
-              <Row>
+              {/* <Row>
                 <Col md={8} xs={8}>
                   Vesting amount:
                 </Col>
@@ -491,7 +492,7 @@ export default class extends StandardPage {
                     onChange={this.onVestingAmountChange.bind(this)}
                   />
                 </Col>
-              </Row>
+              </Row> */}
               <Row>
                 <Col md={8} xs={8}>
                   Vesting time:
@@ -562,7 +563,7 @@ export default class extends StandardPage {
   }
 
   async vesting () {
-    if (this.state.vestingAddress && this.state.vestingAmount && this.state.vestingTime) {
+    if (this.state.vestingAddress && this.state.vestingTime) {
       console.log('2', this.state.vestingAddress, this.state.vestingAmount, this.state.vestingTime)
       let value = zdToWei(this.state.vestingAmount)
       await this.props.tokenVesting(this.state.vestingAddress, value, this.state.vestingTime)

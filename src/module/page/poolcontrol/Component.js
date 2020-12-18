@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom' // eslint-disable-line
 import Web3 from 'web3'
 import URI from 'urijs'
 import { cutString } from '@/service/Help'
+import { zdToWei } from '../../../util/help'
+
 
 import './style.scss'
 
@@ -323,12 +325,12 @@ export default class extends LoggedInPage {
           </Col>
         </Row>
 
-        <Row style={{ 'marginTop': '15px' }}>
+        {/* <Row style={{ 'marginTop': '15px' }}>
           <Col span={7}></Col>
           <Col span={12}>
             <Button style={{ 'width': '100%' }} onClick={this.virtuellMining.bind(this)} type="primary" className="btn-margin-top submit-button">Mining(virtuell) 3ETH</Button>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row style={{ 'marginTop': '15px' }}>
           <Col span={7}>
@@ -350,7 +352,7 @@ export default class extends LoggedInPage {
             />
           </Col>
         </Row>
-        <Row style={{ 'marginTop': '15px' }}>
+        {/* <Row style={{ 'marginTop': '15px' }}>
           <Col span={7}>
             Vesting amount:
           </Col>
@@ -362,7 +364,7 @@ export default class extends LoggedInPage {
               onChange={this.onVestingAmountChange.bind(this)}
             />
           </Col>
-        </Row>
+        </Row> */}
         <Row style={{ 'marginTop': '15px' }}>
           <Col span={7}>
             Vesting time:
@@ -414,7 +416,7 @@ export default class extends LoggedInPage {
   }
 
   async vesting () {
-    if (this.state.vestingAddress && this.state.vestingAmount && this.state.vestingTime) {
+    if (this.state.vestingAddress && this.state.vestingTime) {
       console.log('2', this.state.vestingAddress, this.state.vestingAmount, this.state.vestingTime)
       let value = zdToWei(this.state.vestingAmount)
       await this.props.tokenVesting(this.state.vestingAddress, value, this.state.vestingTime)

@@ -26,7 +26,6 @@ export default class extends BaseService {
 
   async getPools() {
     // const poolRedux = this.store.getRedux('new-pool')
-    let result1 = []
     let poolCount = await this.getPoolCount()
     let array = []
     for(let i = 0; i < poolCount; i++) {
@@ -36,19 +35,9 @@ export default class extends BaseService {
       let that = this;
       array.forEach(async function (element) {
         let a = await poolMaker.methods.pools(element).call()
-        let getPool = await that.getPoolDetail(a, poolCount)
-        console.log('getPool',getPool)
-        result1.push(getPool);
+        await that.getPoolDetail(a, poolCount)
       })
-      console.log('data', result1)
     }
-  }
-
-  async test () {
-    const pool = new web3.eth.Contract(ntfPoolABI, "0x693a3FB4827a940f9f6185be095cd39bAACbaa60")
-    let holdingNtfBalance = await pool.methods.getPoolNtfBalance().call().catch()
-    let govNtfBalance = await pool.methods.getPoolGovBalance().call().catch()
-    console.log(holdingNtfBalance+govNtfBalance)
   }
 
   async getPoolDetail(address, count) {
@@ -120,7 +109,9 @@ export default class extends BaseService {
 
   async getZDBalance () {
     const userRedux = this.store.getRedux('user')
-    let balance = await web3.eth.getBalance('0x65662f08E77432a474b17f17873e87F557D7f0D3')
+    let wallet = await window.ethereum.selectedAddress
+    await this.dispatch(userRedux.actions.wallet_update(wallet))
+    let balance = await web3.eth.getBalance(wallet)
     console.log('balance', balance)
     await this.dispatch(userRedux.actions.ntfBalance_update(balance))
   }
