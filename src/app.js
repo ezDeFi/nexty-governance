@@ -89,7 +89,6 @@ function setupWeb3 () {
       window.web3.version.getNetwork(async (err, networkId) => {
         if (networkId === WEB3.NETWORK_ID) {
           let web3 = new Web3(window.ethereum)
-
           const contract = {
             // NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
             // NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),

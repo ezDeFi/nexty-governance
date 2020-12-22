@@ -6,10 +6,11 @@ import ntfPoolABI from '../../deployed/NtfPoolABI.json'
 import poolMakerABI from '../../deployed/PoolMaker.json'
 import { WEB3 } from '@/constant'
 
-const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
+// const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
 // WebsocketProvider('wss://108.61.148.72:8546'))
+let web3 = new Web3(window.ethereum)
 const poolMakerAddress = '0x629Baf2dc2F80F131079f53E5F764A8fDc78A724'
-console.log('web3',web3)
+
 const poolMaker = new web3.eth.Contract(poolMakerABI, poolMakerAddress)
 // const govAddress = '0x0000000000000000000000000000000000012345'
 let array = []
@@ -19,7 +20,7 @@ export default class extends BaseService {
   async getPoolCount() {
     const poolRedux = this.store.getRedux('newPool')
     const poolCount = await poolMaker.methods.getPoolCount().call().catch()
-    console.log('poolCount',poolCount)
+    // console.log('poolCount',poolCount)
     await this.dispatch(poolRedux.actions.poolCount_update(poolCount))
     return await poolCount
   }
@@ -42,8 +43,10 @@ export default class extends BaseService {
 
   async getPoolDetail(address, count) {
     const poolRedux = this.store.getRedux('newPool')
+    let contractsRedux = this.store.getRedux('contracts')
     // console.log('count', count)
     const pool = new web3.eth.Contract(ntfPoolABI, address)
+    await this.dispatch(contractsRedux.actions.ntfPool_update(pool))
     const methods = pool.methods
     const details = {
       address: address,
@@ -79,7 +82,6 @@ export default class extends BaseService {
   }
 
   async loadLeaked() {
-    console.log('loadLeaked')
     const self = this
     const poolRedux = this.store.getRedux('newPool')
     setTimeout(async function () {
@@ -87,7 +89,6 @@ export default class extends BaseService {
       // console.log(store.poolsPortal)
       self.leaked_signers = await axios.post(WEB3.HTTP, { "jsonrpc": "2.0", "method": "dccs_queue", "params": ["leaked"], "id": 1 })
         .then(function (response) {
-          console.log(response)
           let results = response.data.result
           for(let i in results) {
             var pool = store.poolsPortal[results[i]]

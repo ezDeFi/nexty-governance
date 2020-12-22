@@ -8,12 +8,11 @@ import { api_request } from '@/util'
 import ntfPoolABI from '../../../deployed/NtfPoolABI.json'
 import stores from '@/store'
 
-const web3 = new Web3(new Web3.providers.HttpProvider('http://rpc.testnet.ezdefi.com'))
+  const web3 = new Web3(window.ethereum)
 
 export default class extends BaseService {
   async putData (pool) {
     console.log('putData', pool)
-    let web3 = new Web3(window.ethereum)
     const contractsRedux = stores.getRedux('contracts')
     let NtfPool = new web3.eth.Contract(ntfPoolABI, pool)
     await stores.dispatch(contractsRedux.actions.ntfPool_update(NtfPool))
@@ -400,7 +399,6 @@ export default class extends BaseService {
     const store = this.store.getState()
     const poolRedux = this.store.getRedux('pool')
     let methods = store.contracts.ntfPool.methods
-    console.log('methods',methods)
     let name = methods.name().call()
     let compRate = methods.COMPRATE().call()
     let website = methods.website().call()

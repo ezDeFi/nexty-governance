@@ -88,11 +88,6 @@ export default class extends BaseService {
     //   web3,
     //   contract
     // }))
-    const store = this.store.getState()
-    let wallet = store.user.wallet
-    console.log('my wallet1', wallet)
-
-    console.log('setuppppppppppppppppppppppppppppppppppppppp')
     const contracts = {
     //   NextyManager: new web3.eth.Contract(WEB3.PAGE['NextyManager'].ABI, WEB3.PAGE['NextyManager'].ADDRESS),
     //   NtfToken: new web3.eth.Contract(WEB3.PAGE['NTFToken'].ABI, WEB3.PAGE['NTFToken'].ADDRESS),
